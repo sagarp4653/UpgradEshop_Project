@@ -80,7 +80,7 @@ function ResponsiveAppBar() {
   }));
 
   return (
-    <AppBar position="static" style={{ background: "#3f51b5", position: 'fixed' }}>
+    <AppBar position="static" style={{ background: "#3f51b5", position: 'fixed', top: '0' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ShoppingCartIcon
