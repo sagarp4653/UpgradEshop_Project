@@ -80,7 +80,15 @@ function ResponsiveAppBar() {
   }));
 
   return (
-    <AppBar position="static" style={{ background: "#3f51b5", position: 'fixed' }}>
+    <AppBar
+      position="static"
+      style={{
+        background: "#3f51b5",
+        position: "fixed",
+        top: "0",
+        zIndex: 999,
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ShoppingCartIcon
@@ -140,25 +148,30 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box> */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex", justifyContent: 'center' } }}>
-            <Search style={{width: '50%'}}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", justifyContent: "center" },
+            }}
+          >
+            <Search style={{ width: "50%" }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
-                style={{width: '100%'}}
+                style={{ width: "100%" }}
               />
             </Search>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Box sx={{display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", textDecoration: 'underline' }}
+                sx={{ my: 2, color: "white", textDecoration: "underline" }}
               >
                 {page}
               </Button>
