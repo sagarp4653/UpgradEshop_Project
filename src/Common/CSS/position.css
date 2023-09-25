@@ -21,7 +21,7 @@
 }
 
 .justify-content-between {
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .justify-content-around {
@@ -50,4 +50,8 @@
 
 .align-items-inherit {
     align-items: inherit;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
