@@ -16,11 +16,6 @@ import { addProductsAction, deleteProductFromProductListAction, updateSpecificPr
 import CustomModal from "../ReuseComponents/CustomModal";
 
 const Product = () => {
-
-  useEffect(() => {
-    handleSortByChange(0)
-  }, [])
-
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
@@ -31,6 +26,10 @@ const Product = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteObjInd, setDeleteObjInd] = useState(0)
 
+  useEffect(() => {
+    setProducts(productListViewState)
+  }, [productListViewState])
+  
   const handleSortByChange = val => {
     setSortByValue(val);
      
@@ -51,14 +50,14 @@ const Product = () => {
     dispatch(addProductsAction([...productListViewState, product]))
   }
 
-  const deleteProductHanlder = ind => {
+  const deleteProductHanlder = id => {
     setDeleteModal(true);
-    setDeleteObjInd(ind)
+    setDeleteObjInd(id)
     // dispatch(deleteProductFromProductListAction({ind: ind}))
   }
 
-  const updateProductDetails = value => {
-    dispatch(updateSpecificProductAction(value))
+  const updateProductDetails = (value, index) => {
+    dispatch(updateSpecificProductAction({index: index, value: value}))
     navigate('/modifyproduct')
   }
 
@@ -71,7 +70,8 @@ const Product = () => {
   }
 
   const deleteItemModal = () => {
-    dispatch(deleteProductFromProductListAction({ind: deleteObjInd}))
+    // console.log(deleteObjInd)
+    dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
     setDeleteModal(false)
   }
 
@@ -108,17 +108,17 @@ const Product = () => {
                     <Grid container spacing={2}>
                       <Grid item xs={9}>
                         <Typography gutterBottom variant="h5" component="span">
-                          {item.name || ""}
+                          {item?.name || ""}
                         </Typography>
                       </Grid>
                       <Grid item xs={3}>
                         <Typography variant="h6" component="span">
-                          ₹{item.price || ""}
+                          ₹{item?.price || ""}
                         </Typography>
                       </Grid>
                     </Grid>
                     <Typography variant="body2" color="text.secondary" style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
-                      {item.description || ""}
+                      {item?.description || ""}
                     </Typography>
                   </CardContent>
                   <CardActions className="flex-row justify-content-between">
@@ -126,8 +126,8 @@ const Product = () => {
                       BUY
                     </Button>
                     <div>
-                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={() =>updateProductDetails(item)}/>
-                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(index)}/>
+                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={() =>updateProductDetails(item, index)}/>
+                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(item.id)}/>
                     </div>
                   </CardActions>
                 </Card>
