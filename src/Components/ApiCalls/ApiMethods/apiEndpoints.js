@@ -9,6 +9,9 @@ const apiEndpoints = {
 
 }
 
+const baseURL = "localhost:8080"
+
 export {
   apiEndpoints,
+  baseURL
 };

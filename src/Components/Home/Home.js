@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../Login/Login";
 import SignUp from "../Login/SignUp";
@@ -6,8 +6,18 @@ import Product from "../Products/Product";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Navbar from "../Home/Navbar";
+import CategoriesBar from "../ReuseComponents/CategoriesBar";
+import { addProductsAction } from "../Redux/Action/ProductStoreAction";
+import {useDispatch} from 'react-redux'
+import PRODUCT_LIST from '../DummyJson/productJson.json'
 
 const Home = () => {
+  const disptach = useDispatch()
+
+  useEffect(() => {
+    disptach(addProductsAction(PRODUCT_LIST))
+  }, [])
+
   return (
     <>
       <BrowserRouter>
@@ -27,21 +37,7 @@ const Home = () => {
               exact
               element={
                 <div>
-                  <div
-                    className="flex-column justify-content-center align-items-center"
-                    style={{ padding: "100px 0 20px 0" }}
-                  >
-                    <ToggleButtonGroup
-                      color="primary"
-                      aria-label="Platform"
-                      exclusive
-                    >
-                      <ToggleButton value="web">ALL</ToggleButton>
-                      <ToggleButton value="android">APPAREL</ToggleButton>
-                      <ToggleButton value="ios">ELECTRONICS</ToggleButton>
-                      <ToggleButton value="ios">PERSONAL CARE</ToggleButton>
-                    </ToggleButtonGroup>
-                  </div>
+                  <CategoriesBar/>
                   <Product />
                 </div>
               }
