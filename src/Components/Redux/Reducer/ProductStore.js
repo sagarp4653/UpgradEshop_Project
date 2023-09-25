@@ -1,6 +1,7 @@
 const StorageArea = {
     storeState: {
       productList: [],
+      productListViewState: [],
       isUserAdmin: false
     },
     name: "storeState",
@@ -58,6 +59,18 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               isUserAdmin: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_PRODUCT_VIEW_STATE_STATUS":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              productListViewState: action.payload.value || []
             },
           },
         };

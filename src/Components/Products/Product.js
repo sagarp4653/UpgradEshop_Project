@@ -21,15 +21,15 @@ const Product = () => {
 
   const dispatch = useDispatch()
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [] } = storeData || {};
+  const { productListViewState = [],  } = storeData || {};
 
-  const [products, setProducts] = useState(productList)
+  const [products, setProducts] = useState(productListViewState)
   const [sortByValue, setSortByValue] = useState(0);
 
   const handleSortByChange = val => {
     setSortByValue(val);
      
-    let prod = [...productList];
+    let prod = [...productListViewState];
     if(val === 1) { // for low to high
       prod.sort((a, b) => a.price - b.price)
       setProducts(prod)
@@ -43,7 +43,7 @@ const Product = () => {
   };
 
   const addProductHandler = (product) => {
-    dispatch(addProductsAction([...productList, product]))
+    dispatch(addProductsAction([...productListViewState, product]))
   }
 
   const deleteProductHanlder = ind => {
@@ -72,7 +72,7 @@ const Product = () => {
       <div>
         <Grid item xs={12}>
           <Grid container justifyContent="center">
-            {(products.length > 0 ? products : productList).map((item, index) => (
+            {(products.length > 0 ? products : productListViewState).map((item, index) => (
               <Grid key={item.id} item style={{marginRight: '16px', marginTop: '10px', marginBottom: '10px'}}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia

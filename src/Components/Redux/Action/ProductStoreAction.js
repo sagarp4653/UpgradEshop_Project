@@ -2,6 +2,7 @@ export const ADD_PRODUCT_LIST = "ADD_PRODUCT_LIST";
 export const DELETE_PRODUCT_LIST = "DELETE_PRODUCT_LIST";
 export const UPDATE_PRODUCTS_LIST = "UPDATE_PRODUCTS_LIST";
 export const UPDATE_ADMIN_STATUS = "UPDATE_ADMIN_STATUS";
+export const UPDATE_PRODUCT_VIEW_STATE_STATUS = "UPDATE_PRODUCT_VIEW_STATE_STATUS";
 
 export const addProductsAction = (STATE) => ({
   type: ADD_PRODUCT_LIST, // pass product as in object to it
@@ -20,5 +21,10 @@ export const updateProductInProductListAction = (STATE) => ({
 
 export const updateAdminStatusAction = (STATE) => ({
   type: UPDATE_ADMIN_STATUS, // true or false if user is admin or not
+  payload: { value: STATE },
+});
+
+export const updateProductViewStateAction = (STATE) => ({
+  type: UPDATE_PRODUCT_VIEW_STATE_STATUS, // true or false if user is admin or not
   payload: { value: STATE },
 });
