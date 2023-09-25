@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,13 +16,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useSelector, useDispatch } from 'react-redux'
+import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+
 
 const pages = ["Home", "Add Product"];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch()
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const storeData = useSelector((state) => state.storeState.storeState) || {};  
+  const { productList = [], productListViewState = [] } = storeData || {};
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -78,6 +85,14 @@ function ResponsiveAppBar() {
       },
     },
   }));
+
+  const searchProductHandler = val => {
+    let prod = [...productList];
+    let data = prod.filter(i => i.name.toLowerCase().includes(val.toLowerCase()))
+    console.log(data)
+    // dispatch(addProductsAction([...data]))
+    // dispatch(updateProductViewStateAction([...data])) 
+  }
 
   return (
     <AppBar
@@ -154,7 +169,7 @@ function ResponsiveAppBar() {
               display: { xs: "none", md: "flex", justifyContent: "center" },
             }}
           >
-            <Search style={{ width: "50%" }}>
+            <Search style={{ width: "50%" }}  onChange={e => searchProductHandler(e.target.value)}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
