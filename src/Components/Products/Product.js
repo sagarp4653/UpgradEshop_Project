@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,9 +8,11 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Product = () => {
-  const [sortByValue, setSortByValue] = React.useState("");
+  const [sortByValue, setSortByValue] = useState("0");
   const handleSortByChange = (event) => {
     setSortByValue(event.target.value);
   };
@@ -66,10 +68,14 @@ const Product = () => {
                     deserunt mollit anim id est laborum.
                   </Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions className="flex-row justify-content-between">
                   <Button size="small" variant="contained" color="primary">
                     BUY
                   </Button>
+                  <div>
+                    <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer"/>
+                    <DeleteIcon style={{color: '#757575'}} className="cursor-pointer"/>
+                  </div>
                 </CardActions>
               </Card>
             </Grid>
