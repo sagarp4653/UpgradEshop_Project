@@ -23,6 +23,7 @@ const Product = () => {
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productList = [] } = storeData || {};
 
+  const [products, setProducts] = useState(productList)
   const [sortByValue, setSortByValue] = useState(0);
 
   const handleSortByChange = val => {
@@ -31,13 +32,13 @@ const Product = () => {
     let prod = [...productList];
     if(val === 1) { // for low to high
       prod.sort((a, b) => a.price - b.price)
-      dispatch(addProductsAction(prod || []))
+      setProducts(prod)
     } else if(val === 0){ // for high to low
       prod.sort((a, b) => b.price - a.price)
-      dispatch(addProductsAction(prod || []))
+      setProducts(prod)
     } else if(val === 2) { // for new list
       let filterData = prod.filter(i => i.isNew)
-      dispatch(addProductsAction(filterData || []))
+      setProducts(filterData)
     }
   };
 
@@ -71,7 +72,7 @@ const Product = () => {
       <div>
         <Grid item xs={12}>
           <Grid container justifyContent="center">
-            {productList.map((item, index) => (
+            {(products.length > 0 ? products : productList).map((item, index) => (
               <Grid key={item.id} item style={{marginRight: '16px', marginTop: '10px', marginBottom: '10px'}}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
