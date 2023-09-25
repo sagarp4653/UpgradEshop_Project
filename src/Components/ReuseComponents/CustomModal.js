@@ -1,8 +1,9 @@
-import { Button } from "@mui/base";
+import Button from "@mui/material/Button";
 import Modal from '@mui/material/Modal';
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import '../../Common/CSS/position.css'
 import { deleteProductFromProductListAction } from "../Redux/Action/ProductStoreAction";
 
 const CustomModal = ({isOpen = false, handleClose, cancelHandler,  confirmHandler }) => {
@@ -12,9 +13,9 @@ const CustomModal = ({isOpen = false, handleClose, cancelHandler,  confirmHandle
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 320,
     bgcolor: 'white',
-    border: '2px solid #000',
+    border: 'none',
     boxShadow: 24,
     p: 4,
   };
@@ -29,12 +30,16 @@ const CustomModal = ({isOpen = false, handleClose, cancelHandler,  confirmHandle
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Confirm deletion of product!
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            <Button onClick={cancelHandler}>Cancel</Button>
-            <Button onClick={confirmHandler}>Confirm</Button>
+          {/* <Typography> &nbsp; </Typography> */}
+          <Typography style={{color: 'grey'}} id="modal-modal-description" sx={{ mt: 2 }}>
+           Are you sure you want delete the product ?
+           <Typography> &nbsp; </Typography>
+           <div className="flex-row justify-content-end">
+            <Button size="small" variant="contained" color="primary" style={{marginRight : '10px'}} onClick={confirmHandler}>OK</Button>
+            <Button size="small" variant="contained" color="primary" onClick={cancelHandler}>Cancel</Button>
+           </div>
           </Typography>
         </Box>
       </Modal>
