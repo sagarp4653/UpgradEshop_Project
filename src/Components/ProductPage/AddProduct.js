@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductsAction, deleteProductFromProductListAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { getRandomInt } from "../../Common/CSS/Utils/utils";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -14,16 +15,6 @@ const AddProduct = () => {
     console.log(val);
   };
 
-  // Generate a random integer between min (inclusive) and max (exclusive)
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  let randomInteger = getRandomInt(1, 101); // Generates a random integer between 1 and 100
-
-console.log(randomInteger); // Print the random integer to the console
   const cat = [
     { id: 0, title: "ALL" },
     { id: 4, title: "APPAREL" },
@@ -34,7 +25,7 @@ console.log(randomInteger); // Print the random integer to the console
 
   const [sortByValue, setSortByValue] = useState(0);
   const [formData, setFormData] = useState({
-    id: randomInteger,
+    id: getRandomInt(1, 100),
     name: "",
     price: 0,
     description: "",
