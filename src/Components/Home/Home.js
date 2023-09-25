@@ -10,6 +10,8 @@ import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { useDispatch, useSelector } from 'react-redux'
 import PRODUCT_LIST from '../DummyJson/productJson.json'
+import ModifyProduct from "../ProductPage/ModifyProduct";
+import AddProduct from "../ProductPage/AddProduct";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -53,13 +55,16 @@ const Home = () => {
               exact
               element={
                 <div>
-                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={[{id: 0, title: "ALL"}, {id: 4, title: 'APPAREL'}, {id: 1, title: 'ELECTRONICS'}, {id: 3, title: 'PERSONAL_CARE' }, {id: 2, title: 'FOOTWEAR'}]}/>
+                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={[{id: 0, title: "ALL"}, {id: 3, title: 'APPAREL'}, {id: 1, title: 'ELECTRONICS'}, {id: 2, title: 'FOOTWEAR' }, {id: 4, title: 'PERSONAL CARE'}]}/>
                   <Product />
                 </div>
               }
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/modifyproduct" element={<ModifyProduct />} />
+            <Route path="/addproduct" element={<AddProduct />} />
+
             {/* <Route path="/login" element={<Login />} /> */}
           </Routes>
         </div>
