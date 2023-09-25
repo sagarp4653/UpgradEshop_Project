@@ -14,6 +14,7 @@ import ModifyProduct from "../ProductPage/ModifyProduct";
 import AddProduct from "../ProductPage/AddProduct";
 import ProductDetails from "../ProductPage/ProductDetails";
 import BuyProduct from "../ProductPage/BuyProduct";
+import { PRODUCT_LIST_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,12 @@ const Home = () => {
       dispatch(updateProductViewStateAction(productList)) 
     }
   }
+
+  useEffect(() => { // ngOnInit()
+    PRODUCT_LIST_API({}).then(res => {
+      console.log(res)
+    })
+  }, [])
 
   return (
     <>

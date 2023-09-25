@@ -31,67 +31,90 @@ const CustomModal = () => {
           </ToggleButtonGroup>
         </div>
 
-        <div
-          className="flex-column justify-content-between align-items-start"
-          style={{ marginTop: "100px", marginLeft: "260px" }}
-        >
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="345"
-              image="https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"
-              alt="Paella dish"
-            />
-          </Card>
+        <div className="flex-row justify-content-center" style={{marginTop: '100px'}}>
+          {/* Product Image */}
+          <div
+            className="flex-column justify-content-center align-items-start"
+          >
+            <Card sx={{ maxWidth: 345 , boxShadow: 'none'}}>
+              <CardMedia
+                component="img"
+                height="345"
+                image="https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"
+                alt="Paella dish"
+              />
+            </Card>
           </div>
 
-        <div
-          className="flex-column justify-content-around align-items-center"
-          style={{ marginTop: "100px" }}
-        >
-          <Typography
-            gutterBottom
-            variant="h4"
-            component="span"
-            style={{ marginRight: "10px" }}
-          >
-            iPhone 12  &nbsp;
-            <Fab variant="extended" size="small" color="primary">
-              Availiabilty Quantity : 148
-            </Fab>
-          </Typography>
+          {/* Product Description/ */}
+          <div className="flex-column justify-content-center align-items-baseline" style={{marginLeft: '50px'}}>
+            <Box className="flex-row align-items-center justify-content-start">
+              <Typography
+                gutterBottom
+                variant="h4"
+                component="span"
+                style={{ marginRight: "20px", marginBottom: '0', fontSize: "28px", fontWeight: '500' }}
+              >
+                iPhone 12
+              </Typography>
+              <div
+              className="flex-row align-items-center"
+                style={{
+                  background: "#3f51b5",
+                  width: "fit-content",
+                  height: "auto",
+                  color: "white",
+                  fontSize: "10px",
+                  padding: "5px 5px 7px 7px",
+                  borderRadius: '16px',
+                  textAlign: 'center',
+                  fontWeight: '500'
+                }}
+              >
+                <span>Availiabilty Quantity : 148</span>
+              </div>
+            </Box>
+            <Box style={{marginTop: '12px'}}>
+              {/* <Typography gutterBottom variant="h5" component="span">
+                Category : ELECTRONICS
+              </Typography> */}
+              <span style={{marginRight: '10px', fontSize: '12px'}}>Category :</span>
+              <strong style={{fontSize: '12px', fontWeight: '700'}}>Electronics</strong>
+            </Box>
+            <Box style={{marginTop: '20px'}}>
+              <div>
+                <i style={{fontSize: '12px', fontWeight: '500'}}>
+                  A14 Bionic, the fastest chip in a smartphone . An edge-to-edge
+                  OLED display.
+                </i>
+              </div>
+              <div  style={{marginTop: '20px', color: 'red'}}>
+                <span>
+                  ₹  100000
+                </span>
+              </div>
+            </Box>
 
-          <Typography gutterBottom variant="h5" component="span">
-            Category : ELECTRONICS
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            A14 Bionic, the fastest chip in a smartphone . An edge-to-edge OLED
-            display. &nbsp; &nbsp; &nbsp;
-          </Typography>
-          <Typography gutterBottom variant="h4" component="span">
-            ₹100000
-          </Typography>
-          &nbsp; 
-          <TextField
-            id="outlined-number"
-            label="Number"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          &nbsp; 
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            style={{ marginRight: "10px" }}
-          >
-            Place Order
-          </Button>
+            <Box className="flex-column" style={{marginTop: '35px', width: '50%'}}>
+              <TextField
+                id="outlined-number"
+                label="Number"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: "20px", width: 'fit-content' }}
+              >
+                PLACE ORDER
+              </Button>
+            </Box>
+          </div>
         </div>
-
-
       </div>
     </>
   );
