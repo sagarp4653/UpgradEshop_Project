@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PRODUCT_LIST from '../DummyJson/productJson.json'
 import ModifyProduct from "../ProductPage/ModifyProduct";
 import AddProduct from "../ProductPage/AddProduct";
+import ProductDetails from "../ProductPage/ProductDetails";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -64,6 +65,7 @@ const Home = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/modifyproduct" element={<ModifyProduct />} />
             <Route path="/addproduct" element={<AddProduct />} />
+            <Route path="/productdetails" element={<ProductDetails />} />
 
             {/* <Route path="/login" element={<Login />} /> */}
           </Routes>
