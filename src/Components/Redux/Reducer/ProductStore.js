@@ -2,7 +2,9 @@ const StorageArea = {
     storeState: {
       productList: [],
       productListViewState: [],
-      isUserAdmin: false
+      isUserAdmin: false,
+      isDeleteModal: false,
+      updateProduct: {}
     },
     name: "storeState",
   };
@@ -25,13 +27,16 @@ const StorageArea = {
       case "DELETE_PRODUCT_LIST":
         const { ind = "" } = action.payload.value || {}
         let deleteArry = [...state.storeState.productList];
+        let deleteArr = [...state.storeState.productListViewState];
         deleteArry.splice(ind, 1)
+        deleteArr.splice(ind, 1)
         return {
           ...state,
           ...{
             storeState: {
               ...state.storeState,
-              productList: deleteArry || []
+              productList: deleteArry || [],
+              productListViewState: deleteArr || [],
             },
           },
         };
@@ -71,6 +76,30 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               productListViewState: action.payload.value || []
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_SPECIFIC_PRODUCT":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              updateProduct: action.payload.value || {}
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_DELETE_MODAL":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              isDeleteModal: action.payload.value
             },
           },
         };
