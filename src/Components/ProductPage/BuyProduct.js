@@ -17,9 +17,9 @@ const BuyProduct = () => {
     price = '',
     description = "",
     category = "",
-    availableQuantity = '',
+    availableItems = '',
     quantity = '',
-    imgUrl = ''
+    imageUrl = ''
   } = placeOrderItemState
 
   return (
@@ -35,7 +35,7 @@ const BuyProduct = () => {
               <CardMedia
                 component="img"
                 height="345"
-                image={imgUrl || "https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"}
+                image={imageUrl || "https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"}
                 alt="Paella dish"
               />
             </Card>
@@ -74,7 +74,7 @@ const BuyProduct = () => {
                   fontWeight: "500",
                 }}
               >
-                <span>Availiabilty Quantity : {availableQuantity || "148"}</span>
+                <span>Availiabilty Quantity : {availableItems || "148"}</span>
               </div>
             </Box>
             <Box style={{ marginTop: "12px" }}>
