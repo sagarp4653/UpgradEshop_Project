@@ -9,7 +9,8 @@ const StorageArea = {
         value: {}
       },
       isAlertModalOpen: false,
-      alertModalMsg: ""
+      alertModalMsg: "",
+      token: ""
     },
     name: "storeState",
   };
@@ -135,6 +136,18 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               alertModalMsg: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "ADD_TOKEN":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              token: action.payload.value
             },
           },
         };

@@ -5,9 +5,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import { USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
     lastName: "",
@@ -15,17 +18,19 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     contactNumber: "",
+    role: ["admin"]
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     USER_SIGN_UP_API(signUpDetails)
       .then((response) => {
-        //TODO show alert modal here with the success message from response.data.message
+        customAlertModalFun(response.data.message, dispatch);
         console.log(response.data.message);
         navigate("/");
       })
       .catch((error) => {
+        customAlertModalFun(error, dispatch);
         console.error("Error:", error);
       });
   };

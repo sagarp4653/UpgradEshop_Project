@@ -3,7 +3,7 @@ const apiEndpoints = {
 
   SIGN_IN: `/auth/signin`,
   SIGN_UP: `/auth/signup`,
-  PRODUCT_DETAILS: `/products`,
+  PRODUCT: `/products`,
   BUY_PRODUCT: `/orders`,
   ADDRESSES: `/addresses`,
   CATEGORIES: `/products/categories`

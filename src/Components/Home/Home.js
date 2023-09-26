@@ -19,23 +19,21 @@ import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 
 const Home = () => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(updateProductViewStateAction(PRODUCT_LIST))
-    dispatch(addProductsAction(PRODUCT_LIST))
-  }, [])
-
     
   useEffect(() => { // ngOnInit()
-    PRODUCT_LIST_API({}).then(res => {
-      console.log(res)
+    PRODUCT_LIST_API({}).then(response => {
+      console.log(response.data);
+      dispatch(updateProductViewStateAction(response.data))
+      dispatch(addProductsAction(response.data))
     });
     GET_CATEGORIES_API({}).then((response) => {
-      setCategoriesArray(response);
-      Array(response).map((eachCategory, i) => {
-        return {'id': i, 'title': eachCategory}
+      let tempArray = [];
+      tempArray.push( {'id': 1, 'title': 'All'})
+      response.data.forEach((element, index) => {
+        tempArray.push( {'id': index+2, 'title': element})
       });
-      console.log(categoriesArray);
+      setCategoriesArray(tempArray);
+      console.log(tempArray);
     })
   }, [])
 
@@ -44,7 +42,7 @@ const Home = () => {
   const check = [...productList]
   const [categoriesArray, setCategoriesArray] = useState([]);
   const categoryFilterHandler = val => {
-    if(val !== '0'){
+    if(val !== 'All'){
       let arr = check.filter(i => i.category == val)
       console.log(arr, val)
       dispatch(updateProductViewStateAction(arr)) 
@@ -83,7 +81,7 @@ const Home = () => {
               exact
               element={
                 <div>
-                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={[{id: 0, title: "ALL"}, {id: 3, title: 'APPAREL'}, {id: 1, title: 'ELECTRONICS'}, {id: 2, title: 'FOOTWEAR' }, {id: 4, title: 'PERSONAL CARE'}]}/>
+                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={categoriesArray}/>
                   <Product />
                 </div>
               }

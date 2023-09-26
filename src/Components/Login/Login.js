@@ -5,13 +5,16 @@ import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import axios from 'axios';
 import { USER_LOGIN_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
+import { useDispatch } from 'react-redux';
+import { addTokenAction } from "../Redux/Action/ProductStoreAction";
 
 const Login = () => {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
       const requestData = {
@@ -29,9 +32,11 @@ const Login = () => {
       //   });
     USER_LOGIN_API(requestData)
     .then((response) => {
-      setToken(response.token);
+      customAlertModalFun("User logged in successfully!", dispatch);
+      dispatch(addTokenAction(response.data.token));
       navigate("/");
     }).catch((error) => {
+      customAlertModalFun(error, dispatch);
       console.error("Error:", error);
     });
   };
