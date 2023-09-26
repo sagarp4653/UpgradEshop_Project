@@ -2,7 +2,12 @@ const StorageArea = {
     storeState: {
       productList: [],
       productListViewState: [],
-      isUserAdmin: false
+      isUserAdmin: false,
+      isDeleteModal: false,
+      updateProduct: {
+        index: '',
+        value: {}
+      }
     },
     name: "storeState",
   };
@@ -23,30 +28,39 @@ const StorageArea = {
         break;
 
       case "DELETE_PRODUCT_LIST":
-        const { ind = "" } = action.payload.value || {}
-        let deleteArry = [...state.storeState.productList];
-        deleteArry.splice(ind, 1)
+        const { id = "" } = action.payload.value || {}
+        let deleteArry = [...state.storeState.productList].filter(i => i.id !== id)
+        let deleteArr = [...state.storeState.productListViewState].filter(i => i.id !== id)
+        // deleteArry.splice(ind, 1)
+        console.log("", deleteArry, deleteArr)
+        // deleteArr.splice(ind, 1)
         return {
           ...state,
           ...{
             storeState: {
               ...state.storeState,
-              productList: deleteArry || []
+              productList: deleteArry,
+              productListViewState: deleteArr
             },
           },
         };
         break;
 
       case "UPDATE_PRODUCTS_LIST":
+        // debugger
         const { index, product = {} } = action.payload.value || {}
-        let updateArry = [...state.storeState.productList];
-        updateArry = [...updateArry.slice(0, index + 1), ...product, ...updateArry.slice(index + 1, updateArry.length)]
+        let updateArry = [...state.storeState.productList]
+        let updateArr =  [...state.storeState.productListViewState]; // [1, 2, 3, 4, 5, 6] ind = 3
+        updateArry = [...updateArry.slice(0, index), product, ...updateArry.slice(index + 1, updateArry.length)]
+        updateArr = [...updateArr.slice(0, index), product, ...updateArr.slice(index + 1, updateArr.length)]
+        console.log("store", updateArry)
         return {
           ...state,
           ...{
             storeState: {
               ...state.storeState,
-              productList: updateArry || []
+              productList: updateArry || [],
+              productListViewState: updateArr || []
             },
           },
         };
@@ -71,6 +85,30 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               productListViewState: action.payload.value || []
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_SPECIFIC_PRODUCT":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              updateProduct: action.payload.value || {}
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_DELETE_MODAL":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              isDeleteModal: action.payload.value
             },
           },
         };

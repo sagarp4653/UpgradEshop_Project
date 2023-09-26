@@ -11,21 +11,25 @@ import Select from "@mui/material/Select";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useSelector, useDispatch} from 'react-redux'
-import { addProductsAction, deleteProductFromProductListAction } from "../Redux/Action/ProductStoreAction";
+import { useNavigate } from "react-router-dom";
+import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction } from "../Redux/Action/ProductStoreAction";
+import CustomModal from "../ReuseComponents/CustomModal";
 
 const Product = () => {
-
-  useEffect(() => {
-    handleSortByChange(0)
-  }, [])
-
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productListViewState = [],  } = storeData || {};
 
   const [products, setProducts] = useState(productListViewState)
   const [sortByValue, setSortByValue] = useState(0);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteObjInd, setDeleteObjInd] = useState(0)
 
+  useEffect(() => {
+    setProducts(productListViewState)
+  }, [productListViewState])
+  
   const handleSortByChange = val => {
     setSortByValue(val);
      
@@ -46,8 +50,29 @@ const Product = () => {
     dispatch(addProductsAction([...productListViewState, product]))
   }
 
-  const deleteProductHanlder = ind => {
-    dispatch(deleteProductFromProductListAction({ind: ind}))
+  const deleteProductHanlder = id => {
+    setDeleteModal(true);
+    setDeleteObjInd(id)
+    // dispatch(deleteProductFromProductListAction({ind: ind}))
+  }
+
+  const updateProductDetails = (value, index) => {
+    dispatch(updateSpecificProductAction({index: index, value: value}))
+    navigate('/modifyproduct')
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  const cancelItemHandler = () => {
+    setDeleteModal(false)
+  }
+
+  const deleteItemModal = () => {
+    // console.log(deleteObjInd)
+    dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+    setDeleteModal(false)
   }
 
   return (
@@ -76,24 +101,24 @@ const Product = () => {
               <Grid key={item.id} item style={{marginRight: '16px', marginTop: '10px', marginBottom: '10px'}}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
-                    sx={{ height: 245, width: 300 }}
+                    sx={{ height: 245 }}
                     image="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJm3dr6e0rPOaEosPXHvFu23XWWcw6Y2c26rPS2i6X1I6slhL14NOaVHb5WPZJiL5yOTUzbG1dH9DEDHpCQ9WNImxoqlJ_x9KNdGI0wl4G&usqp=CAE"
                   />
                   <CardContent>
                     <Grid container spacing={2}>
                       <Grid item xs={9}>
                         <Typography gutterBottom variant="h5" component="span">
-                          {item.name || ""}
+                          {item?.name || ""}
                         </Typography>
                       </Grid>
                       <Grid item xs={3}>
                         <Typography variant="h6" component="span">
-                          ₹{item.price || ""}
+                          ₹{item?.price || ""}
                         </Typography>
                       </Grid>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.description || ""}
+                    <Typography variant="body2" color="text.secondary" style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
+                      {item?.description || ""}
                     </Typography>
                   </CardContent>
                   <CardActions className="flex-row justify-content-between">
@@ -101,8 +126,8 @@ const Product = () => {
                       BUY
                     </Button>
                     <div>
-                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer"/>
-                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(index)}/>
+                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={() =>updateProductDetails(item, index)}/>
+                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(item.id)}/>
                     </div>
                   </CardActions>
                 </Card>
@@ -110,6 +135,9 @@ const Product = () => {
             ))}
           </Grid>
         </Grid>
+      </div>
+      <div>
+        <CustomModal isOpen={deleteModal} handleClose={closeDeleteModal} confirmHandler={deleteItemModal} cancelHandler={cancelItemHandler}/>
       </div>
     </>
   );
