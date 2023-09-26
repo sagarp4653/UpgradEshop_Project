@@ -3,13 +3,17 @@ import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductsAction, deleteProductFromProductListAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
-import { getRandomInt } from "../../Common/CSS/Utils/utils";
+import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
+import { useNavigate } from "react-router-dom";
+import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productList = [], productListViewState = [] } = storeData || {};
+  const { updateProduct = { index: '', value: {} } } = storeData || {};
 
   const categoryFilterHandler = (val) => {
     console.log(val);
@@ -30,6 +34,8 @@ const AddProduct = () => {
     price: 0,
     description: "",
     category: sortByValue,
+    manufacturer: '',
+    availableItems: '',
     isNew: true,
   })
 
@@ -44,12 +50,16 @@ const AddProduct = () => {
       price: formData.price || 0,
       description: formData.description || "",
       category: formData.category,
+      manufacturer: formData.manufacturer,
+      availableItems: formData.availableItems,
       isNew: formData.isNew,
     };
     // disptach
+    console.log(addProd)
     dispatch(addProductsAction([...productListViewState, addProd]))
     dispatch(updateProductViewStateAction([...productList, addProd])) 
-
+    customAlertModalFun("Hello I'm Chandana", dispatch) // user has to add msg and dispatch function
+    navigate("/")
   };
   return (
     <>
@@ -86,6 +96,10 @@ const AddProduct = () => {
                 required
                 id="outlined-required"
                 label="name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 // defaultValue="Hello World"
                 placeholder="name"
                 // style={{width: '50%'}}
@@ -111,6 +125,10 @@ const AddProduct = () => {
                 required
                 id="outlined-required"
                 label="Manufacturer"
+                value={formData.manufacturer}
+                onChange={(e) =>
+                  setFormData({ ...formData, manufacturer: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Manufacturer"
@@ -120,6 +138,10 @@ const AddProduct = () => {
                 id="outlined-required"
                 label="Available Items"
                 type={"number"}
+                value={formData.availableItems}
+                onChange={(e) =>
+                  setFormData({ ...formData, availableItems: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Available Items"
@@ -129,6 +151,10 @@ const AddProduct = () => {
                 id="outlined-required"
                 label="Price"
                 type={"number"}
+                value={formData.price}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Price"
@@ -136,6 +162,10 @@ const AddProduct = () => {
               <TextField
                 id="outlined-required"
                 label="Image URL"
+                value={formData.imgUrl}
+                onChange={(e) =>
+                  setFormData({ ...formData, imgUrl: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Image URL"
@@ -143,6 +173,10 @@ const AddProduct = () => {
               <TextField
                 id="outlined-required"
                 label="Product Description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "26px" }}
                 // defaultValue="Hello World"
                 placeholder="Product Description"
