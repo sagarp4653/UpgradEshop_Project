@@ -12,7 +12,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from "react-router-dom";
-import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction, updateUpdatePlaceOrderStateAction } from "../Redux/Action/ProductStoreAction";
 import CustomModal from "../ReuseComponents/CustomModal";
 
 const Product = () => {
@@ -50,13 +50,15 @@ const Product = () => {
     dispatch(addProductsAction([...productListViewState, product]))
   }
 
-  const deleteProductHanlder = id => {
+  const deleteProductHanlder = (e, id)=> {
+    e.stopPropagation()
     setDeleteModal(true);
     setDeleteObjInd(id)
     // dispatch(deleteProductFromProductListAction({ind: ind}))
   }
 
-  const updateProductDetails = (value, index) => {
+  const updateProductDetails = (e, value, index) => {
+    e.stopPropagation()
     dispatch(updateSpecificProductAction({index: index, value: value}))
     navigate('/modifyproduct')
   }
@@ -73,6 +75,13 @@ const Product = () => {
     // console.log(deleteObjInd)
     dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
     setDeleteModal(false)
+  }
+
+  const placeOrderHandler = (e, prd) => {
+    e.stopPropagation()
+    // e.preventDefault()
+    dispatch(updateUpdatePlaceOrderStateAction(prd))
+    navigate("/buyproduct")
   }
 
   return (
@@ -99,7 +108,7 @@ const Product = () => {
           <Grid container justifyContent="center" style={{paddingLeft: '26px'}}>
             {(products.length > 0 ? products : productListViewState).map((item, index) => (
               <Grid key={item.id} item style={{marginRight: '100px', marginTop: '30px', marginBottom: '40px'}}>
-                <Card sx={{ maxWidth: 345, width: 350 }}>
+                <Card sx={{ maxWidth: 345, width: 350 }} onClick={(e) => placeOrderHandler(e, item)} className="cursor-pointer">
                   <CardMedia
                     sx={{ height: 245 }}
                     image="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJm3dr6e0rPOaEosPXHvFu23XWWcw6Y2c26rPS2i6X1I6slhL14NOaVHb5WPZJiL5yOTUzbG1dH9DEDHpCQ9WNImxoqlJ_x9KNdGI0wl4G&usqp=CAE"
@@ -122,12 +131,12 @@ const Product = () => {
                     </Typography>
                   </CardContent>
                   <CardActions className="flex-row justify-content-between">
-                    <Button size="small" variant="contained" color="primary">
+                    <Button size="small" variant="contained" color="primary" onClick={(e) => placeOrderHandler(e, item)}>
                       BUY
                     </Button>
                     <div>
-                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={() =>updateProductDetails(item, index)}/>
-                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(item.id)}/>
+                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={(e) =>updateProductDetails(e, item, index)}/>
+                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={(e) => deleteProductHanlder(e, item.id)}/>
                     </div>
                   </CardActions>
                 </Card>
