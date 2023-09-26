@@ -16,6 +16,7 @@ import ProductDetails from "../ProductPage/ProductDetails";
 import BuyProduct from "../ProductPage/BuyProduct";
 import { PRODUCT_LIST_API } from "../ApiCalls/ApiCall/apiCalls";
 import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
+import OrderDetail from "../ProductPage/OrderDetail";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -86,7 +87,7 @@ const Home = () => {
             <Route path="/addproduct" element={<AddProduct />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/buyproduct" element={<BuyProduct />} />
-
+            <Route path="/orderdetail" element={<OrderDetail />} />
             {/* <Route path="/login" element={<Login />} /> */}
           </Routes>
         </div>
