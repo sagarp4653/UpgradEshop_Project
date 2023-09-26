@@ -8,9 +8,10 @@ import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 
 const BuyProduct = () => {
-  
+
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [], placeOrderItemState = {} } = storeData || {};
+  const { placeOrderItemState = {} } = storeData || {};
+
   const {
     name = '',
     price = '',
@@ -77,9 +78,6 @@ const BuyProduct = () => {
               </div>
             </Box>
             <Box style={{ marginTop: "12px" }}>
-              {/* <Typography gutterBottom variant="h5" component="span">
-                Category : ELECTRONICS
-              </Typography> */}
               <span style={{ marginRight: "10px", fontSize: "12px" }}>
                 Category :
               </span>
