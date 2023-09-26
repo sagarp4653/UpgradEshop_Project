@@ -1,16 +1,16 @@
 import { apiEndpoints as ApiEndpoints } from "../ApiMethods/apiEndpoints";
 import HTTP from "../ApiMethods/axios";
 
-export const USER_LOGIN_API = async () => 
+export const USER_LOGIN_API = async (requestData) => 
   HTTP.post(
-    ApiEndpoints.SIGN_IN,
+    ApiEndpoints.SIGN_IN,requestData
   ).catch((err) => {
     return err;
   });
 
-export const USER_SIGN_UP_API = async () => 
+export const USER_SIGN_UP_API = async (payload) => 
   HTTP.post(
-    ApiEndpoints.SIGN_UP,
+    ApiEndpoints.SIGN_UP, payload
   ).catch((err) => {
     return err;
   });

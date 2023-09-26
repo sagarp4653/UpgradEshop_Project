@@ -1,10 +1,53 @@
-import React from "react";
+import React, {useState} from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
+import { USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const SignUp = () => {
+  const [signUpDetails, setSignUpDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    contactNumber: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8080/api/auth/signup", signUpDetails)
+      .then((response) => {
+        alertMessage("Success", "success", response.data.message);
+        console.log("SignUp successful!", response.data.message);
+      })
+      .catch((error) => {
+        alertMessage("Error", "error", error)
+        console.error("Error:", error);
+      });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSignUpDetails({ ...signUpDetails, [name]: value });
+  };
+
+  const alertMessage = (title, severity, message) => {
+    return (
+      <>
+            <Alert severity={severity}>
+        <AlertTitle>{title}</AlertTitle>
+        {message}
+      </Alert>
+      </>
+    )
+  }
+
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">
       <div
@@ -44,18 +87,13 @@ const SignUp = () => {
             <TextField
               required
               id="outlined-required"
-              label="Username"
-              // defaultValue="Hello World"
-              placeholder="Username"
-              // style={{width: '50%'}}
-            />
-            <TextField
-              required
-              id="outlined-required"
               label="First Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="firstName"
               placeholder="First Name"
+              value={signUpDetails.firstName}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -63,7 +101,10 @@ const SignUp = () => {
               label="Last Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="lastName"
               placeholder="Last Name"
+              value={signUpDetails.lastName}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -72,7 +113,10 @@ const SignUp = () => {
               type={"email"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="email"
               placeholder="Email Address"
+              value={signUpDetails.email}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -81,7 +125,10 @@ const SignUp = () => {
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="password"
               placeholder="Password"
+              value={signUpDetails.password}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -90,7 +137,10 @@ const SignUp = () => {
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="confirmPassword"
               placeholder="Confirm Password"
+              value={signUpDetails.confirmPassword}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -98,7 +148,10 @@ const SignUp = () => {
               label="Contact Number"
               style={{ marginTop: "12px", marginBottom: "26px" }}
               // defaultValue="Hello World"
+              name="contactNumber"
               placeholder="Contact Number"
+              value={signUpDetails.contactNumber}
+              onChange={handleInputChange}
             />
           </div>
         </Box>
@@ -111,7 +164,7 @@ const SignUp = () => {
             },
           }}
         >
-          <Button style={{ width: "97%" }} variant="contained" color="primary">
+          <Button style={{ width: "97%" }} variant="contained" color="primary" onClick={handleSubmit}>
             SIGN UP
           </Button>
         </Box>
@@ -137,7 +190,7 @@ const SignUp = () => {
               // textDecoration: "none",
             }}
           >
-            Don't have an account? Sign Up
+            Don't have an account? Sign In
           </Typography>
         </Box>
         <Box sx={{ display: { marginTop: "40px", fontSize: "12px" } }}>

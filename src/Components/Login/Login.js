@@ -1,20 +1,37 @@
-import React from "react";
+import React, {useState} from "react";
 import { Box, Button, createTheme, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
-import { blueGrey} from '@mui/material/colors';
+import axios from 'axios';
+import { USER_LOGIN_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const Login = () => {
   
-  // const blueWhite = blueGrey[50]; // #f44336
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
+  const handleSubmit = (event) => {
+    event.preventDefault();
+      const requestData = {
+        username: email,
+        password: password,
+      };
 
-  // const theme = createTheme({
-  //   palette: {
-  //     primary: {
-  //       white: blueGrey[50],
-  //     }
-  //   },
-  // });
+      // axios
+      //   .post("http://localhost:8080/api/auth/signin", requestData)
+      //   .then((response) => {
+      //     setToken(response.token);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //   });
+    USER_LOGIN_API(requestData)
+    .then((response) => {
+      setToken(response.token);
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
+  };
 
   return (
     <div style={{width: '100%'}} className="flex-row justify-content-center">
@@ -51,6 +68,8 @@ const Login = () => {
               // defaultValue="Hello World"
               placeholder="Username"
               // style={{width: '50%'}}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               required
@@ -59,7 +78,10 @@ const Login = () => {
               type={"password"}
               style={{marginTop: '12px', marginBottom: '26px'}}
               // defaultValue="Hello World"
+              name="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         </Box>
@@ -68,7 +90,7 @@ const Login = () => {
             display: {width: '100%', display: 'flex', justifyContent: 'center'}
           }}
         >
-          <Button style={{width: '97%'}} variant="contained" color="primary">SIGN IN</Button>
+          <Button style={{width: '97%'}} variant="contained" color="primary" onClick={handleSubmit}>SIGN IN</Button>
         </Box>
         <Box sx={{ display: {textAlign: 'left', width: '100%', marginTop: '16px'} }}>
           <Typography
