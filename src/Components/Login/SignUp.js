@@ -4,11 +4,10 @@ import { Box } from "@mui/system";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import { USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
-import axios from 'axios';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
     lastName: "",
@@ -20,14 +19,13 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/auth/signup", signUpDetails)
+    USER_SIGN_UP_API(signUpDetails)
       .then((response) => {
-        alertMessage("Success", "success", response.data.message);
-        console.log("SignUp successful!", response.data.message);
+        //TODO show alert modal here with the success message from response.data.message
+        console.log(response.data.message);
+        navigate("/");
       })
       .catch((error) => {
-        alertMessage("Error", "error", error)
         console.error("Error:", error);
       });
   };
@@ -36,17 +34,6 @@ const SignUp = () => {
     const { name, value } = e.target;
     setSignUpDetails({ ...signUpDetails, [name]: value });
   };
-
-  const alertMessage = (title, severity, message) => {
-    return (
-      <>
-            <Alert severity={severity}>
-        <AlertTitle>{title}</AlertTitle>
-        {message}
-      </Alert>
-      </>
-    )
-  }
 
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">

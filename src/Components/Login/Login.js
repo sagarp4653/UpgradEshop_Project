@@ -4,12 +4,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import axios from 'axios';
 import { USER_LOGIN_API } from "../ApiCalls/ApiCall/apiCalls";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
       const requestData = {
@@ -28,6 +30,7 @@ const Login = () => {
     USER_LOGIN_API(requestData)
     .then((response) => {
       setToken(response.token);
+      navigate("/");
     }).catch((error) => {
       console.error("Error:", error);
     });
