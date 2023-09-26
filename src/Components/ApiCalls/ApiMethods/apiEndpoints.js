@@ -5,8 +5,8 @@ const apiEndpoints = {
   SIGN_UP: `/auth/signup`,
   PRODUCT_DETAILS: `/products`,
   BUY_PRODUCT: `/orders`,
-  ADDRESSES: `/addresses`
-
+  ADDRESSES: `/addresses`,
+  CATEGORIES: `/products/categories`
 }
 
 const baseURL = "http://localhost:8080/api"

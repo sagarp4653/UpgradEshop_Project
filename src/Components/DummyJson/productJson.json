@@ -4,319 +4,319 @@
     "name": "Smartphone",
     "price": 500,
     "description": "Latest model with high-resolution camera.",
-    "category": 1,
-    "isNew": true
+    "category": "Electronics",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 2,
     "name": "Laptop",
     "price": 1000,
     "description": "Powerful laptop for work and entertainment.",
-    "category": 1,
-    "isNew": false
+    "category": "Electronics",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 3,
     "name": "Bluetooth Headphones",
     "price": 100,
     "description": "Wireless headphones for music enthusiasts.",
-    "category": 1,
-    "isNew": true
+    "category": "Electronics",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 4,
     "name": "Fitness Tracker",
     "price": 50,
     "description": "Tracks your daily activity and health.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 5,
     "name": "Running Shoes",
     "price": 80,
     "description": "Comfortable and durable running shoes.",
-    "category": 2,
-    "isNew": true
+    "category": "Footwear",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 6,
     "name": "Sneakers",
     "price": 60,
     "description": "Casual sneakers for everyday wear.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 7,
     "name": "Shampoo",
     "price": 10,
     "description": "Cleans and nourishes your hair.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 8,
     "name": "Toothbrush",
     "price": 5,
     "description": "Electric toothbrush for effective cleaning.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 9,
     "name": "Body Lotion",
     "price": 8,
     "description": "Keeps your skin moisturized and smooth.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 10,
     "name": "Face Mask",
     "price": 2,
     "description": "Hygienic disposable face masks.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 11,
     "name": "T-Shirt",
     "price": 15,
     "description": "Casual cotton T-shirt for men.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 12,
     "name": "Dress",
     "price": 40,
     "description": "Elegant evening dress for women.",
-    "category": 3,
-    "isNew": false
+    "category": "Apparel",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 13,
     "name": "Jeans",
     "price": 35,
     "description": "Classic denim jeans for all occasions.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 14,
     "name": "Sunglasses",
     "price": 20,
     "description": "UV-protective sunglasses with a stylish frame.",
-    "category": 3,
-    "isNew": false
+    "category": "Apparel",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 15,
     "name": "Rechargeable Batteries",
     "price": 12,
     "description": "Long-lasting batteries for various devices.",
-    "category": 1,
-    "isNew": true
+    "category": "Electronics",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 16,
     "name": "Coffee Maker",
     "price": 50,
     "description": "Brews delicious coffee at home.",
-    "category": 1,
-    "isNew": false
+    "category": "Electronics",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 17,
     "name": "Yoga Mat",
     "price": 20,
     "description": "Non-slip mat for yoga and exercise.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 18,
     "name": "Earrings",
     "price": 15,
     "description": "Beautiful earrings for a touch of elegance.",
-    "category": 3,
-    "isNew": false
+    "category": "Apparel",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 19,
     "name": "Backpack",
     "price": 30,
     "description": "Durable backpack for daily use.",
-    "category": 2,
-    "isNew": true
+    "category": "Footwear",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 20,
     "name": "Sunscreen",
     "price": 12,
     "description": "Protects your skin from harmful UV rays.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 21,
     "name": "Hair Dryer",
     "price": 25,
     "description": "Quickly dries and styles your hair.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 22,
     "name": "Socks",
     "price": 5,
     "description": "Comfortable socks for everyday wear.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 23,
     "name": "Perfume",
     "price": 40,
     "description": "Elegant fragrance for special occasions.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 24,
     "name": "Smartwatch",
     "price": 80,
     "description": "Syncs with your phone for notifications and health tracking.",
-    "category": 1,
-    "isNew": false
+    "category": "Electronics",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 25,
     "name": "Sandals",
     "price": 25,
     "description": "Casual and comfortable sandals.",
-    "category": 2,
-    "isNew": true
+    "category": "Footwear",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 26,
     "name": "Hand Cream",
     "price": 8,
     "description": "Moisturizes and softens your hands.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 27,
     "name": "Hoodie",
     "price": 30,
     "description": "Warm and stylish hoodie for colder days.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 28,
     "name": "Umbrella",
     "price": 10,
     "description": "Compact umbrella for rainy days.",
-    "category": 3,
-    "isNew": false
+    "category": "Apparel",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 29,
     "name": "Makeup Kit",
     "price": 40,
     "description": "Assorted makeup essentials.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 30,
     "name": "Running Shorts",
     "price": 20,
     "description": "Lightweight shorts for active individuals.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 31,
     "name": "Smart Plug",
     "price": 15,
     "description": "Control your devices remotely with this plug.",
-    "category": 1,
-    "isNew": true
+    "category": "Electronics",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 32,
     "name": "Tennis Racket",
     "price": 40,
     "description": "High-quality racket for tennis enthusiasts.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 33,
     "name": "Wallet",
     "price": 12,
     "description": "Stylish and practical wallet for your essentials.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 34,
     "name": "Shower Gel",
     "price": 7,
     "description": "Refreshing shower gel for a rejuvenating bath.",
-    "category": 4,
-    "isNew": false
+    "category": "Personal Care",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 35,
     "name": "Sweater",
     "price": 35,
     "description": "Cozy sweater for the winter season.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 36,
     "name": "Bluetooth Speaker",
     "price": 30,
     "description": "Portable speaker for music on the go.",
-    "category": 1,
-    "isNew": false
+    "category": "Electronics",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 37,
     "name": "Wristwatch",
     "price": 50,
     "description": "Classic wristwatch with a leather strap.",
-    "category": 3,
-    "isNew": true
+    "category": "Apparel",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 38,
     "name": "Running Socks",
     "price": 8,
     "description": "Moisture-wicking socks for runners.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   },
   {
     "id": 39,
     "name": "Hair Straightener",
     "price": 25,
     "description": "Achieve sleek and straight hair easily.",
-    "category": 4,
-    "isNew": true
+    "category": "Personal Care",
+    "manufacturer": "HTC","availableItems":10 
   },
   {
     "id": 40,
     "name": "Hiking Boots",
     "price": 70,
     "description": "Durable boots for outdoor adventures.",
-    "category": 2,
-    "isNew": false
+    "category": "Footwear",
+    "manufacturer": "Samsung","availableItems":10 
   }
 ]

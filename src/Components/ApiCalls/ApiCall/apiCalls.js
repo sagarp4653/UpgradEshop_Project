@@ -22,6 +22,11 @@ export const PRODUCT_LIST_API = async () =>
     return err;
   });
 
+export const GET_CATEGORIES_API = async () =>
+    HTTP.get(ApiEndpoints.CATEGORIES).catch((err) => {
+      return err;
+    });
+
 export const BUY_PRODUCTS_API = async () => 
   HTTP.post(
     ApiEndpoints.BUY_PRODUCT,

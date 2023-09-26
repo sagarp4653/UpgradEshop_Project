@@ -14,7 +14,7 @@ import ModifyProduct from "../ProductPage/ModifyProduct";
 import AddProduct from "../ProductPage/AddProduct";
 import ProductDetails from "../ProductPage/ProductDetails";
 import BuyProduct from "../ProductPage/BuyProduct";
-import { PRODUCT_LIST_API } from "../ApiCalls/ApiCall/apiCalls";
+import { PRODUCT_LIST_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -28,6 +28,7 @@ const Home = () => {
   const { productList = [], productListViewState = [] } = storeData || {};
 
   const check = [...productList]
+  const [categoriesArray, setCategoriesArray] = useState([]);
   const categoryFilterHandler = val => {
     if(val !== '0'){
       let arr = check.filter(i => i.category == val)
@@ -42,6 +43,13 @@ const Home = () => {
   useEffect(() => { // ngOnInit()
     PRODUCT_LIST_API({}).then(res => {
       console.log(res)
+    });
+    GET_CATEGORIES_API({}).then((response) => {
+      setCategoriesArray(response);
+      Array(response).map((eachCategory, i) => {
+        return {'id': i, 'title': eachCategory}
+      });
+      console.log(categoriesArray);
     })
   }, [])
 
