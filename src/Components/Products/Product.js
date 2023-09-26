@@ -29,7 +29,7 @@ const Product = () => {
   useEffect(() => {
     setProducts(productListViewState)
   }, [productListViewState])
-  
+
   const handleSortByChange = val => {
     setSortByValue(val);
      
@@ -96,28 +96,28 @@ const Product = () => {
       </div>
       <div>
         <Grid item xs={12}>
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="center" style={{paddingLeft: '26px'}}>
             {(products.length > 0 ? products : productListViewState).map((item, index) => (
-              <Grid key={item.id} item style={{marginRight: '16px', marginTop: '10px', marginBottom: '10px'}}>
-                <Card sx={{ maxWidth: 345 }}>
+              <Grid key={item.id} item style={{marginRight: '100px', marginTop: '30px', marginBottom: '40px'}}>
+                <Card sx={{ maxWidth: 345, width: 350 }}>
                   <CardMedia
                     sx={{ height: 245 }}
                     image="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJm3dr6e0rPOaEosPXHvFu23XWWcw6Y2c26rPS2i6X1I6slhL14NOaVHb5WPZJiL5yOTUzbG1dH9DEDHpCQ9WNImxoqlJ_x9KNdGI0wl4G&usqp=CAE"
                   />
-                  <CardContent>
-                    <Grid container spacing={2}>
+                  <CardContent style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
+                    <Grid container className="flex-row">
                       <Grid item xs={9}>
                         <Typography gutterBottom variant="h5" component="span">
                           {item?.name || ""}
                         </Typography>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={3} style={{textAlign: 'end'}}>
                         <Typography variant="h6" component="span">
                           ₹{item?.price || ""}
                         </Typography>
                       </Grid>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary" style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
+                    <Typography variant="body2" color="text.secondary" style={{ height: '68px',maxHeight: '70px', overflow: 'auto'}}>
                       {item?.description || ""}
                     </Typography>
                   </CardContent>

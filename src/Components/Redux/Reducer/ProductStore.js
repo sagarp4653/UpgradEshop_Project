@@ -7,7 +7,9 @@ const StorageArea = {
       updateProduct: {
         index: '',
         value: {}
-      }
+      },
+      isAlertModalOpen: false,
+      alertModalMsg: ""
     },
     name: "storeState",
   };
@@ -109,6 +111,30 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               isDeleteModal: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_ALERT_MODAL":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              isAlertModalOpen: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_ALERT_MODAL_MSG":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              alertModalMsg: action.payload.value
             },
           },
         };

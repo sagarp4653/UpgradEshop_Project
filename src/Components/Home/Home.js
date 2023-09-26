@@ -7,7 +7,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Navbar from "../Home/Navbar";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
-import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, updateAlertModalAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { useDispatch, useSelector } from 'react-redux'
 import PRODUCT_LIST from '../DummyJson/productJson.json'
 import ModifyProduct from "../ProductPage/ModifyProduct";
@@ -15,6 +15,7 @@ import AddProduct from "../ProductPage/AddProduct";
 import ProductDetails from "../ProductPage/ProductDetails";
 import BuyProduct from "../ProductPage/BuyProduct";
 import { PRODUCT_LIST_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
+import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -24,22 +25,7 @@ const Home = () => {
     dispatch(addProductsAction(PRODUCT_LIST))
   }, [])
 
-  const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [] } = storeData || {};
-
-  const check = [...productList]
-  const [categoriesArray, setCategoriesArray] = useState([]);
-  const categoryFilterHandler = val => {
-    if(val !== '0'){
-      let arr = check.filter(i => i.category == val)
-      console.log(arr, val)
-      dispatch(updateProductViewStateAction(arr)) 
-    } else {
-      console.log(productList)
-      dispatch(updateProductViewStateAction(productList)) 
-    }
-  }
-
+    
   useEffect(() => { // ngOnInit()
     PRODUCT_LIST_API({}).then(res => {
       console.log(res)
@@ -53,10 +39,35 @@ const Home = () => {
     })
   }, [])
 
+  const storeData = useSelector((state) => state.storeState.storeState) || {};  
+  const { productList = [], productListViewState = [], isAlertModalOpen = false, alertModalMsg = "You have added product successfully!"  } = storeData || {};
+  const check = [...productList]
+  const [categoriesArray, setCategoriesArray] = useState([]);
+  const categoryFilterHandler = val => {
+    if(val !== '0'){
+      let arr = check.filter(i => i.category == val)
+      console.log(arr, val)
+      dispatch(updateProductViewStateAction(arr)) 
+    } else {
+      console.log(productList)
+      dispatch(updateProductViewStateAction(productList)) 
+    }
+  }
+
+  const handleCloseAlert = () => {
+    dispatch(updateAlertModalAction(false))
+  };
+
   return (
     <>
       <BrowserRouter>
         <Navbar />
+        {isAlertModalOpen && (
+          <CustomAlertModal
+            message={alertModalMsg}
+            onClose={handleCloseAlert}
+          />
+        )}
         <div
         // style={{
         //   background: "#f3f4f8",
