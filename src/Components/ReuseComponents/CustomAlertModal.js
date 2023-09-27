@@ -37,8 +37,9 @@ const useStyles = {
   }
 };
 
-const CustomAlertModal = ({ message, onClose }) => {
-  const classes = useStyles;
+const CustomAlertModal = ({ message, onClose, isError }) => {
+  useStyles.alertModal.backgroundColor = isError ? '#ED4337' : '#06bc0b';
+  const classes = JSON.parse(JSON.stringify(useStyles));
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const CustomAlertModal = ({ message, onClose }) => {
           {/* <div>
             
           </div> */}
-          <CustomProgressBar/>
+          <CustomProgressBar backgroundColor={useStyles.alertModal.backgroundColor}/>
         </Paper>
       )}
     </div>

@@ -23,7 +23,7 @@ const OrderDetail = () => {
 
   return (
     <div
-      style={{ width: "100%", height: "100vh" }}
+      style={{ width: "100%" }}
       className="flex-row justify-content-center align-items-center"
     >
       <div

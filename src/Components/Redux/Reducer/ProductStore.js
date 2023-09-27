@@ -10,6 +10,7 @@ const StorageArea = {
       },
       isAlertModalOpen: false,
       alertModalMsg: "",
+      isError: false,
       token: "",
       placeOrderItemState: {}
     },
@@ -153,6 +154,18 @@ const StorageArea = {
           },
         };
         break;
+
+      case "UPDATE_MODAL_IS_ERROR":
+          return {
+            ...state,
+            ...{
+              storeState: {
+                ...state.storeState,
+                isError: action.payload.value
+              },
+            },
+          };
+          break;
         
       case "UPDATE_PLACE_ORDER_STATE":
         return {

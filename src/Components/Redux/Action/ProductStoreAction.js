@@ -9,6 +9,7 @@ export const UPDATE_ALERT_MODAL = "UPDATE_ALERT_MODAL";
 export const UPDATE_ALERT_MODAL_MSG = "UPDATE_ALERT_MODAL_MSG";
 export const ADD_TOKEN = "ADD_TOKEN";
 export const UPDATE_PLACE_ORDER_STATE = "UPDATE_PLACE_ORDER_STATE";
+export const UPDATE_MODAL_IS_ERROR = "UPDATE_MODAL_IS_ERROR";
 
 export const addProductsAction = (STATE) => ({
   type: ADD_PRODUCT_LIST, // pass product as in object to it
@@ -61,5 +62,9 @@ export const addTokenAction = (STATE) => ({
 })
 export const updateUpdatePlaceOrderStateAction = (STATE) => ({
   type: UPDATE_PLACE_ORDER_STATE, // true or false if user is admin or not
+  payload: { value: STATE },
+});
+export const updateModalIsError = (STATE) => ({
+  type: UPDATE_MODAL_IS_ERROR, // true or false if user is admin or not
   payload: { value: STATE },
 });

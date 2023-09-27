@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
 import { useNavigate } from "react-router-dom";
-import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 import { CREATE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const AddProduct = () => {

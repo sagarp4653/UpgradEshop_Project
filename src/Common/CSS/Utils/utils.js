@@ -1,4 +1,4 @@
-import { updateAlertModalAction, updateAlertModalMsgAction } from "../../../Components/Redux/Action/ProductStoreAction";
+import { updateAlertModalAction, updateAlertModalMsgAction, updateModalIsError } from "../../../Components/Redux/Action/ProductStoreAction";
 
   // Generate a random integer between min (inclusive) and max (exclusive)
 const getRandomInt = (min, max) => {
@@ -7,9 +7,10 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-const customAlertModalFun = (msg, dispatch) => {
+const customAlertModalFun = (msg, dispatch, isError) => {
     dispatch(updateAlertModalAction(true))
     dispatch(updateAlertModalMsgAction(msg || "Action successfully"))
+    dispatch(updateModalIsError(isError || false))
 }
 
 export {

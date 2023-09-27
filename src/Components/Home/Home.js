@@ -20,29 +20,33 @@ import OrderDetail from "../ProductPage/OrderDetail";
 import PlaceOrder from "../ProductPage/PlaceOrder";
 
 const Home = () => {
-  const dispatch = useDispatch()
-    
-  useEffect(() => { // ngOnInit()
+  const dispatch = useDispatch();
+  const [categoriesArray, setCategoriesArray] = useState([]);
+
+  useEffect(() => {
     PRODUCT_LIST_API({}).then(response => {
       console.log(response.data);
       dispatch(updateProductViewStateAction(response.data))
       dispatch(addProductsAction(response.data))
     });
+  }, []);
+    
+  useEffect(() => { // ngOnInit()
     GET_CATEGORIES_API({}).then((response) => {
       let tempArray = [];
-      tempArray.push( {'id': 1, 'title': 'All'})
-      response.data.forEach((element, index) => {
-        tempArray.push( {'id': index+2, 'title': element})
-      });
+      tempArray.push( {'id': 1, 'title': 'All'});
+      if (response.data) {
+        response.data.forEach((element, index) => {
+          tempArray.push( {'id': index+2, 'title': element})
+        });        
+      }
       setCategoriesArray(tempArray);
-      console.log(tempArray);
     })
   }, [])
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [], isAlertModalOpen = false, alertModalMsg = "You have added product successfully!"  } = storeData || {};
+  const { productList = [], productListViewState = [], isAlertModalOpen = false, alertModalMsg = "You have added product successfully!", isError = false  } = storeData || {};
   const check = [...productList]
-  const [categoriesArray, setCategoriesArray] = useState([]);
   const categoryFilterHandler = val => {
     if(val !== 'All'){
       let arr = check.filter(i => i.category == val)
@@ -66,6 +70,7 @@ const Home = () => {
           <CustomAlertModal
             message={alertModalMsg}
             onClose={handleCloseAlert}
+            isError={isError}
           />
         )}
         <div
