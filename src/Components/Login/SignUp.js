@@ -64,9 +64,10 @@ const SignUp = () => {
                 }
               });
               localStorage.setItem("adminDetails", JSON.stringify(tempArray));
-              if(tempArray.length > 0){
-                dispatch(updateAdminStatusAction(true))
-              }
+
+              // if(tempArray.length > 0){
+              //   dispatch(updateAdminStatusAction(true))
+              // }
             }
           });
         }
@@ -263,7 +264,7 @@ const SignUp = () => {
             },
           }}
         >
-          <Button style={{ width: "97%" }} variant="contained" color="primary" onClick={handleSubmit}>
+          <Button style={{ width: "97%", background: '#3f51b5', color: 'white' }} variant="contained" onClick={handleSubmit}>
             SIGN UP
           </Button>
         </Box>

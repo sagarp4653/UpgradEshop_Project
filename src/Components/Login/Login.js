@@ -94,7 +94,7 @@ const Login = () => {
             display: {width: '100%', display: 'flex', justifyContent: 'center'}
           }}
         >
-          <Button style={{width: '97%'}} variant="contained" color="primary" onClick={handleSubmit}>SIGN IN</Button>
+          <Button style={{width: '97%', background: '#3f51b5', color: 'white'}} variant="contained" color="primary" onClick={handleSubmit}>SIGN IN</Button>
         </Box>
         <Box sx={{ display: {textAlign: 'left', width: '100%', marginTop: '16px'} }}>
           <Typography

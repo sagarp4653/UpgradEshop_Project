@@ -151,7 +151,7 @@ const Product = () => {
                     </Typography>
                   </CardContent>
                   <CardActions className="flex-row justify-content-between">
-                    <Button size="small" variant="contained" color="primary" onClick={(e) => placeOrderHandler(e, item)}>
+                    <Button size="small" variant="contained" style={{background: '#3f51b5'}} onClick={(e) => placeOrderHandler(e, item)}>
                       BUY
                     </Button>
                     { isUserAdmin && <div>

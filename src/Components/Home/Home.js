@@ -59,6 +59,38 @@ const Home = () => {
     if(adminDetails.length > 0){
       dispatch(updateAdminStatusAction(true))
     }
+  //   [
+  //     {
+  //         "id": "6513c0856a58c57eece5be75",
+  //         "email": "sagar.pradhan583@gmail.com",
+  //         "roles": [
+  //             {
+  //                 "id": "6513c0076a58c57eece5be71",
+  //                 "name": "ADMIN"
+  //             }
+  //         ]
+  //     },
+  //     {
+  //         "id": "6514504af4c3a64b87838403",
+  //         "email": "admin@user.com",
+  //         "roles": [
+  //             {
+  //                 "id": "6513c0076a58c57eece5be71",
+  //                 "name": "ADMIN"
+  //             }
+  //         ]
+  //     },
+  //     {
+  //         "id": "651450e3f4c3a64b87838406",
+  //         "email": "adminadmin@user.com",
+  //         "roles": [
+  //             {
+  //                 "id": "6513c0076a58c57eece5be71",
+  //                 "name": "ADMIN"
+  //             }
+  //         ]
+  //     }
+  // ]
   },[])
   // const [categoriesArray, setCategoriesArray] = useState([]);
 

@@ -229,6 +229,7 @@ export default function PlaceOrder() {
                   <Button
                     variant="contained"
                     color="primary"
+                    style={{background: '#3f51b5'}}
                     sx={{ mr: 1 }}
                     onClick={placeOrder}
                   >
@@ -403,7 +404,7 @@ export default function PlaceOrder() {
                     >
                       <Button
                         sx={{ mt: 2, mb: 1, py: 1 }}
-                        style={{ width: "97%" }}
+                        style={{ width: "97%", background: '#3f51b5', color: 'white' }}
                         variant="contained"
                         color="primary"
                         type="submit" // Use 'type="submit"' to trigger the form submission
@@ -429,7 +430,7 @@ export default function PlaceOrder() {
                       onClick={handleNext}
                       sx={{ mr: 1 }}
                       variant="contained"
-                      color="primary"
+                      style={{background: '#3f51b5'}}
                     >
                       Next
                     </Button>

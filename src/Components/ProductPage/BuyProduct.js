@@ -123,7 +123,7 @@ const BuyProduct = () => {
                 size="small"
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "20px", width: "fit-content" }}
+                style={{ marginTop: "20px", width: "fit-content", background: '#3f51b5' }}
                 onClick={navigateToPlaceOrder}
               >
                 PLACE ORDER
