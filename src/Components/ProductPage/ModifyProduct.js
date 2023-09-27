@@ -12,6 +12,7 @@ import {
 } from "../Redux/Action/ProductStoreAction";
 import { staticCategories } from "../../Common/CSS/Utils/constant";
 import { GET_CATEGORIES_API, MODIFY_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 
 const ModifyProduct = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const ModifyProduct = () => {
             product: product || {},
           })
         );
+        customAlertModalFun(`Product ${updateProduct?.value?.name} modified successfully`, dispatch)
 
         GET_CATEGORIES_API({}).then((response) => {
           let tempArray = [];

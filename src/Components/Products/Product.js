@@ -12,9 +12,10 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from "react-router-dom";
-import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction, updateUpdatePlaceOrderStateAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction, updateUpdateCategoryStateAction, updateUpdatePlaceOrderStateAction } from "../Redux/Action/ProductStoreAction";
 import CustomModal from "../ReuseComponents/CustomModal";
-import { DELETE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
+import { DELETE_PRODUCT_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 
 const Product = () => {
   const dispatch = useDispatch()
@@ -25,7 +26,8 @@ const Product = () => {
   const [products, setProducts] = useState(productListViewState)
   const [sortByValue, setSortByValue] = useState(4);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [deleteObjInd, setDeleteObjInd] = useState(0)
+  const [deleteObjInd, setDeleteObjInd] = useState(0);
+  const [deleteObjName, setDeleteObjName] = useState('');
 
   useEffect(() => {
     setProducts(productListViewState)
@@ -51,10 +53,11 @@ const Product = () => {
     dispatch(addProductsAction([...productListViewState, product]))
   }
 
-  const deleteProductHanlder = (e, id)=> {
+  const deleteProductHanlder = (e, id, name)=> {
     e.stopPropagation()
     setDeleteModal(true);
-    setDeleteObjInd(id)
+    setDeleteObjInd(id);
+    setDeleteObjName(name);
     // dispatch(deleteProductFromProductListAction({ind: ind}))
   }
 
@@ -76,6 +79,18 @@ const Product = () => {
     // console.log(deleteObjInd)
     DELETE_PRODUCT_API(deleteObjInd).then(response => {
       dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+      customAlertModalFun(`Product ${deleteObjName} deleted successfully`, dispatch);
+      GET_CATEGORIES_API({}).then((response) => {
+        let tempArray = [];
+        tempArray.push({ id: 1, title: "All" });
+        response.data?.forEach((element, index) => {
+          tempArray.push({ id: index + 2, title: element });
+        });
+
+        dispatch(updateUpdateCategoryStateAction(tempArray));
+        navigate("/");
+        console.log(tempArray);
+      });
     }).catch(error => {
       console.log(error);
     })
@@ -141,7 +156,7 @@ const Product = () => {
                     </Button>
                     <div>
                       <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={(e) =>updateProductDetails(e, item, index)}/>
-                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={(e) => deleteProductHanlder(e, item.id)}/>
+                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={(e) => deleteProductHanlder(e, item.id, item.name)}/>
                     </div>
                   </CardActions>
                 </Card>
