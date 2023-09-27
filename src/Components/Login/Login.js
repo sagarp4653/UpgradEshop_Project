@@ -17,6 +17,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (email == '' || password == '') {
+      customAlertModalFun("Please enter all mandatory fields to proceed.", dispatch, true);
+      return;
+    }
       const requestData = {
         username: email,
         password: password,
