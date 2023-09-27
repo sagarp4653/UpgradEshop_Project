@@ -22,7 +22,7 @@ const SignUp = () => {
     confirmPassword: "",
     contactNumber: ""
   });
-  const [areAdminDetailsEmptyInLocalStorage, setAdminDetails] = useState(true);
+  const [areAdminDetailsEmptyInLocalStorage, disableAdminCheckbox] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,8 +82,8 @@ const SignUp = () => {
   useEffect(() => {
     const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
     setChecked(adminDetails === undefined || adminDetails === null); // auto-check the Admin checkbox
-    setAdminDetails(adminDetails === undefined || adminDetails === null); // disable the Admin checkbox
-  });
+    disableAdminCheckbox(adminDetails === undefined || adminDetails === null); // disable the Admin checkbox
+  }, []);
 
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">

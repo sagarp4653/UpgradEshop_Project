@@ -66,7 +66,12 @@ export default function PlaceOrder() {
 
   const createAddress = (e) => {
     // e.preventDefault();
-    addressForm.user = "6513b28cbdcb3423a5c45f9e";
+    const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
+    let userId;
+    if (adminDetails !== null && adminDetails !== undefined) {
+      userId = adminDetails[0].id;
+    }
+    addressForm.user = userId;
     CREATE_ADDRESS_API(addressForm)
       .then((response) => {
         addressForm.id = response.data;
