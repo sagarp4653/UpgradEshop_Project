@@ -18,7 +18,7 @@ import InputBase from "@mui/material/InputBase";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector, useDispatch } from 'react-redux'
 import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const pages = [{id: 1, name: "Home"}, {id: 2, name: "Add Product"}];
@@ -26,6 +26,8 @@ const pages = [{id: 1, name: "Home"}, {id: 2, name: "Add Product"}];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname
   const dispatch = useDispatch()
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -55,6 +57,13 @@ function ResponsiveAppBar() {
     // setAnchorElUser(null);
   };
 
+  const checkAddProductPathName = (path) => {
+    if(pathname === "/addproduct" && path === "Add Product"){
+      return false
+    } else {
+      return true
+    }
+  }
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -108,6 +117,7 @@ function ResponsiveAppBar() {
     // dispatch(updateProductViewStateAction([...data])) 
   }
 
+  console.log("location---> ", location)
   return (
     <AppBar
       position="static"
@@ -199,7 +209,7 @@ function ResponsiveAppBar() {
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
+              checkAddProductPathName(page.name) && <Button
                 key={page.id}
                 onClick={() => handleCloseNavMenu(page.id)}
                 sx={{ my: 2, color: "white", textDecoration: "underline" }}
