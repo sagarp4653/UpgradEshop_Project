@@ -7,6 +7,7 @@ import { addProductsAction, deleteProductFromProductListAction, updateAlertModal
 import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
 import { useNavigate } from "react-router-dom";
 import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
+import { CREATE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -20,46 +21,51 @@ const AddProduct = () => {
   };
 
   const cat = [
-    { id: 0, title: "ALL" },
-    { id: 4, title: "APPAREL" },
-    { id: 1, title: "ELECTRONICS" },
-    { id: 3, title: "PERSONAL CARE" },
-    { id: 2, title: "FOOTWEAR" },
+    { id: 4, title: "Apparel" },
+    { id: 1, title: "Electronics" },
+    { id: 3, title: "Personal Care" },
+    { id: 2, title: "Furniture" },
+    { id: 5, title: "Footwear" },
   ];
 
-  const [sortByValue, setSortByValue] = useState(0);
+  const [categorySelected, setCategorySelected] = useState('');
   const [formData, setFormData] = useState({
-    id: getRandomInt(1, 100),
     name: "",
     price: 0,
     description: "",
-    category: sortByValue,
+    category: categorySelected,
     manufacturer: '',
     availableItems: '',
     isNew: true,
   })
 
-  const handleSortByChange = (val) => {
-    setSortByValue(val);
+  const handleCategoryChange = (val) => {
+    setCategorySelected(val);
   };
 
   const addProductHandler = (obj) => {
-    let addProd = {
-      id: formData.id,
+    let addProduct = {
       name: formData.name || "",
       price: formData.price || 0,
       description: formData.description || "",
-      category: formData.category,
+      category: categorySelected,
       manufacturer: formData.manufacturer,
       availableItems: formData.availableItems,
       isNew: formData.isNew,
+      imageUrl: formData.imageUrl,
     };
     // disptach
-    console.log(addProd)
-    dispatch(addProductsAction([...productListViewState, addProd]))
-    dispatch(updateProductViewStateAction([...productList, addProd])) 
-    customAlertModalFun("Hello I'm Chandana", dispatch) // user has to add msg and dispatch function
-    navigate("/")
+    console.log(addProduct);
+    CREATE_PRODUCT_API(addProduct)
+    .then((response) => {
+      addProduct.id = response.data;
+      customAlertModalFun(`Product ${addProduct.name} added successfully`, dispatch) // user has to add msg and dispatch function
+      dispatch(addProductsAction([...productListViewState, addProduct]))
+      dispatch(updateProductViewStateAction([...productList, addProduct])) 
+      navigate("/");
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
   };
   return (
     <>
@@ -110,12 +116,12 @@ const AddProduct = () => {
                 <Select
                   labelId="demo-select-small-label"
                   id="demo-select-small"
-                  value={sortByValue}
-                  onChange={(e) => handleSortByChange(e.target.value)}
+                  value={categorySelected}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                   style={{ width: "100%" }}
                 >
                   {cat.map((i) => (
-                    <MenuItem key={i.id} value={i.id}>
+                    <MenuItem key={i.id} value={i.title}>
                       {i.title}
                     </MenuItem>
                   ))}
@@ -162,9 +168,9 @@ const AddProduct = () => {
               <TextField
                 id="outlined-required"
                 label="Image URL"
-                value={formData.imgUrl}
+                value={formData.imageUrl}
                 onChange={(e) =>
-                  setFormData({ ...formData, imgUrl: e.target.value })
+                  setFormData({ ...formData, imageUrl: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"

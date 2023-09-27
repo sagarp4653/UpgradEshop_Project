@@ -5,6 +5,7 @@ import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { getRandomInt } from "../../Common/CSS/Utils/utils";
 import { addProductsAction, updateProductInProductListAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { useNavigate } from "react-router-dom";
+import { MODIFY_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const ModifyProduct = () => {
   const dispatch = useDispatch();
@@ -20,8 +21,9 @@ const ModifyProduct = () => {
     category: updateProduct?.value?.category || "",
     availableItems: updateProduct?.value?.availableItems || 0, // Assuming this should be a number
     price: updateProduct?.value?.price || 0, // Assuming this should be a number
-    imgUrl: updateProduct?.value?.imgUrl || "",
+    imageUrl: updateProduct?.value?.imageUrl || "",
     description: updateProduct?.value?.description || "",
+    manufacturer: updateProduct?.value?.manufacturer || ""
   });
 
   const formDataHandler = () => {
@@ -35,10 +37,14 @@ const ModifyProduct = () => {
   const modifyProductHandler = (event) => {
     event.preventDefault(); // Prevent the form from submitting and causing a page reload
     // Implement modify product logic here
-    console.log(product); // Access the updated 'product' state here
-    dispatch(updateProductInProductListAction({index: updateProduct.index, product: product || {}}))
-    navigate("/")
-    // dispatch(updateProductViewStateAction([...productListViewState, product])) 
+    MODIFY_PRODUCT_API(updateProduct.value.id, product).then(response => {
+      console.log(product); // Access the updated 'product' state here
+      dispatch(updateProductInProductListAction({index: updateProduct.index, product: product || {}}))
+      navigate("/")
+     // dispatch(updateProductViewStateAction([...productListViewState, product]))
+    }).catch(error => {
+      console.log(error);
+    })
   };
 
   return (
@@ -132,9 +138,9 @@ const ModifyProduct = () => {
             <TextField
               id="outlined-required"
               label="Image URL"
-              value={product.imgUrl}
+              value={product.imageUrl}
               onChange={(e) =>
-                setProduct({ ...product, imgUrl: e.target.value })
+                setProduct({ ...product, imageUrl: e.target.value })
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
               placeholder="Image URL"
