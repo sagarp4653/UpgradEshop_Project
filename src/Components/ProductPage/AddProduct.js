@@ -14,7 +14,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [] } = storeData || {};
+  const { productList = [], productListViewState = [], isUserAdmin = false } = storeData || {};
   const { updateProduct = { index: '', value: {} } } = storeData || {};
 
   const categoryFilterHandler = (val) => {

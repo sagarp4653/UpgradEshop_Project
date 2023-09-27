@@ -7,7 +7,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Navbar from "../Home/Navbar";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
-import { addProductsAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, updateAdminStatusAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
 import { useDispatch, useSelector } from 'react-redux'
 import PRODUCT_LIST from '../DummyJson/productJson.json'
 import ModifyProduct from "../ProductPage/ModifyProduct";
@@ -54,6 +54,11 @@ const Home = () => {
       dispatch(updateUpdateCategoryStateAction(tempArray))
       // console.log(tempArray);
     })
+
+    const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
+    if(adminDetails.length > 0){
+      dispatch(updateAdminStatusAction(true))
+    }
   },[])
   // const [categoriesArray, setCategoriesArray] = useState([]);
 

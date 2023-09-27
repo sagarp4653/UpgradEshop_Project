@@ -21,7 +21,7 @@ const Product = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productListViewState = [],  } = storeData || {};
+  const { productListViewState = [], isUserAdmin = false } = storeData || {};
 
   const [products, setProducts] = useState(productListViewState)
   const [sortByValue, setSortByValue] = useState(4);
@@ -154,10 +154,10 @@ const Product = () => {
                     <Button size="small" variant="contained" color="primary" onClick={(e) => placeOrderHandler(e, item)}>
                       BUY
                     </Button>
-                    <div>
+                    { isUserAdmin && <div>
                       <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={(e) =>updateProductDetails(e, item, index)}/>
                       <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={(e) => deleteProductHanlder(e, item.id, item.name)}/>
-                    </div>
+                    </div> }
                   </CardActions>
                 </Card>
               </Grid>

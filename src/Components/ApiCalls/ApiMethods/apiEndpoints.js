@@ -10,7 +10,7 @@ const apiEndpoints = {
   CATEGORIES: `/products/categories`
 }
 
-const baseURL = "http://localhost:8080/api"
+const baseURL = "http://localhost:8081/api"
 
 export {
   apiEndpoints,

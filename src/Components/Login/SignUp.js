@@ -9,6 +9,7 @@ import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 import { useDispatch } from 'react-redux';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { updateAdminStatusAction } from "../Redux/Action/ProductStoreAction";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -60,6 +61,9 @@ const SignUp = () => {
                 }
               });
               localStorage.setItem("adminDetails", JSON.stringify(tempArray));
+              if(tempArray.length > 0){
+                dispatch(updateAdminStatusAction(true))
+              }
             }
           });
         }
