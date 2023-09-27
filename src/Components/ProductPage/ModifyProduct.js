@@ -1,29 +1,43 @@
 import React, { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import CategoriesBar from "../ReuseComponents/CategoriesBar";
-import { getRandomInt } from "../../Common/CSS/Utils/utils";
-import { addProductsAction, updateProductInProductListAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { useNavigate } from "react-router-dom";
-import { MODIFY_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
+import CategoriesBar from "../ReuseComponents/CategoriesBar";
+
+import {
+  addProductsAction,
+  updateProductInProductListAction,
+  updateProductViewStateAction,
+  updateUpdateCategoryStateAction,
+} from "../Redux/Action/ProductStoreAction";
+import { staticCategories } from "../../Common/CSS/Utils/constant";
+import { GET_CATEGORIES_API, MODIFY_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const ModifyProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Assuming your Redux store structure is correctly defined
+
   const storeData = useSelector((state) => state.storeState.storeState) || {};
-  const { updateProduct = { index: '', value: {} } } = storeData || {};
-  const { productList = [], productListViewState = [] } = storeData || {};
+  const {
+    updateProduct = { index: "", value: {} },
+    productList = [],
+    productListViewState = [],
+    categoryList = [],
+  } = storeData || {};
+
+  const [categorySelected, setCategorySelected] = useState(
+    updateProduct?.value?.category
+  );
 
   const [product, setProduct] = useState({
-    id:  updateProduct.value.id,
-    name: updateProduct?.value?.name || "", // Set a default value if 'updateProduct?.value?.name' is undefined
-    category: updateProduct?.value?.category || "",
-    availableItems: updateProduct?.value?.availableItems || 0, // Assuming this should be a number
-    price: updateProduct?.value?.price || 0, // Assuming this should be a number
+    id: updateProduct.value.id,
+    name: updateProduct?.value?.name || "",
+    category: categorySelected || "",
+    availableItems: updateProduct?.value?.availableItems || 0,
+    price: updateProduct?.value?.price || 0,
     imageUrl: updateProduct?.value?.imageUrl || "",
     description: updateProduct?.value?.description || "",
-    manufacturer: updateProduct?.value?.manufacturer || ""
+    manufacturer: updateProduct?.value?.manufacturer || "",
   });
 
   const formDataHandler = () => {
@@ -35,23 +49,50 @@ const ModifyProduct = () => {
   };
 
   const modifyProductHandler = (event) => {
-    event.preventDefault(); // Prevent the form from submitting and causing a page reload
-    // Implement modify product logic here
-    MODIFY_PRODUCT_API(updateProduct.value.id, product).then(response => {
-      console.log(product); // Access the updated 'product' state here
-      dispatch(updateProductInProductListAction({index: updateProduct.index, product: product || {}}))
-      navigate("/")
-     // dispatch(updateProductViewStateAction([...productListViewState, product]))
-    }).catch(error => {
-      console.log(error);
-    })
+    event.preventDefault();
+    console.log(product)
+
+    MODIFY_PRODUCT_API(updateProduct.value.id, product)
+      .then((response) => {
+        console.log("product data", product);
+        dispatch(
+          updateProductInProductListAction({
+            index: updateProduct.index,
+            product: product || {},
+          })
+        );
+
+        GET_CATEGORIES_API({}).then((response) => {
+          let tempArray = [];
+          tempArray.push({ id: 1, title: "All" });
+          response.data?.forEach((element, index) => {
+            tempArray.push({ id: index + 2, title: element });
+          });
+
+          dispatch(updateUpdateCategoryStateAction(tempArray));
+          navigate("/");
+          console.log(tempArray);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleCategoryChange = (val) => {
+    setCategorySelected(val);
+    setProduct(prev => ({...prev, category: val}))
   };
 
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">
       <form
         className="flex-column justify-content-center align-items-center"
-        style={{ width: "fit-content", height: "100vh", marginTop: "40px" }}
+        style={{
+          width: "fit-content",
+          height: "100vh",
+          marginTop: "40px",
+        }}
         onSubmit={modifyProductHandler}
       >
         <Box>
@@ -80,20 +121,26 @@ const ModifyProduct = () => {
               id="outlined-required"
               label="Name"
               value={product.name}
-              onChange={(e) => setProduct({ ...product, name: e.target.value })}
+              onChange={(e) =>
+                setProduct({ ...product, name: e.target.value })
+              }
               placeholder="Name"
             />
-            <TextField
-              required
-              id="outlined-required"
-              label="Category"
-              value={product.category}
-              onChange={(e) =>
-                setProduct({ ...product, category: e.target.value })
-              }
-              style={{ marginTop: "12px", marginBottom: "6px" }}
-              placeholder="Category"
-            />
+            <div style={{ width: "96%", marginLeft: "8px" }}>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={categorySelected}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                style={{ width: "100%" }}
+              >
+                {staticCategories.map((i) => (
+                  <MenuItem key={i.id} value={i.title}>
+                    {i.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
             <TextField
               required
               id="outlined-required"
@@ -114,7 +161,7 @@ const ModifyProduct = () => {
               onChange={(e) =>
                 setProduct({
                   ...product,
-                  availableItems: parseInt(e.target.value, 10), // Parse to integer
+                  availableItems: parseInt(e.target.value, 10),
                 })
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
@@ -129,7 +176,7 @@ const ModifyProduct = () => {
               onChange={(e) =>
                 setProduct({
                   ...product,
-                  price: parseFloat(e.target.value), // Parse to float
+                  price: parseFloat(e.target.value),
                 })
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
@@ -170,7 +217,7 @@ const ModifyProduct = () => {
             style={{ width: "97%" }}
             variant="contained"
             color="primary"
-            type="submit" // Use 'type="submit"' to trigger the form submission
+            type="submit"
           >
             MODIFY PRODUCT
           </Button>

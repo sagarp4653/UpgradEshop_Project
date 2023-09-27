@@ -11,7 +11,8 @@ const StorageArea = {
       isAlertModalOpen: false,
       alertModalMsg: "",
       token: "",
-      placeOrderItemState: {}
+      placeOrderItemState: {},
+      categoryList: []
     },
     name: "storeState",
   };
@@ -161,6 +162,18 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               placeOrderItemState: action.payload.value
+            },
+          },
+        };
+        break;
+        
+      case "UPDATE_CATEGORY":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              categoryList: action.payload.value || []
             },
           },
         };

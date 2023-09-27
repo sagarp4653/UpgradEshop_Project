@@ -16,7 +16,7 @@ const axiosConfig = {
   timeout: 60000,
   headers: {
     langId: 1,
-    Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyOUBtYWlsLmNvbSIsImlhdCI6MTY5NTc1MzA5NiwiZXhwIjoxNjk1NzYxNDk2fQ.NzeolRBTBzZWrteuIRlsrkSdJEboJvODmkZj2NGAPHQE4vPso0cBa9d3Y0kV7RTpgPZK0S25WE412cZsqko8QQ',
+    Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5wcmFkaGFuNTgzQGdtYWlsLmNvbSIsImlhdCI6MTY5NTc5MzMzMiwiZXhwIjoxNjk1ODAxNzMyfQ.Vp0yD-xQivW-87oALj-ozvsjFmJr-oymwIiN8gPfXimfW0loILxewXowTnn8FmwBUr32oVD7A3JgcC24hHoEpQ',
     Accept: 'application/json',
   },
 };
