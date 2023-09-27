@@ -5,7 +5,7 @@ import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import axios from 'axios';
 import { USER_LOGIN_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
-import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
+import { customAlertModalFun, setKeysAndValueToLocalStorage } from "../../Common/CSS/Utils/utils";
 import { useDispatch } from 'react-redux';
 import { addTokenAction } from "../Redux/Action/ProductStoreAction";
 
@@ -30,6 +30,7 @@ const Login = () => {
       customAlertModalFun("User logged in successfully!", dispatch);
       dispatch(addTokenAction(response.data.token));
       localStorage.setItem('token', JSON.stringify(response.data.token));
+      setKeysAndValueToLocalStorage("currentUserLoginEmail", email)
       navigate("/");
     }).catch((error) => {
       customAlertModalFun(error.message, dispatch, true);

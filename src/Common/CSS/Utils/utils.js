@@ -13,7 +13,25 @@ const customAlertModalFun = (msg, dispatch, isError) => {
     dispatch(updateModalIsError(isError || false))
 }
 
+const setKeysAndValueToLocalStorage = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+
+const getKeysAndValueToLocalStorage = key => {
+  // debugger
+  return localStorage.getItem(key)
+}
+
+const ifUserIsAdminOrNot = (currentEmail, allUser) => {
+  let index = -1
+  if(allUser.length > 0)
+    index = allUser.findIndex(i => i.email === currentEmail)
+  return index;
+}
 export {
     getRandomInt,
-    customAlertModalFun
+    customAlertModalFun,
+    setKeysAndValueToLocalStorage,
+    getKeysAndValueToLocalStorage,
+    ifUserIsAdminOrNot
 }

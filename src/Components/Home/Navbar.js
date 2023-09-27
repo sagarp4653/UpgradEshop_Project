@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "../ReuseComponents/SearchComponent";
+import { getKeysAndValueToLocalStorage } from "../../Common/CSS/Utils/utils";
 
 
 const pages = [{id: 1, name: "Home"}, {id: 2, name: "Add Product"}];
@@ -31,6 +32,7 @@ function ResponsiveAppBar() {
   const pathname = location.pathname
   const dispatch = useDispatch()
   const [searchText, setSearchText] = useState("");
+  const isLoggedIn = getKeysAndValueToLocalStorage("token")
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productList = [], productListViewState = [], isUserAdmin = false } = storeData || {};
@@ -197,7 +199,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box> */}
-          {checkSignUpLoginPathName() && <Box
+          {isLoggedIn.length > 0 && checkSignUpLoginPathName() && <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex", justifyContent: "center" },

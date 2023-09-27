@@ -18,6 +18,7 @@ import { PRODUCT_LIST_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCal
 import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 import OrderDetail from "../ProductPage/OrderDetail";
 import PlaceOrder from "../ProductPage/PlaceOrder";
+import { getKeysAndValueToLocalStorage, ifUserIsAdminOrNot } from "../../Common/CSS/Utils/utils";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -41,24 +42,6 @@ const Home = () => {
     isError = false
   } = storeData || {};
   const check = [...productList]
-
-
-  useEffect(() => {
-    GET_CATEGORIES_API({}).then((response) => {
-      let tempArray = [];
-      tempArray.push( {'id': 1, 'title': 'All'})
-      response.data?.forEach((element, index) => {
-        tempArray.push( {'id': index+2, 'title': element})
-      });
-      // setCategoriesArray(tempArray);
-      dispatch(updateUpdateCategoryStateAction(tempArray))
-      // console.log(tempArray);
-    })
-
-    const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
-    if(adminDetails.length > 0){
-      dispatch(updateAdminStatusAction(true))
-    }
   //   [
   //     {
   //         "id": "6513c0856a58c57eece5be75",
@@ -91,6 +74,34 @@ const Home = () => {
   //         ]
   //     }
   // ]
+
+  useEffect(() => {
+    GET_CATEGORIES_API({}).then((response) => {
+      let tempArray = [];
+      tempArray.push( {'id': 1, 'title': 'All'})
+      response.data?.forEach((element, index) => {
+        tempArray.push( {'id': index+2, 'title': element})
+      });
+      // setCategoriesArray(tempArray);
+      dispatch(updateUpdateCategoryStateAction(tempArray))
+      // console.log(tempArray);
+    })
+
+    const currentUserEmail = getKeysAndValueToLocalStorage("currentUserLoginEmail") || ''
+    const getAllUsers = JSON.parse(getKeysAndValueToLocalStorage("adminDetails")) || []
+
+    if(currentUserEmail && getAllUsers.length > 0){
+      const status = ifUserIsAdminOrNot(currentUserEmail, getAllUsers) !== -1 ? true : false;
+      if(status){
+        dispatch(updateAdminStatusAction(true))
+      } else {
+        dispatch(updateAdminStatusAction(false))
+      }
+    }
+    // const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
+    // if(adminDetails.length > 0){
+    //   dispatch(updateAdminStatusAction(true))
+    // }
   },[])
   // const [categoriesArray, setCategoriesArray] = useState([]);
 

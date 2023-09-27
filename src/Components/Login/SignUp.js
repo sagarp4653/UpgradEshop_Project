@@ -5,7 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import { GET_ALL_USER_DETAILS, USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
-import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
+import { customAlertModalFun, setKeysAndValueToLocalStorage } from "../../Common/CSS/Utils/utils";
 import { useDispatch } from 'react-redux';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -40,6 +40,7 @@ const SignUp = () => {
           password: signUpDetails.password,
         })
           .then((response) => {
+            setKeysAndValueToLocalStorage("currentUserLoginEmail", signUpDetails.email)
             localStorage.setItem("token", JSON.stringify(response.data.token));
             navigate("/");
           })
