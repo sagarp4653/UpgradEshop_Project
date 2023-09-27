@@ -61,7 +61,7 @@ export default function PlaceOrder() {
         setSavedAddresses(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   }, []);
 
@@ -111,7 +111,7 @@ export default function PlaceOrder() {
         addressForm.id = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   };
 

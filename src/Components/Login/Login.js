@@ -32,8 +32,7 @@ const Login = () => {
       localStorage.setItem('token', JSON.stringify(response.data.token));
       navigate("/");
     }).catch((error) => {
-      customAlertModalFun(error, dispatch);
-      console.error("Error:", error);
+      customAlertModalFun(error.message, dispatch, true);
     });
   };
 
