@@ -3,10 +3,12 @@ import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
 import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
 import { useNavigate } from "react-router-dom";
-import { CREATE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
+import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
+import { CREATE_PRODUCT_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
+import { staticCategories } from "../../Common/CSS/Utils/constant";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -18,15 +20,7 @@ const AddProduct = () => {
   const categoryFilterHandler = (val) => {
     console.log(val);
   };
-
-  const cat = [
-    { id: 4, title: "Apparel" },
-    { id: 1, title: "Electronics" },
-    { id: 3, title: "Personal Care" },
-    { id: 2, title: "Furniture" },
-    { id: 5, title: "Footwear" },
-  ];
-
+  
   const [categorySelected, setCategorySelected] = useState('');
   const [formData, setFormData] = useState({
     name: "",
@@ -61,6 +55,18 @@ const AddProduct = () => {
       customAlertModalFun(`Product ${addProduct.name} added successfully`, dispatch) // user has to add msg and dispatch function
       dispatch(addProductsAction([...productListViewState, addProduct]))
       dispatch(updateProductViewStateAction([...productList, addProduct])) 
+      if(addProduct.id){
+        GET_CATEGORIES_API({}).then((response) => {
+          let tempArray = [];
+          tempArray.push( {'id': 1, 'title': 'All'})
+          response.data?.forEach((element, index) => {
+            tempArray.push( {'id': index+2, 'title': element})
+          });
+          // setCategoriesArray(tempArray);
+          dispatch(updateUpdateCategoryStateAction(tempArray))
+          console.log(tempArray);
+        })
+      }
       navigate("/");
     }).catch((error) => {
       console.error("Error:", error);
@@ -119,7 +125,7 @@ const AddProduct = () => {
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   style={{ width: "100%" }}
                 >
-                  {cat.map((i) => (
+                  {staticCategories.map((i) => (
                     <MenuItem key={i.id} value={i.title}>
                       {i.title}
                     </MenuItem>

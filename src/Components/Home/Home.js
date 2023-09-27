@@ -7,7 +7,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Navbar from "../Home/Navbar";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
-import { addProductsAction, updateAlertModalAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
 import { useDispatch, useSelector } from 'react-redux'
 import PRODUCT_LIST from '../DummyJson/productJson.json'
 import ModifyProduct from "../ProductPage/ModifyProduct";
@@ -29,24 +29,34 @@ const Home = () => {
       dispatch(updateProductViewStateAction(response.data))
       dispatch(addProductsAction(response.data))
     });
-  }, []);
-    
-  useEffect(() => { // ngOnInit()
-    GET_CATEGORIES_API({}).then((response) => {
-      let tempArray = [];
-      tempArray.push( {'id': 1, 'title': 'All'});
-      if (response.data) {
-        response.data.forEach((element, index) => {
-          tempArray.push( {'id': index+2, 'title': element})
-        });        
-      }
-      setCategoriesArray(tempArray);
-    })
   }, [])
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [], isAlertModalOpen = false, alertModalMsg = "You have added product successfully!", isError = false  } = storeData || {};
+  const {
+    productList = [],
+    productListViewState = [],
+    isAlertModalOpen = false,
+    alertModalMsg = "You have added product successfully!",
+    categoryList = [],
+    isError = false
+  } = storeData || {};
   const check = [...productList]
+
+
+  useEffect(() => {
+    GET_CATEGORIES_API({}).then((response) => {
+      let tempArray = [];
+      tempArray.push( {'id': 1, 'title': 'All'})
+      response.data?.forEach((element, index) => {
+        tempArray.push( {'id': index+2, 'title': element})
+      });
+      // setCategoriesArray(tempArray);
+      dispatch(updateUpdateCategoryStateAction(tempArray))
+      // console.log(tempArray);
+    })
+  },[])
+  // const [categoriesArray, setCategoriesArray] = useState([]);
+
   const categoryFilterHandler = val => {
     if(val !== 'All'){
       let arr = check.filter(i => i.category == val)
@@ -88,7 +98,7 @@ const Home = () => {
               exact
               element={
                 <div>
-                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={categoriesArray}/>
+                  <CategoriesBar categoriesHandler={categoryFilterHandler} groupBtnArry={categoryList}/>
                   <Product />
                 </div>
               }

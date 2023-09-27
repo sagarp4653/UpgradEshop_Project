@@ -9,7 +9,7 @@ const CategoriesBar = ({ categoriesHandler, groupBtnArry = []}) => {
         style={{ padding: "100px 0 20px 0" }}
       >
         <ToggleButtonGroup color="primary" aria-label="Platform" exclusive onClick={e => categoriesHandler(e.target.value)}>
-          {groupBtnArry.map((i, ind) => <ToggleButton key={ind} value={i.title}>{i.title}</ToggleButton>)}
+          {groupBtnArry.map((i, ind) => i.title &&<ToggleButton key={ind} value={i.title}>{i.title}</ToggleButton>)}
         </ToggleButtonGroup>
       </div>
     </>
