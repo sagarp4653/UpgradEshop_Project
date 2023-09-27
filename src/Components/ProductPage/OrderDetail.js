@@ -1,8 +1,8 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
+import Button from "@mui/material/Button";
 
 const OrderDetail = () => {
   const storeData = useSelector((state) => state.storeState.storeState) || {};
@@ -22,104 +22,84 @@ const OrderDetail = () => {
   } = placeOrderItemState;
 
   return (
-    <div
-      style={{ width: "100%", height: "100vh" }}
-      className="flex-row justify-content-center align-items-center"
-    >
+    <div>
       <div
-        style={{
-          marginTop: "100px",
-          boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-          height: "40vh",
-          width: "80%",
-        }}
-        className="flex-row w-100"
+        style={{ width: "100%", height: "80vh" }}
+        className="flex-row justify-content-center align-items-center"
       >
-        {/* Product Details */}
         <div
-          className="flex-row"
           style={{
-            borderRight: "1px solid #eceded",
-            padding: "30px 6px 6px 24px",
-            width: "60%",
-            flexWrap: "wrap",
+            marginTop: "100px",
+            border: "1px solid black",
+            height: "50vh",
+            width: "70%",
           }}
+          className="flex-row"
         >
-          <Box>
-            <Typography
-              variant="h4"
-              noWrap
-              sx={{
-                // mr: 2,
-                // display: { xs: "none", md: "flex" },
-                // fontFamily: "monospace",
-                // fontWeight: 700,
-                // letterSpacing: ".3rem",
-                // fontSize: '20px',
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Shoes
-            </Typography>
-            <Typography
-              variant="span"
-              Wrap
-              sx={{
-                // mr: 2,
-                // display: { xs: "none", md: "flex" },
-                // fontFamily: "monospace",
-                // fontWeight: 700,
-                // letterSpacing: ".3rem",
-                marginTop: "4px",
-                fontSize: "14px",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              <div style={{ marginTop: "16px" }}>
-                Quantity: <strong style={{ marginLeft: "4px" }}>1</strong>
-              </div>
-
-              <div style={{ marginTop: "16px" }}>
-                Category:{" "}
-                <strong style={{ marginLeft: "4px" }}>Footwear</strong>
-              </div>
-
-              <div style={{ marginTop: "16px" }}>
-                <i>
-                  ksdjflasjdfjasldjflasjdflsjdflkjsadlfjalskj
-                  asdkfjalsdjfalsdjfl jljlfjlasjkdlfjsldfj lsjdfllsklfllskjfd
-                  alsdfklasjdkflsjdlfsldfjlsjfljsdljflsjflksdjfjljkkl lksaldfj
-                  asdflskdjl ljflasjdlj salldjfljsdl flskjd flasjdfkl
-                  ajsdfjalskjf fklasjdklajsdlkjaslkjalfdjlajs
-                  dlfjasldfjalksdjfklasdf
-                </i>
-              </div>
-
-              <div
-                style={{
-                  marginTop: "16px",
-                  color: "red",
-                  fontSize: "18px",
-                  fontWeight: "500",
+          {/* Product Details */}
+          <div
+            className="flex-row"
+            style={{
+              borderRight: "1px solid black",
+              padding: "30px 500px 6px 24px",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h4"
+                noWrap
+                sx={{
+                  // mr: 2,
+                  // display: { xs: "none", md: "flex" },
+                  // fontFamily: "monospace",
+                  // fontWeight: 700,
+                  // letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
               >
-                <span>Total Price : </span>
-                <span>₹ 2000</span>
-              </div>
-            </Typography>
-          </Box>
-        </div>
+                Shoes
+              </Typography>
+              <Typography
+                variant="span"
+                Wrap
+                sx={{
+                  // mr: 2,
+                  // display: { xs: "none", md: "flex" },
+                  // fontFamily: "monospace",
+                  // fontWeight: 700,
+                  // letterSpacing: ".3rem",
+                  marginTop: "4px",
+                  fontSize: "14px",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                <div style={{ marginTop: "10px" }}>
+                  Quantity: <strong style={{ marginLeft: "4px" }}>1</strong>
+                </div>
 
-        {/* Address */}
-        <div
-          className="flex-row"
-          style={{ padding: "30px 6px 6px 24px", width: "40%" }}
-        >
-          <Box>
-            <Typography
-              variant="h4"
+                <div style={{ marginTop: "10px" }}>
+                  Category:{" "}
+                  <strong style={{ marginLeft: "4px" }}>Footwear</strong>
+                </div>
+
+                <div style={{ marginTop: "10px" }}>
+                  <i>
+                    ksdjflasjdfjasldjflasjdflsjdflkjsadl
+                    <br />
+                    fjalskjfklasjdklajsdlkjaslkjalfdjlajs
+                    <br /> dlfjasldfjalksdjfklasdf
+                  </i>
+                </div>
+
+                <div style={{ marginTop: "10px", color: "red" }}>
+                  <span>Total Price : </span>
+                  <span>₹ 2000</span>
+                </div>
+              </Typography>
+              {/* <Typography
+              variant="span"
               noWrap
               sx={{
                 // mr: 2,
@@ -132,46 +112,127 @@ const OrderDetail = () => {
                 textDecoration: "none",
               }}
             >
-              Address Details :
-            </Typography>
-            <Typography
-              variant="span"
-              Wrap
-              sx={{
-                // mr: 2,
-                // display: { xs: "none", md: "flex" },
-                // fontFamily: "monospace",
-                // fontWeight: 700,
-                // letterSpacing: ".3rem",
-                marginTop: "4px",
-                fontSize: "14px",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              <div style={{ marginTop: "6px" }}>
-                Lucknow: {"Home"}
-              </div>
+              Category: <strong>Footwear</strong>
+            </Typography> */}
+            </Box>
+          </div>
 
-              <div style={{ marginTop: "6px" }}>
-                Contact Number: {"7273478647"}
-              </div>
+          {/* Address */}
+          <div
+            className="flex-row"
+            style={{ padding: "30px 20px 6px 24px", width: "50%" }}
+          >
+            <Box>
+              <Typography
+                variant="h4"
+                noWrap
+                sx={{
+                  // mr: 2,
+                  // display: { xs: "none", md: "flex" },
+                  // fontFamily: "monospace",
+                  // fontWeight: 700,
+                  // letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Address Details :
+              </Typography>
 
-              <div style={{ marginTop: "6px" }}>
-                Police Line, Lucknow
+              <div style={{ marginTop: "1px" }}>
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: "none", md: "flex" },
+                    // fontFamily: "monospace",
+                    // fontWeight: 700,
+                    // letterSpacing: ".3rem",
+                    fontSize: "14px",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Lucknow Home
+                </Typography>
               </div>
-
-              <div style={{ marginTop: "6px" }}>
-                Uttar Pradesh
+              <div style={{ marginTop: "1px" }}>
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: "none", md: "flex" },
+                    // fontFamily: "monospace",
+                    // fontWeight: 700,
+                    // letterSpacing: ".3rem",
+                    fontSize: "14px",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Contact Number: 7903710346
+                </Typography>
               </div>
-
-              <div style={{ marginTop: "6px" }}>
-                778780
+              <div style={{ marginTop: "1px" }}>
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: "none", md: "flex" },
+                    // fontFamily: "monospace",
+                    // fontWeight: 700,
+                    // letterSpacing: ".3rem",
+                    fontSize: "14px",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Police Line,Lucknow
+                </Typography>
               </div>
-
-            </Typography>
-          </Box>
+              <div style={{ marginTop: "1px" }}>
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: "none", md: "flex" },
+                    // fontFamily: "monospace",
+                    // fontWeight: 700,
+                    // letterSpacing: ".3rem",
+                    fontSize: "14px",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Uttar Pradesh
+                </Typography>
+              </div>
+              <div style={{ marginTop: "1px" }}>
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: "none", md: "flex" },
+                    // fontFamily: "monospace",
+                    // fontWeight: 700,
+                    // letterSpacing: ".3rem",
+                    fontSize: "14px",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  723990
+                </Typography>
+              </div>
+            </Box>
+          </div>
         </div>
+      </div>
+
+      {/* Buttons */}
+      <div className=" flex-row justify-content-center align-items-end">
+        <Button size="small" variant="contained" color="primary">
+          BACK
+        </Button>
+
+        <Button size="small" variant="contained" color="primary">
+          PLACE ORDER
+        </Button>
       </div>
     </div>
   );
