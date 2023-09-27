@@ -10,7 +10,9 @@ const StorageArea = {
       },
       isAlertModalOpen: false,
       alertModalMsg: "",
-      placeOrderItemState: {}
+      token: "",
+      placeOrderItemState: {},
+      categoryList: []
     },
     name: "storeState",
   };
@@ -141,6 +143,18 @@ const StorageArea = {
         };
         break;
 
+      case "ADD_TOKEN":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              token: action.payload.value
+            },
+          },
+        };
+        break;
+        
       case "UPDATE_PLACE_ORDER_STATE":
         return {
           ...state,
@@ -148,6 +162,18 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               placeOrderItemState: action.payload.value
+            },
+          },
+        };
+        break;
+        
+      case "UPDATE_CATEGORY":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              categoryList: action.payload.value || []
             },
           },
         };

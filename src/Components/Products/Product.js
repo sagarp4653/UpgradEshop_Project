@@ -14,6 +14,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction, updateUpdatePlaceOrderStateAction } from "../Redux/Action/ProductStoreAction";
 import CustomModal from "../ReuseComponents/CustomModal";
+import { DELETE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const Product = () => {
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const Product = () => {
   const { productListViewState = [],  } = storeData || {};
 
   const [products, setProducts] = useState(productListViewState)
-  const [sortByValue, setSortByValue] = useState(0);
+  const [sortByValue, setSortByValue] = useState(4);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteObjInd, setDeleteObjInd] = useState(0)
 
@@ -73,7 +74,11 @@ const Product = () => {
 
   const deleteItemModal = () => {
     // console.log(deleteObjInd)
-    dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+    DELETE_PRODUCT_API(deleteObjInd).then(response => {
+      dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+    }).catch(error => {
+      console.log(error);
+    })
     setDeleteModal(false)
   }
 
@@ -111,7 +116,7 @@ const Product = () => {
                 <Card sx={{ maxWidth: 345, width: 350 }} onClick={(e) => placeOrderHandler(e, item)} className="cursor-pointer">
                   <CardMedia
                     sx={{ height: 245 }}
-                    image="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJm3dr6e0rPOaEosPXHvFu23XWWcw6Y2c26rPS2i6X1I6slhL14NOaVHb5WPZJiL5yOTUzbG1dH9DEDHpCQ9WNImxoqlJ_x9KNdGI0wl4G&usqp=CAE"
+                    image={item?.imageUrl}
                   />
                   <CardContent style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
                     <Grid container className="flex-row">

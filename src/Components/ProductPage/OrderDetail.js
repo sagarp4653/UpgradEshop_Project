@@ -107,8 +107,7 @@ const OrderDetail = () => {
                 // fontFamily: "monospace",
                 // fontWeight: 700,
                 // letterSpacing: ".3rem",
-                marginTop: '4px',
-                fontSize: '14px',
+                // fontSize: '20px',
                 color: "inherit",
                 textDecoration: "none",
               }}

@@ -1,15 +1,15 @@
 
 const apiEndpoints = {
 
-  SIGN_IN: `/auth`,
-  SIGN_UP: `/users`,
-  PRODUCT_DETAILS: `/products`,
+  SIGN_IN: `/auth/signin`,
+  SIGN_UP: `/auth/signup`,
+  PRODUCT: `/products`,
   BUY_PRODUCT: `/orders`,
-  ADDRESSES: `/addresses`
-
+  ADDRESSES: `/addresses`,
+  CATEGORIES: `/products/categories`
 }
 
-const baseURL = "localhost:8080"
+const baseURL = "http://localhost:8081/api"
 
 export {
   apiEndpoints,
