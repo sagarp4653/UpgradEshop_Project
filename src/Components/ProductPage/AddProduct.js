@@ -30,13 +30,43 @@ const AddProduct = () => {
     manufacturer: '',
     availableItems: '',
     isNew: true,
+    imageUrl: "",
   })
 
   const handleCategoryChange = (val) => {
     setCategorySelected(val);
   };
 
+  const validations = () => {
+    let message;
+    if (
+      formData.name === "" ||
+      formData.price === "" ||
+      isNaN(formData.price) ||
+      categorySelected === "" ||
+      formData.manufacturer === "" ||
+      formData.availableItems === "" ||
+      isNaN(formData.availableItems)
+    ) {
+      message = "Please enter all mandatory fields to proceed.";
+    } else if (formData.name.length > 0 && formData.name.length > 255) {
+      message = "Name must not exceed 255 characters.";
+    } else if (
+      formData.manufacturer.length > 0 &&
+      formData.manufacturer.length > 255
+    ) {
+      message = "Manufacturer must not exceed 255 characters.";
+    } else if (formData.imageUrl.length > 0 && formData.imageUrl.length > 255) {
+      message = "Image URL must not exceed 255 characters.";
+    }
+    customAlertModalFun(message, dispatch, true);
+    return message;
+  };
+
   const addProductHandler = (obj) => {
+    if (validations()) {
+      return;
+    }
     let addProduct = {
       name: formData.name || "",
       price: formData.price || 0,
@@ -45,7 +75,7 @@ const AddProduct = () => {
       manufacturer: formData.manufacturer,
       availableItems: formData.availableItems,
       isNew: formData.isNew,
-      imageUrl: formData.imageUrl,
+      imageUrl: formData.imageUrl || "",
     };
     // disptach
     console.log(addProduct);
@@ -111,9 +141,9 @@ const AddProduct = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                // defaultValue="Hello World"
                 placeholder="Name"
-                // style={{width: '50%'}}
+                error={formData.name.length > 0 && formData.name.length > 255}
+                helperText={formData.name.length > 0 && formData.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
               />
 
               <div style={{ width: "96%", marginLeft: "8px" }}>
@@ -143,6 +173,8 @@ const AddProduct = () => {
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Manufacturer"
+                error={formData.manufacturer.length > 0 && formData.manufacturer.length > 255}
+                helperText={formData.manufacturer.length > 0 && formData.manufacturer.length > 255 ? 'Manufacturer must not exceed 255 characters' : ''}
               />
               <TextField
                 required
@@ -180,6 +212,8 @@ const AddProduct = () => {
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Image URL"
+                error={formData.imageUrl.length > 0 && formData.imageUrl.length > 255}
+                helperText={formData.imageUrl.length > 0 && formData.imageUrl.length > 255 ? 'Image URL must not exceed 255 characters' : ''}
               />
               <TextField
                 id="outlined-required"

@@ -49,10 +49,38 @@ const ModifyProduct = () => {
     console.log(val);
   };
 
+  const validations = () => {
+    let message;
+    if (
+      product.name === "" ||
+      product.price === "" ||
+      isNaN(product.price == NaN) ||
+      categorySelected === "" ||
+      product.manufacturer === "" ||
+      product.availableItems === "" ||
+      isNaN(product.availableItems)
+    ) {
+      message = "Please enter all mandatory fields to proceed.";
+    } else if (product.name.length > 0 && product.name.length > 255) {
+      message = "Name must not exceed 255 characters.";
+    } else if (
+      product.manufacturer.length > 0 &&
+      product.manufacturer.length > 255
+    ) {
+      message = "Manufacturer must not exceed 255 characters.";
+    } else if (product.imageUrl.length > 0 && product.imageUrl.length > 255) {
+      message = "Image URL must not exceed 255 characters.";
+    }
+    customAlertModalFun(message, dispatch, true);
+    return message;
+  };
+
   const modifyProductHandler = (event) => {
     event.preventDefault();
-    console.log(product)
 
+    if(validations()) {
+      return;
+    }
     MODIFY_PRODUCT_API(updateProduct.value.id, product)
       .then((response) => {
         console.log("product data", product);
@@ -127,6 +155,8 @@ const ModifyProduct = () => {
                 setProduct({ ...product, name: e.target.value })
               }
               placeholder="Name"
+              error={product.name.length > 0 && product.name.length > 255}
+              helperText={product.name.length > 0 && product.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
             />
             <div style={{ width: "96%", marginLeft: "8px" }}>
               <Select
@@ -153,6 +183,8 @@ const ModifyProduct = () => {
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
               placeholder="Manufacturer"
+              error={product.manufacturer.length > 0 && product.manufacturer.length > 255}
+              helperText={product.manufacturer.length > 0 && product.manufacturer.length > 255 ? 'Manufacturer must not exceed 255 characters' : ''}
             />
             <TextField
               required
@@ -193,6 +225,8 @@ const ModifyProduct = () => {
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
               placeholder="Image URL"
+              error={product.imageUrl.length > 0 && product.imageUrl.length > 255}
+              helperText={product.imageUrl.length > 0 && product.imageUrl.length > 255 ? 'Image URL must not exceed 255 characters' : ''}
             />
             <TextField
               id="outlined-required"

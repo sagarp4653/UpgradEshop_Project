@@ -27,6 +27,9 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (validations()) {
+      return;
+    }
     signUpDetails.role = checked ? ["admin"] : ["user"];
     USER_SIGN_UP_API(signUpDetails)
       .then((response) => {
@@ -69,9 +72,51 @@ const SignUp = () => {
         }
       })
       .catch((error) => {
-        customAlertModalFun(error, dispatch);
         console.error("Error:", error);
       });
+  };
+
+  const validations = () => {
+    let message;
+    if (
+      signUpDetails.firstName === "" ||
+      signUpDetails.lastName === "" ||
+      signUpDetails.email === "" ||
+      signUpDetails.password === "" ||
+      signUpDetails.confirmPassword === "" ||
+      signUpDetails.contactNumber === ""
+    ) {
+      message = "Please enter all mandatory fields to proceed.";
+    } else if (signUpDetails.password !== signUpDetails.confirmPassword) {
+      message = "Password and Confirm Password should be the same.";
+    } else if (
+      signUpDetails.password.length > 0 &&
+      (signUpDetails.password.length < 6 || signUpDetails.password.length > 40)
+    ) {
+      message = "Password length must be between 6 and 40 characters.";
+    } else if (
+      signUpDetails.email.length > 0 &&
+      signUpDetails.email.length > 50
+    ) {
+      message = "Email length must not exceed 50 characters.";
+    } else if (
+      signUpDetails.email.length > 0 &&
+      signUpDetails.email.length > 50
+    ) {
+      message = "Email length must not exceed 50 characters.";
+    } else if (
+      signUpDetails.contactNumber.length > 0 &&
+      signUpDetails.contactNumber.length > 255
+    ) {
+      message = "Contact Number must not exceed 255 characters.";
+    } else if (
+      signUpDetails.lastName.length > 0 &&
+      signUpDetails.lastName.length > 255
+    ) {
+      message = "Last Name length must not exceed 255 characters.";
+    }
+    customAlertModalFun(message, dispatch, true);
+    return message;
   };
 
   const handleInputChange = (e) => {
@@ -146,6 +191,8 @@ const SignUp = () => {
               placeholder="Last Name"
               value={signUpDetails.lastName}
               onChange={handleInputChange}
+              error={signUpDetails.lastName.length > 0 && signUpDetails.lastName.length > 255}
+              helperText={signUpDetails.lastName.length > 0 && signUpDetails.lastName.length > 255 ? 'Last Name length must not exceed 255 characters' : ''}
             />
             <TextField
               required
@@ -158,6 +205,8 @@ const SignUp = () => {
               placeholder="Email Address"
               value={signUpDetails.email}
               onChange={handleInputChange}
+              error={signUpDetails.email.length > 0 && signUpDetails.email.length > 50}
+              helperText={signUpDetails.email.length > 0 && signUpDetails.email.length > 50 ? 'Email length must not exceed 50 characters' : ''}
             />
             <TextField
               required
@@ -170,6 +219,8 @@ const SignUp = () => {
               placeholder="Password"
               value={signUpDetails.password}
               onChange={handleInputChange}
+              error={signUpDetails.password.length > 0 && (signUpDetails.password.length < 6 || signUpDetails.password.length > 40)}
+              helperText={signUpDetails.password.length > 0 && (signUpDetails.password.length < 6 || signUpDetails.password.length > 40) ? 'Password length must be between 6 and 40 characters' : ''}
             />
             <TextField
               required
@@ -182,6 +233,8 @@ const SignUp = () => {
               placeholder="Confirm Password"
               value={signUpDetails.confirmPassword}
               onChange={handleInputChange}
+              error={signUpDetails.confirmPassword !== signUpDetails.password}
+              helperText={signUpDetails.confirmPassword === signUpDetails.password ? '' : 'Password and Confirm Password should be the same'}
             />
             <TextField
               required
@@ -193,11 +246,12 @@ const SignUp = () => {
               placeholder="Contact Number"
               value={signUpDetails.contactNumber}
               onChange={handleInputChange}
+              error={signUpDetails.contactNumber.length > 0 && signUpDetails.contactNumber.length > 255}
+              helperText={signUpDetails.contactNumber.length > 0 && signUpDetails.contactNumber.length > 255 ? 'Contact Number must not exceed 255 characters' : ''}
             />
             <span title={'Please Sign Up as an Admin first to Add/Modify/Delete products'}>
               <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} disabled={areAdminDetailsEmptyInLocalStorage}/>} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
             </span>
-            {/* <Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} /> */}
           </div>
         </Box>
         <Box
