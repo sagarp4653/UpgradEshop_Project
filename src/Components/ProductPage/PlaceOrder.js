@@ -11,16 +11,19 @@ import {
   CREATE_ADDRESS_API,
   GET_ADDRESS_API,
   GET_ALL_ADDRESSES_API,
+  PLACE_ORDER_API,
 } from "../ApiCalls/ApiCall/apiCalls";
 import { MenuItem, Select, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const steps = ["Items", "Select Address", "Confirm Order"];
 
 export default function PlaceOrder() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(1);
   const [completed, setCompleted] = useState({});
   const [savedAddresses, setSavedAddresses] = useState([]);
@@ -36,6 +39,8 @@ export default function PlaceOrder() {
     zipcode: "",
     user: "",
   });
+  const location = useLocation();
+  const productDetails = { ...location.state }; // productDetails from BuyProduct
 
   useEffect(() => {
     // ngOnInit()
@@ -90,10 +95,6 @@ export default function PlaceOrder() {
     return Object.keys(completed).length;
   };
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
@@ -130,17 +131,23 @@ export default function PlaceOrder() {
     }
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
+  const placeOrder = () => {
+    const payload = {
+      quantity: productDetails.quantity,
+      user: selectedAddress.user,
+      product: productDetails.id,
+      address: selectedAddress.id
+    }
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
+    PLACE_ORDER_API(payload).then(response => {
+      if (response.data) {
+        customAlertModalFun("Order placed successfully!", dispatch);
+        navigate("/");
+      }
+    }).catch(error => {
+      console.log(error);
+    })
+  }
 
   return (
     <div className="flex-row justify-content-center">
@@ -157,35 +164,30 @@ export default function PlaceOrder() {
         <div>
           {activeStep == 2 ? (
             <>
-              {/* <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={handleReset}>Reset</Button>
-              <OrderDetail/>
-            </Box> */}
-              <OrderDetail />
+              <OrderDetail
+                productDetails={productDetails}
+                addressDetails={addressForm}
+              />
               <div className="flex-column justify-content-center align-items-center">
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2}}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
-                <Box/>
-                <Button
-                  onClick={handleNext}
-                  variant="contained"
-                  color="primary"
-                  sx={{ mr: 1 }}
-                >
-                  Place Order
-                </Button>
-              </Box>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                  <Box />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mr: 1 }}
+                    onClick={placeOrder}
+                  >
+                    Place Order
+                  </Button>
+                </Box>
               </div>
             </>
           ) : (
@@ -367,18 +369,6 @@ export default function PlaceOrder() {
                     >
                       Next
                     </Button>
-                    {/* {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                    Step {activeStep + 1} already completed
-                  </Typography>
-                ) : (
-                  <Button onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1
-                      ? 'Finish'
-                      : 'Complete Step'}
-                  </Button>
-                ))} */}
                   </Box>
                 </div>
               </div>

@@ -106,13 +106,13 @@ const AddProduct = () => {
               <TextField
                 required
                 id="outlined-required"
-                label="name"
+                label="Name"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
                 // defaultValue="Hello World"
-                placeholder="name"
+                placeholder="Name"
                 // style={{width: '50%'}}
               />
 

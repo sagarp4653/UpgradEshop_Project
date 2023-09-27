@@ -6,11 +6,15 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const BuyProduct = () => {
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { placeOrderItemState = {} } = storeData || {};
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
   const {
     name = '',
@@ -18,16 +22,21 @@ const BuyProduct = () => {
     description = "",
     category = "",
     availableItems = '',
-    quantity = '',
     imageUrl = ''
   } = placeOrderItemState
+
+  const navigateToPlaceOrder = () => {
+    const productDetails = {...placeOrderItemState};
+    productDetails.quantity = quantity;
+    navigate('/placeOrder', {state: productDetails});
+  }
 
   return (
     <>
       <div>
         <div
           className="flex-row justify-content-center"
-          style={{ height: "100vh" }}
+          style={{ height: "100vh", width: "100%" }}
         >
           {/* Product Image */}
           <div className="flex-column justify-content-center align-items-start">
@@ -44,7 +53,7 @@ const BuyProduct = () => {
           {/* Product Description/ */}
           <div
             className="flex-column justify-content-center align-items-baseline"
-            style={{ marginLeft: "50px" }}
+            style={{ marginLeft: "50px", maxWidth: "50%", width: "25%" }}
           >
             <Box className="flex-row align-items-center justify-content-start">
               <Typography
@@ -74,7 +83,7 @@ const BuyProduct = () => {
                   fontWeight: "500",
                 }}
               >
-                <span>Availiabilty Quantity : {availableItems || "148"}</span>
+                <span>Available Quantity : {availableItems || "148"}</span>
               </div>
             </Box>
             <Box style={{ marginTop: "12px" }}>
@@ -108,12 +117,14 @@ const BuyProduct = () => {
                   shrink: true,
                 }}
                 value={quantity || 1}
+                onChange={(e) => setQuantity(e.target.value)}
               />
               <Button
                 size="small"
                 variant="contained"
                 color="primary"
                 style={{ marginTop: "20px", width: "fit-content" }}
+                onClick={navigateToPlaceOrder}
               >
                 PLACE ORDER
               </Button>

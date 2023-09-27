@@ -3,31 +3,44 @@ import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
-import { USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
+import { USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 import { useDispatch } from 'react-redux';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [checked, setChecked] = React.useState(false);
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    contactNumber: "",
-    role: ["admin"]
+    contactNumber: ""
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    signUpDetails.role = checked ? ["admin"] : ["user"];
     USER_SIGN_UP_API(signUpDetails)
       .then((response) => {
         customAlertModalFun(response.data.message, dispatch);
         console.log(response.data.message);
-        navigate("/");
+        USER_LOGIN_API({
+          username: signUpDetails.email,
+          password: signUpDetails.password,
+        })
+          .then((response) => {
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         customAlertModalFun(error, dispatch);
@@ -38,6 +51,10 @@ const SignUp = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSignUpDetails({ ...signUpDetails, [name]: value });
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
   };
 
   return (
@@ -138,13 +155,15 @@ const SignUp = () => {
               required
               id="outlined-required"
               label="Contact Number"
-              style={{ marginTop: "12px", marginBottom: "26px" }}
+              style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
               name="contactNumber"
               placeholder="Contact Number"
               value={signUpDetails.contactNumber}
               onChange={handleInputChange}
             />
+            <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
+            {/* <Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} /> */}
           </div>
         </Box>
         <Box

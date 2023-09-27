@@ -10,13 +10,15 @@ import { baseURL } from './apiEndpoints';
 //   token = storeData.token || '';
 // }
 
+const token = JSON.parse(localStorage.getItem('token'));
+
 const axiosConfig = {
   baseURL: baseURL,
   responseType: 'json',
   timeout: 60000,
   headers: {
     langId: 1,
-    Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMTBAbWFpbC5jb20iLCJpYXQiOjE2OTU4MDcyNTEsImV4cCI6MTY5NTgxNTY1MX0.jKn8HDVwHnraGsZN9SZCHERYLUNlyUzwIQXWnavxEwz_COQzIHIkGlo994aXZpaJkU3NnMH0MKxW71AATD-vTA',
+    Authorization: `Bearer ${token}`,
     Accept: 'application/json',
   },
 };
