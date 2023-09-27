@@ -3,53 +3,74 @@ import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductsAction, deleteProductFromProductListAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
-import { getRandomInt } from "../../Common/CSS/Utils/utils";
+import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
+import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
+import { useNavigate } from "react-router-dom";
+import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
+import { CREATE_PRODUCT_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
+import { staticCategories } from "../../Common/CSS/Utils/constant";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productList = [], productListViewState = [] } = storeData || {};
+  const { updateProduct = { index: '', value: {} } } = storeData || {};
 
   const categoryFilterHandler = (val) => {
     console.log(val);
   };
-
-  const cat = [
-    { id: 0, title: "ALL" },
-    { id: 4, title: "APPAREL" },
-    { id: 1, title: "ELECTRONICS" },
-    { id: 3, title: "PERSONAL CARE" },
-    { id: 2, title: "FOOTWEAR" },
-  ];
-
-  const [sortByValue, setSortByValue] = useState(0);
+  
+  const [categorySelected, setCategorySelected] = useState('');
   const [formData, setFormData] = useState({
-    id: getRandomInt(1, 100),
     name: "",
     price: 0,
     description: "",
-    category: sortByValue,
+    category: categorySelected,
+    manufacturer: '',
+    availableItems: '',
     isNew: true,
   })
 
-  const handleSortByChange = (val) => {
-    setSortByValue(val);
+  const handleCategoryChange = (val) => {
+    setCategorySelected(val);
   };
 
   const addProductHandler = (obj) => {
-    let addProd = {
-      id: formData.id,
+    let addProduct = {
       name: formData.name || "",
       price: formData.price || 0,
       description: formData.description || "",
-      category: formData.category,
+      category: categorySelected,
+      manufacturer: formData.manufacturer,
+      availableItems: formData.availableItems,
       isNew: formData.isNew,
+      imageUrl: formData.imageUrl,
     };
     // disptach
-    dispatch(addProductsAction([...productListViewState, addProd]))
-    dispatch(updateProductViewStateAction([...productList, addProd])) 
-
+    console.log(addProduct);
+    CREATE_PRODUCT_API(addProduct)
+    .then((response) => {
+      addProduct.id = response.data;
+      customAlertModalFun(`Product ${addProduct.name} added successfully`, dispatch) // user has to add msg and dispatch function
+      dispatch(addProductsAction([...productListViewState, addProduct]))
+      dispatch(updateProductViewStateAction([...productList, addProduct])) 
+      if(addProduct.id){
+        GET_CATEGORIES_API({}).then((response) => {
+          let tempArray = [];
+          tempArray.push( {'id': 1, 'title': 'All'})
+          response.data?.forEach((element, index) => {
+            tempArray.push( {'id': index+2, 'title': element})
+          });
+          // setCategoriesArray(tempArray);
+          dispatch(updateUpdateCategoryStateAction(tempArray))
+          console.log(tempArray);
+        })
+      }
+      navigate("/");
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
   };
   return (
     <>
@@ -85,9 +106,13 @@ const AddProduct = () => {
               <TextField
                 required
                 id="outlined-required"
-                label="name"
+                label="Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 // defaultValue="Hello World"
-                placeholder="name"
+                placeholder="Name"
                 // style={{width: '50%'}}
               />
 
@@ -96,12 +121,12 @@ const AddProduct = () => {
                 <Select
                   labelId="demo-select-small-label"
                   id="demo-select-small"
-                  value={sortByValue}
-                  onChange={(e) => handleSortByChange(e.target.value)}
+                  value={categorySelected}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                   style={{ width: "100%" }}
                 >
-                  {cat.map((i) => (
-                    <MenuItem key={i.id} value={i.id}>
+                  {staticCategories.map((i) => (
+                    <MenuItem key={i.id} value={i.title}>
                       {i.title}
                     </MenuItem>
                   ))}
@@ -111,6 +136,10 @@ const AddProduct = () => {
                 required
                 id="outlined-required"
                 label="Manufacturer"
+                value={formData.manufacturer}
+                onChange={(e) =>
+                  setFormData({ ...formData, manufacturer: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Manufacturer"
@@ -120,6 +149,10 @@ const AddProduct = () => {
                 id="outlined-required"
                 label="Available Items"
                 type={"number"}
+                value={formData.availableItems}
+                onChange={(e) =>
+                  setFormData({ ...formData, availableItems: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Available Items"
@@ -129,6 +162,10 @@ const AddProduct = () => {
                 id="outlined-required"
                 label="Price"
                 type={"number"}
+                value={formData.price}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Price"
@@ -136,6 +173,10 @@ const AddProduct = () => {
               <TextField
                 id="outlined-required"
                 label="Image URL"
+                value={formData.imageUrl}
+                onChange={(e) =>
+                  setFormData({ ...formData, imageUrl: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
                 // defaultValue="Hello World"
                 placeholder="Image URL"
@@ -143,6 +184,10 @@ const AddProduct = () => {
               <TextField
                 id="outlined-required"
                 label="Product Description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 style={{ marginTop: "12px", marginBottom: "26px" }}
                 // defaultValue="Hello World"
                 placeholder="Product Description"

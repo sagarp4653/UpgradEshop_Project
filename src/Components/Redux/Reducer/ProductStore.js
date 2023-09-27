@@ -7,7 +7,13 @@ const StorageArea = {
       updateProduct: {
         index: '',
         value: {}
-      }
+      },
+      isAlertModalOpen: false,
+      alertModalMsg: "",
+      isError: false,
+      token: "",
+      placeOrderItemState: {},
+      categoryList: []
     },
     name: "storeState",
   };
@@ -109,6 +115,78 @@ const StorageArea = {
             storeState: {
               ...state.storeState,
               isDeleteModal: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_ALERT_MODAL":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              isAlertModalOpen: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_ALERT_MODAL_MSG":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              alertModalMsg: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "ADD_TOKEN":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              token: action.payload.value
+            },
+          },
+        };
+        break;
+
+      case "UPDATE_MODAL_IS_ERROR":
+          return {
+            ...state,
+            ...{
+              storeState: {
+                ...state.storeState,
+                isError: action.payload.value
+              },
+            },
+          };
+          break;
+        
+      case "UPDATE_PLACE_ORDER_STATE":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              placeOrderItemState: action.payload.value
+            },
+          },
+        };
+        break;
+        
+      case "UPDATE_CATEGORY":
+        return {
+          ...state,
+          ...{
+            storeState: {
+              ...state.storeState,
+              categoryList: action.payload.value || []
             },
           },
         };

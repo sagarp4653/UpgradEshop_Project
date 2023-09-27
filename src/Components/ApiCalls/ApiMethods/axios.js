@@ -1,5 +1,16 @@
 import axios from 'axios';
 import { baseURL } from './apiEndpoints';
+// import { useSelector } from "react-redux";
+// import { store } from '../../Redux/Store/Store';
+
+
+// const token = store.token || '';
+// export const GetToken = () => {
+//   const storeData = useSelector((state) => state.storeState.storeState) || {};  
+//   token = storeData.token || '';
+// }
+
+const token = JSON.parse(localStorage.getItem('token'));
 
 const axiosConfig = {
   baseURL: baseURL,
@@ -7,7 +18,7 @@ const axiosConfig = {
   timeout: 60000,
   headers: {
     langId: 1,
-    Authorization: '',
+    Authorization: `Bearer ${token}`,
     Accept: 'application/json',
   },
 };

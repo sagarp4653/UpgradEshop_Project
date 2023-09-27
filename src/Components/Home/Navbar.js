@@ -18,15 +18,18 @@ import InputBase from "@mui/material/InputBase";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector, useDispatch } from 'react-redux'
 import { addProductsAction, updateProductViewStateAction } from "../Redux/Action/ProductStoreAction";
+import { useNavigate } from "react-router-dom";
 
 
-const pages = ["Home", "Add Product"];
+const pages = [{id: 1, name: "Home"}, {id: 2, name: "Add Product"}];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};  
   const { productList = [], productListViewState = [] } = storeData || {};
@@ -38,12 +41,18 @@ function ResponsiveAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (id) => {
+    if (id === 1) {
+      navigate("/");
+    }
+    if(id === 2){
+      navigate("/addproduct")
+    }
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    // setAnchorElUser(null);
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -86,11 +95,16 @@ function ResponsiveAppBar() {
     },
   }));
 
-  const searchProductHandler = val => {
+  const searchProductHandler = e => {
+    // e.preventDefault()
+    let val = e.target.value
+    // setSearchText(val)
     let prod = [...productList];
     let data = prod.filter(i => i.name.toLowerCase().includes(val.toLowerCase()))
-    console.log(data)
     // dispatch(addProductsAction([...data]))
+    // setTimeout(() => {
+      console.log(data)
+    // }, 1000);
     // dispatch(updateProductViewStateAction([...data])) 
   }
 
@@ -169,14 +183,16 @@ function ResponsiveAppBar() {
               display: { xs: "none", md: "flex", justifyContent: "center" },
             }}
           >
-            <Search style={{ width: "50%" }}  onChange={e => searchProductHandler(e.target.value)}>
+            <Search style={{ width: "50%" }} onChange={searchProductHandler}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
+                // inputProps={{ "aria-label": "search" }}
                 style={{ width: "100%" }}
+                // value={searchText}
+                // onChange={searchProductHandler}
               />
             </Search>
           </Box>
@@ -184,11 +200,11 @@ function ResponsiveAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.id}
+                onClick={() => handleCloseNavMenu(page.id)}
                 sx={{ my: 2, color: "white", textDecoration: "underline" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>

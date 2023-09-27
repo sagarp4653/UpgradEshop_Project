@@ -1,10 +1,62 @@
-import React from "react";
+import React, {useState} from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
+import { USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
+import { useNavigate } from "react-router-dom";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
+import { useDispatch } from 'react-redux';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [checked, setChecked] = React.useState(false);
+  const [signUpDetails, setSignUpDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    contactNumber: ""
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signUpDetails.role = checked ? ["admin"] : ["user"];
+    USER_SIGN_UP_API(signUpDetails)
+      .then((response) => {
+        customAlertModalFun(response.data.message, dispatch);
+        console.log(response.data.message);
+        USER_LOGIN_API({
+          username: signUpDetails.email,
+          password: signUpDetails.password,
+        })
+          .then((response) => {
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        customAlertModalFun(error, dispatch);
+        console.error("Error:", error);
+      });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSignUpDetails({ ...signUpDetails, [name]: value });
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">
       <div
@@ -44,18 +96,13 @@ const SignUp = () => {
             <TextField
               required
               id="outlined-required"
-              label="Username"
-              // defaultValue="Hello World"
-              placeholder="Username"
-              // style={{width: '50%'}}
-            />
-            <TextField
-              required
-              id="outlined-required"
               label="First Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="firstName"
               placeholder="First Name"
+              value={signUpDetails.firstName}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -63,7 +110,10 @@ const SignUp = () => {
               label="Last Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="lastName"
               placeholder="Last Name"
+              value={signUpDetails.lastName}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -72,7 +122,10 @@ const SignUp = () => {
               type={"email"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="email"
               placeholder="Email Address"
+              value={signUpDetails.email}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -81,7 +134,10 @@ const SignUp = () => {
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="password"
               placeholder="Password"
+              value={signUpDetails.password}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -90,16 +146,24 @@ const SignUp = () => {
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="confirmPassword"
               placeholder="Confirm Password"
+              value={signUpDetails.confirmPassword}
+              onChange={handleInputChange}
             />
             <TextField
               required
               id="outlined-required"
               label="Contact Number"
-              style={{ marginTop: "12px", marginBottom: "26px" }}
+              style={{ marginTop: "12px", marginBottom: "6px" }}
               // defaultValue="Hello World"
+              name="contactNumber"
               placeholder="Contact Number"
+              value={signUpDetails.contactNumber}
+              onChange={handleInputChange}
             />
+            <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
+            {/* <Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} /> */}
           </div>
         </Box>
         <Box
@@ -111,7 +175,7 @@ const SignUp = () => {
             },
           }}
         >
-          <Button style={{ width: "97%" }} variant="contained" color="primary">
+          <Button style={{ width: "97%" }} variant="contained" color="primary" onClick={handleSubmit}>
             SIGN UP
           </Button>
         </Box>
@@ -137,7 +201,7 @@ const SignUp = () => {
               // textDecoration: "none",
             }}
           >
-            Don't have an account? Sign Up
+            Don't have an account? Sign In
           </Typography>
         </Box>
         <Box sx={{ display: { marginTop: "40px", fontSize: "12px" } }}>

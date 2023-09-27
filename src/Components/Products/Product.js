@@ -12,8 +12,9 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from "react-router-dom";
-import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction } from "../Redux/Action/ProductStoreAction";
+import { addProductsAction, deleteProductFromProductListAction, updateSpecificProductAction, updateUpdatePlaceOrderStateAction } from "../Redux/Action/ProductStoreAction";
 import CustomModal from "../ReuseComponents/CustomModal";
+import { DELETE_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
 
 const Product = () => {
   const dispatch = useDispatch()
@@ -22,14 +23,14 @@ const Product = () => {
   const { productListViewState = [],  } = storeData || {};
 
   const [products, setProducts] = useState(productListViewState)
-  const [sortByValue, setSortByValue] = useState(0);
+  const [sortByValue, setSortByValue] = useState(4);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteObjInd, setDeleteObjInd] = useState(0)
 
   useEffect(() => {
     setProducts(productListViewState)
   }, [productListViewState])
-  
+
   const handleSortByChange = val => {
     setSortByValue(val);
      
@@ -50,13 +51,15 @@ const Product = () => {
     dispatch(addProductsAction([...productListViewState, product]))
   }
 
-  const deleteProductHanlder = id => {
+  const deleteProductHanlder = (e, id)=> {
+    e.stopPropagation()
     setDeleteModal(true);
     setDeleteObjInd(id)
     // dispatch(deleteProductFromProductListAction({ind: ind}))
   }
 
-  const updateProductDetails = (value, index) => {
+  const updateProductDetails = (e, value, index) => {
+    e.stopPropagation()
     dispatch(updateSpecificProductAction({index: index, value: value}))
     navigate('/modifyproduct')
   }
@@ -71,8 +74,19 @@ const Product = () => {
 
   const deleteItemModal = () => {
     // console.log(deleteObjInd)
-    dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+    DELETE_PRODUCT_API(deleteObjInd).then(response => {
+      dispatch(deleteProductFromProductListAction({id: deleteObjInd}))
+    }).catch(error => {
+      console.log(error);
+    })
     setDeleteModal(false)
+  }
+
+  const placeOrderHandler = (e, prd) => {
+    e.stopPropagation()
+    // e.preventDefault()
+    dispatch(updateUpdatePlaceOrderStateAction(prd))
+    navigate("/buyproduct")
   }
 
   return (
@@ -96,38 +110,38 @@ const Product = () => {
       </div>
       <div>
         <Grid item xs={12}>
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="center" style={{paddingLeft: '26px'}}>
             {(products.length > 0 ? products : productListViewState).map((item, index) => (
-              <Grid key={item.id} item style={{marginRight: '16px', marginTop: '10px', marginBottom: '10px'}}>
-                <Card sx={{ maxWidth: 345 }}>
+              <Grid key={item.id} item style={{marginRight: '100px', marginTop: '30px', marginBottom: '40px'}}>
+                <Card sx={{ maxWidth: 345, width: 350 }} onClick={(e) => placeOrderHandler(e, item)} className="cursor-pointer">
                   <CardMedia
                     sx={{ height: 245 }}
-                    image="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTJm3dr6e0rPOaEosPXHvFu23XWWcw6Y2c26rPS2i6X1I6slhL14NOaVHb5WPZJiL5yOTUzbG1dH9DEDHpCQ9WNImxoqlJ_x9KNdGI0wl4G&usqp=CAE"
+                    image={item?.imageUrl}
                   />
-                  <CardContent>
-                    <Grid container spacing={2}>
+                  <CardContent style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
+                    <Grid container className="flex-row">
                       <Grid item xs={9}>
                         <Typography gutterBottom variant="h5" component="span">
                           {item?.name || ""}
                         </Typography>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={3} style={{textAlign: 'end'}}>
                         <Typography variant="h6" component="span">
                           ₹{item?.price || ""}
                         </Typography>
                       </Grid>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary" style={{ height: '90px',maxHeight: '100px', overflow: 'auto'}}>
+                    <Typography variant="body2" color="text.secondary" style={{ height: '68px',maxHeight: '70px', overflow: 'auto'}}>
                       {item?.description || ""}
                     </Typography>
                   </CardContent>
                   <CardActions className="flex-row justify-content-between">
-                    <Button size="small" variant="contained" color="primary">
+                    <Button size="small" variant="contained" color="primary" onClick={(e) => placeOrderHandler(e, item)}>
                       BUY
                     </Button>
                     <div>
-                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={() =>updateProductDetails(item, index)}/>
-                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={() => deleteProductHanlder(item.id)}/>
+                      <CreateIcon style={{color: '#757575', marginRight: '16px'}} className="cursor-pointer" onClick={(e) =>updateProductDetails(e, item, index)}/>
+                      <DeleteIcon style={{color: '#757575'}} className="cursor-pointer" onClick={(e) => deleteProductHanlder(e, item.id)}/>
                     </div>
                   </CardActions>
                 </Card>
