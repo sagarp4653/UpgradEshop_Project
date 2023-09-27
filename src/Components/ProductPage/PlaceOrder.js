@@ -43,11 +43,12 @@ export default function PlaceOrder() {
   const productDetails = { ...location.state }; // productDetails from BuyProduct
 
   useEffect(() => {
-    // ngOnInit()
     const newCompleted = completed;
     newCompleted[0] = true; // Items should be in completed state by default
     setCompleted(newCompleted);
+  }, []);
 
+  useEffect(() => {
     // fetch savedAddresses from backend
     GET_ALL_ADDRESSES_API()
       .then((response) => {
@@ -109,11 +110,17 @@ export default function PlaceOrder() {
     if (step !== 0) {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
+    } else {
+      navigate('/buyProduct')
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep === 1) {
+      navigate('/buyProduct')
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
   };
 
   const checkIfConfirmOrderIsValid = (step) => {
@@ -133,6 +140,8 @@ export default function PlaceOrder() {
     if (step !== 0) {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
+    } else {
+      navigate('/buyProduct')
     }
   };
 
@@ -207,7 +216,7 @@ export default function PlaceOrder() {
                     width: "50%",
                   }}
                 >
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+                  <Typography sx={{ mt: 2, py: 1 }}>
                     Select Address
                   </Typography>
                   <Select
@@ -223,7 +232,10 @@ export default function PlaceOrder() {
                       </MenuItem>
                     ))}
                   </Select>
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>OR</Typography>
+                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>-OR-</Typography>
+                  <Typography sx={{ mt: 2, mb: 1, py: 1 }} variant="h5" gutterBottom>
+                    Add Address
+                  </Typography>
 
                   <Box
                     component="form"
