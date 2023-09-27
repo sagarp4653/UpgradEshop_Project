@@ -94,12 +94,11 @@ const AddProduct = () => {
           });
           // setCategoriesArray(tempArray);
           dispatch(updateUpdateCategoryStateAction(tempArray))
-          console.log(tempArray);
         })
       }
       navigate("/");
     }).catch((error) => {
-      console.error("Error:", error);
+      console.error("Error:", error.message);
     });
   };
   return (

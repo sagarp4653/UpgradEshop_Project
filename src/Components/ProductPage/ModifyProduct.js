@@ -83,7 +83,6 @@ const ModifyProduct = () => {
     }
     MODIFY_PRODUCT_API(updateProduct.value.id, product)
       .then((response) => {
-        console.log("product data", product);
         dispatch(
           updateProductInProductListAction({
             index: updateProduct.index,
@@ -101,11 +100,10 @@ const ModifyProduct = () => {
 
           dispatch(updateUpdateCategoryStateAction(tempArray));
           navigate("/");
-          console.log(tempArray);
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   };
 
