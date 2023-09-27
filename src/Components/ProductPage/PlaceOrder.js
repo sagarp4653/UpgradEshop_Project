@@ -43,11 +43,12 @@ export default function PlaceOrder() {
   const productDetails = { ...location.state }; // productDetails from BuyProduct
 
   useEffect(() => {
-    // ngOnInit()
     const newCompleted = completed;
     newCompleted[0] = true; // Items should be in completed state by default
     setCompleted(newCompleted);
+  }, []);
 
+  useEffect(() => {
     // fetch savedAddresses from backend
     GET_ALL_ADDRESSES_API()
       .then((response) => {
@@ -64,8 +65,41 @@ export default function PlaceOrder() {
       });
   }, []);
 
+  const validation = () => {
+    let message;
+    if (
+      addressForm.name === "" ||
+      addressForm.contactNumber === "" ||
+      addressForm.city === "" ||
+      addressForm.landmark === "" ||
+      addressForm.street === "" ||
+      addressForm.state === "" ||
+      addressForm.zipcode === ""
+    ) {
+      message = "Please enter all mandatory fields to proceed.";
+    } else if (
+      (addressForm.name.length > 0 && addressForm.name.length > 255) ||
+      (addressForm.contactNumber.length > 0 &&
+        addressForm.contactNumber.length > 255) ||
+      (addressForm.city.length > 0 && addressForm.city.length > 255) ||
+      (addressForm.landmark.length > 0 && addressForm.landmark.length > 255) ||
+      (addressForm.street.length > 0 && addressForm.street.length > 255) ||
+      (addressForm.zipcode.length > 0 && addressForm.zipcode.length > 255)
+    ) {
+      message = "Each field must not exceed 255 characters.";
+    }
+    customAlertModalFun(message, dispatch, true);
+    return message;
+  };
+
   const createAddress = (e) => {
     // e.preventDefault();
+
+    if(validation()) {
+      e.preventDefault();      
+      return;
+    }
+    
     const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
     let userId;
     if (adminDetails !== null && adminDetails !== undefined) {
@@ -109,11 +143,17 @@ export default function PlaceOrder() {
     if (step !== 0) {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
+    } else {
+      navigate('/buyProduct')
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep === 1) {
+      navigate('/buyProduct')
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
   };
 
   const checkIfConfirmOrderIsValid = (step) => {
@@ -133,6 +173,8 @@ export default function PlaceOrder() {
     if (step !== 0) {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
+    } else {
+      navigate('/buyProduct')
     }
   };
 
@@ -207,7 +249,7 @@ export default function PlaceOrder() {
                     width: "50%",
                   }}
                 >
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+                  <Typography sx={{ mt: 2, py: 1 }}>
                     Select Address
                   </Typography>
                   <Select
@@ -223,7 +265,10 @@ export default function PlaceOrder() {
                       </MenuItem>
                     ))}
                   </Select>
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>OR</Typography>
+                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>-OR-</Typography>
+                  <Typography sx={{ mt: 2, mb: 1, py: 1 }} variant="h5" gutterBottom>
+                    Add Address
+                  </Typography>
 
                   <Box
                     component="form"
@@ -246,6 +291,8 @@ export default function PlaceOrder() {
                           })
                         }
                         placeholder="Name"
+                        error={addressForm.name.length > 0 && addressForm.name.length > 255}
+                        helperText={addressForm.name.length > 0 && addressForm.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -260,6 +307,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Contact Number"
+                        error={addressForm.contactNumber.length > 0 && addressForm.contactNumber.length > 255}
+                        helperText={addressForm.contactNumber.length > 0 && addressForm.contactNumber.length > 255 ? 'Contact Number must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -274,6 +323,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Street"
+                        error={addressForm.street.length > 0 && addressForm.street.length > 255}
+                        helperText={addressForm.street.length > 0 && addressForm.street.length > 255 ? 'Street must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -288,6 +339,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="City"
+                        error={addressForm.city.length > 0 && addressForm.city.length > 255}
+                        helperText={addressForm.city.length > 0 && addressForm.city.length > 255 ? 'City must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -302,6 +355,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="State"
+                        error={addressForm.state.length > 0 && addressForm.state.length > 255}
+                        helperText={addressForm.state.length > 0 && addressForm.state.length > 255 ? 'State must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -316,6 +371,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Landmark"
+                        error={addressForm.landmark.length > 0 && addressForm.landmark.length > 255}
+                        helperText={addressForm.landmark.length > 0 && addressForm.landmark.length > 255 ? 'Landmark must not exceed 255 characters' : ''}
                       />
                       <TextField
                         required
@@ -330,6 +387,8 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Zip Code"
+                        error={addressForm.zipcode.length > 0 && addressForm.zipcode.length > 255}
+                        helperText={addressForm.zipcode.length > 0 && addressForm.zipcode.length > 255 ? 'Zip Code must not exceed 255 characters' : ''}
                       />
                     </div>
 
