@@ -22,6 +22,11 @@ export const PRODUCT_LIST_API = async () =>
     return err;
   });
 
+export const GET_ALL_USER_DETAILS = async () =>
+  HTTP.get(ApiEndpoints.USERS).catch((err) => {
+    return err;
+  });
+
 export const CREATE_PRODUCT_API = async (payload) =>
   HTTP.post(ApiEndpoints.PRODUCT, payload).catch((err) => {
     return err;

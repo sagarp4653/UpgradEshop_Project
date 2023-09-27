@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
-import { USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
+import { GET_ALL_USER_DETAILS, USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,7 @@ const SignUp = () => {
     confirmPassword: "",
     contactNumber: ""
   });
+  const [areAdminDetailsEmptyInLocalStorage, setAdminDetails] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +42,27 @@ const SignUp = () => {
           .catch((error) => {
             console.log(error);
           });
+        if (checked) {
+          GET_ALL_USER_DETAILS().then((response) => {
+            if (response.data) {
+              let tempArray = [];
+              response.data.forEach((element) => {
+                if (
+                  element.roles &&
+                  element.roles.length > 0 &&
+                  element.roles[0].name === "ADMIN"
+                ) {
+                  tempArray.push({
+                    id: element.id,
+                    email: element.email,
+                    roles: element.roles,
+                  });
+                }
+              });
+              localStorage.setItem("adminDetails", JSON.stringify(tempArray));
+            }
+          });
+        }
       })
       .catch((error) => {
         customAlertModalFun(error, dispatch);
@@ -56,6 +78,12 @@ const SignUp = () => {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+
+  useEffect(() => {
+    const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
+    setChecked(adminDetails === undefined || adminDetails === null); // auto-check the Admin checkbox
+    setAdminDetails(adminDetails === undefined || adminDetails === null); // disable the Admin checkbox
+  });
 
   return (
     <div style={{ width: "100%" }} className="flex-row justify-content-center">
@@ -162,7 +190,9 @@ const SignUp = () => {
               value={signUpDetails.contactNumber}
               onChange={handleInputChange}
             />
-            <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
+            <span title={'Please Sign Up as an Admin first to Add/Modify/Delete products'}>
+              <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} disabled={areAdminDetailsEmptyInLocalStorage}/>} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
+            </span>
             {/* <Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} /> */}
           </div>
         </Box>
