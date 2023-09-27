@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
@@ -24,7 +24,7 @@ const OrderDetail = () => {
   return (
     <div
       style={{ width: "100%", height: "100vh" }}
-      className="flex-row justify-content-center align-items-center"
+      className="flex-column justify-content-center align-items-center"
     >
       <div
         style={{
@@ -172,6 +172,15 @@ const OrderDetail = () => {
             </Typography>
           </Box>
         </div>
+      </div>
+      <div className=" flex-row justify-content-center align-items-end" style={{marginTop: '12px'}}>
+        <Button size="small" variant="outline" color="primary" style={{paddingBottom: '4px'}}>
+          <span>BACK</span>
+        </Button>
+
+        <Button size="small" variant="contained" color="primary">
+          PLACE ORDER
+        </Button>
       </div>
     </div>
   );
