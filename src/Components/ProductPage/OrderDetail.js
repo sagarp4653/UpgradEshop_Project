@@ -22,14 +22,32 @@ const OrderDetail = () => {
   } = placeOrderItemState;
 
   return (
-    <div style={{width: '100%', height: '100vh'}} className="flex-row justify-content-center align-items-center">
-      <div style={{ marginTop: "100px", border: '1px solid black', height: '50vh', width: '80%' }} className="flex-row">
-
+    <div
+      style={{ width: "100%", height: "100vh" }}
+      className="flex-row justify-content-center align-items-center"
+    >
+      <div
+        style={{
+          marginTop: "100px",
+          boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+          height: "40vh",
+          width: "80%",
+        }}
+        className="flex-row w-100"
+      >
         {/* Product Details */}
-        <div className="flex-row" style={{borderRight: '1px solid black', padding: '30px 6px 6px 24px'}}>
+        <div
+          className="flex-row"
+          style={{
+            borderRight: "1px solid #eceded",
+            padding: "30px 6px 6px 24px",
+            width: "60%",
+            flexWrap: "wrap",
+          }}
+        >
           <Box>
             <Typography
-              variant="h5"
+              variant="h4"
               noWrap
               sx={{
                 // mr: 2,
@@ -37,6 +55,7 @@ const OrderDetail = () => {
                 // fontFamily: "monospace",
                 // fontWeight: 700,
                 // letterSpacing: ".3rem",
+                // fontSize: '20px',
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -52,31 +71,55 @@ const OrderDetail = () => {
                 // fontFamily: "monospace",
                 // fontWeight: 700,
                 // letterSpacing: ".3rem",
-                marginTop: '4px',
-                fontSize: '14px',
+                marginTop: "4px",
+                fontSize: "14px",
                 color: "inherit",
                 textDecoration: "none",
               }}
             >
-              <div style={{marginTop: '10px'}}>
-                Quantity: <strong style={{marginLeft: '4px'}}>1</strong>
+              <div style={{ marginTop: "16px" }}>
+                Quantity: <strong style={{ marginLeft: "4px" }}>1</strong>
               </div>
 
-              <div style={{marginTop: '10px'}}>
-                Category: <strong style={{marginLeft: '4px'}}>Footwear</strong>
+              <div style={{ marginTop: "16px" }}>
+                Category:{" "}
+                <strong style={{ marginLeft: "4px" }}>Footwear</strong>
               </div>
 
-              <div style={{marginTop: '10px'}}>
-                <i>ksdjflasjdfjasldjflasjdflsjdflkjsadl<br/>fjalskjfklasjdklajsdlkjaslkjalfdjlajs<br/> dlfjasldfjalksdjfklasdf</i>
+              <div style={{ marginTop: "16px" }}>
+                <i>
+                  ksdjflasjdfjasldjflasjdflsjdflkjsadlfjalskj
+                  asdkfjalsdjfalsdjfl jljlfjlasjkdlfjsldfj lsjdfllsklfllskjfd
+                  alsdfklasjdkflsjdlfsldfjlsjfljsdljflsjflksdjfjljkkl lksaldfj
+                  asdflskdjl ljflasjdlj salldjfljsdl flskjd flasjdfkl
+                  ajsdfjalskjf fklasjdklajsdlkjaslkjalfdjlajs
+                  dlfjasldfjalksdjfklasdf
+                </i>
               </div>
 
-              <div style={{marginTop: '10px', color: 'red'}}>
+              <div
+                style={{
+                  marginTop: "16px",
+                  color: "red",
+                  fontSize: "18px",
+                  fontWeight: "500",
+                }}
+              >
                 <span>Total Price : </span>
                 <span>₹ 2000</span>
               </div>
             </Typography>
-            {/* <Typography
-              variant="span"
+          </Box>
+        </div>
+
+        {/* Address */}
+        <div
+          className="flex-row"
+          style={{ padding: "30px 6px 6px 24px", width: "40%" }}
+        >
+          <Box>
+            <Typography
+              variant="h4"
               noWrap
               sx={{
                 // mr: 2,
@@ -84,20 +127,50 @@ const OrderDetail = () => {
                 // fontFamily: "monospace",
                 // fontWeight: 700,
                 // letterSpacing: ".3rem",
-                marginTop: '4px',
-                fontSize: '14px',
+                // fontSize: '20px',
                 color: "inherit",
                 textDecoration: "none",
               }}
             >
-              Category: <strong>Footwear</strong>
-            </Typography> */}
-          </Box>
-        </div>
+              Address Details :
+            </Typography>
+            <Typography
+              variant="span"
+              Wrap
+              sx={{
+                // mr: 2,
+                // display: { xs: "none", md: "flex" },
+                // fontFamily: "monospace",
+                // fontWeight: 700,
+                // letterSpacing: ".3rem",
+                marginTop: "4px",
+                fontSize: "14px",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              <div style={{ marginTop: "6px" }}>
+                Lucknow: {"Home"}
+              </div>
 
-        {/* Address */}
-        <div className="flex-row" style={{padding: '30px 6px 6px 24px'}}>
-          Address
+              <div style={{ marginTop: "6px" }}>
+                Contact Number: {"7273478647"}
+              </div>
+
+              <div style={{ marginTop: "6px" }}>
+                Police Line, Lucknow
+              </div>
+
+              <div style={{ marginTop: "6px" }}>
+                Uttar Pradesh
+              </div>
+
+              <div style={{ marginTop: "6px" }}>
+                778780
+              </div>
+
+            </Typography>
+          </Box>
         </div>
       </div>
     </div>
