@@ -42,16 +42,30 @@ export const GET_CATEGORIES_API = async () =>
       return err;
     });
 
-export const BUY_PRODUCTS_API = async () => 
-  HTTP.post(
-    ApiEndpoints.BUY_PRODUCT,
+export const GET_ALL_ADDRESSES_API = async () => 
+  HTTP.get(
+    `${ApiEndpoints.ADDRESSES}`,
   ).catch((err) => {
     return err;
   });
 
-export const GET_SPECIFIC_PRODUCT_ADDRESSES_API = async ({ id }) => 
+export const CREATE_ADDRESS_API = async (payload) => 
+  HTTP.post(
+    `${ApiEndpoints.ADDRESSES}`, payload,
+  ).catch((err) => {
+    return err;
+  });  
+
+export const GET_ADDRESS_API = async (id) => 
   HTTP.get(
-    `${ApiEndpoints.ADDRESSES}/${id}`,
+    ApiEndpoints.ADDRESSES + `/${id}`
   ).catch((err) => {
     return err;
   });
+
+export const PLACE_ORDER_API = async (payload) => 
+  HTTP.post(
+    ApiEndpoints.ORDERS, payload
+  ).catch((err) => {
+    return err;
+  });  

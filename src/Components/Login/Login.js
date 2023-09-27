@@ -21,19 +21,11 @@ const Login = () => {
         username: email,
         password: password,
       };
-
-      // axios
-      //   .post("http://localhost:8080/api/auth/signin", requestData)
-      //   .then((response) => {
-      //     setToken(response.token);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //   });
     USER_LOGIN_API(requestData)
     .then((response) => {
       customAlertModalFun("User logged in successfully!", dispatch);
       dispatch(addTokenAction(response.data.token));
+      localStorage.setItem('token', JSON.stringify(response.data.token));
       navigate("/");
     }).catch((error) => {
       customAlertModalFun(error, dispatch);

@@ -42,6 +42,9 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseNavMenu = (id) => {
+    if (id === 1) {
+      navigate("/");
+    }
     if(id === 2){
       navigate("/addproduct")
     }

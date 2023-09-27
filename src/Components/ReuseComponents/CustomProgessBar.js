@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import './CustomProgressBar.css'
 
-export default function CustomProgressBar() {
+export default function CustomProgressBar({backgroundColor}) {
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
@@ -31,7 +31,7 @@ export default function CustomProgressBar() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <LinearProgress style={{background: '#06bc0b', color: 'white'}} className="progress-bar" variant="determinate" value={progress} />
+      <LinearProgress style={{background: backgroundColor, color: 'white'}} className="progress-bar" variant="determinate" value={progress} />
     </Box>
   );
 }

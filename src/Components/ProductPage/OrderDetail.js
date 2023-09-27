@@ -1,10 +1,9 @@
 import React from "react";
 import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 
-const OrderDetail = () => {
+const OrderDetail = ({productDetails, addressDetails}) => {
   const storeData = useSelector((state) => state.storeState.storeState) || {};
   const {
     productList = [],
@@ -21,9 +20,12 @@ const OrderDetail = () => {
     imgUrl = "",
   } = placeOrderItemState;
 
+  console.log("productDetails", productDetails);
+  console.log("addressDetails", addressDetails);
+
   return (
     <div
-      style={{ width: "100%", height: "100vh" }}
+      style={{ width: "100%" }}
       className="flex-column justify-content-center align-items-center"
     >
       <div
@@ -60,7 +62,7 @@ const OrderDetail = () => {
                 textDecoration: "none",
               }}
             >
-              Shoes
+              {productDetails.name}
             </Typography>
             <Typography
               variant="span"
@@ -78,22 +80,17 @@ const OrderDetail = () => {
               }}
             >
               <div style={{ marginTop: "16px" }}>
-                Quantity: <strong style={{ marginLeft: "4px" }}>1</strong>
+                Quantity: <strong style={{ marginLeft: "4px" }}>{productDetails.quantity}</strong>
               </div>
 
               <div style={{ marginTop: "16px" }}>
                 Category:{" "}
-                <strong style={{ marginLeft: "4px" }}>Footwear</strong>
+                <strong style={{ marginLeft: "4px" }}>{productDetails.category}</strong>
               </div>
 
               <div style={{ marginTop: "16px" }}>
                 <i>
-                  ksdjflasjdfjasldjflasjdflsjdflkjsadlfjalskj
-                  asdkfjalsdjfalsdjfl jljlfjlasjkdlfjsldfj lsjdfllsklfllskjfd
-                  alsdfklasjdkflsjdlfsldfjlsjfljsdljflsjflksdjfjljkkl lksaldfj
-                  asdflskdjl ljflasjdlj salldjfljsdl flskjd flasjdfkl
-                  ajsdfjalskjf fklasjdklajsdlkjaslkjalfdjlajs
-                  dlfjasldfjalksdjfklasdf
+                {productDetails.description}
                 </i>
               </div>
 
@@ -106,7 +103,7 @@ const OrderDetail = () => {
                 }}
               >
                 <span>Total Price : </span>
-                <span>₹ 2000</span>
+                <span>₹ {productDetails.quantity*productDetails.price}</span>
               </div>
             </Typography>
           </Box>
@@ -150,37 +147,28 @@ const OrderDetail = () => {
               }}
             >
               <div style={{ marginTop: "6px" }}>
-                Lucknow: {"Home"}
+                {addressDetails.name}
               </div>
 
               <div style={{ marginTop: "6px" }}>
-                Contact Number: {"7273478647"}
+              Contact Number: {addressDetails.contactNumber}
               </div>
 
               <div style={{ marginTop: "6px" }}>
-                Police Line, Lucknow
+              {addressDetails.street},{addressDetails.city}
               </div>
 
               <div style={{ marginTop: "6px" }}>
-                Uttar Pradesh
+              {addressDetails.state}
               </div>
 
               <div style={{ marginTop: "6px" }}>
-                778780
+              {addressDetails.zipcode}
               </div>
 
             </Typography>
           </Box>
         </div>
-      </div>
-      <div className=" flex-row justify-content-center align-items-end" style={{marginTop: '12px'}}>
-        <Button size="small" variant="outline" color="primary" style={{paddingBottom: '4px'}}>
-          <span>BACK</span>
-        </Button>
-
-        <Button size="small" variant="contained" color="primary">
-          PLACE ORDER
-        </Button>
       </div>
     </div>
   );

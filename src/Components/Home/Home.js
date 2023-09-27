@@ -17,11 +17,13 @@ import BuyProduct from "../ProductPage/BuyProduct";
 import { PRODUCT_LIST_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
 import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
 import OrderDetail from "../ProductPage/OrderDetail";
+import PlaceOrder from "../ProductPage/PlaceOrder";
 
 const Home = () => {
-  const dispatch = useDispatch()
-    
-  useEffect(() => { // ngOnInit()
+  const dispatch = useDispatch();
+  const [categoriesArray, setCategoriesArray] = useState([]);
+
+  useEffect(() => {
     PRODUCT_LIST_API({}).then(response => {
       console.log(response.data);
       dispatch(updateProductViewStateAction(response.data))
@@ -35,7 +37,8 @@ const Home = () => {
     productListViewState = [],
     isAlertModalOpen = false,
     alertModalMsg = "You have added product successfully!",
-    categoryList = []
+    categoryList = [],
+    isError = false
   } = storeData || {};
   const check = [...productList]
 
@@ -77,6 +80,7 @@ const Home = () => {
           <CustomAlertModal
             message={alertModalMsg}
             onClose={handleCloseAlert}
+            isError={isError}
           />
         )}
         <div
@@ -106,6 +110,7 @@ const Home = () => {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/buyproduct" element={<BuyProduct />} />
             <Route path="/orderdetail" element={<OrderDetail />} />
+            <Route path="/placeOrder" element={<PlaceOrder />} />
             {/* <Route path="/login" element={<Login />} /> */}
           </Routes>
         </div>
