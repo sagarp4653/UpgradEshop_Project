@@ -4,7 +4,6 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import '../../Common/CSS/position.css'
-import { deleteProductFromProductListAction } from "../Redux/Action/ProductStoreAction";
 
 const CustomModal = ({isOpen = false, handleClose, cancelHandler,  confirmHandler }) => {
 

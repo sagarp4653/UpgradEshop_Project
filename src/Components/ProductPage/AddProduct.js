@@ -1,37 +1,36 @@
 import React, { useState } from "react";
 import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import CategoriesBar from "../ReuseComponents/CategoriesBar";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductsAction, deleteProductFromProductListAction, updateAlertModalAction, updateProductViewStateAction, updateUpdateCategoryStateAction } from "../Redux/Action/ProductStoreAction";
-import { customAlertModalFun, getRandomInt } from "../../Common/CSS/Utils/utils";
+import {
+  addProductsAction,
+  updateProductViewStateAction,
+  updateUpdateCategoryStateAction,
+} from "../Redux/Action/ProductStoreAction";
+import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 import { useNavigate } from "react-router-dom";
-import CustomAlertModal from "../ReuseComponents/CustomAlertModal";
-import { CREATE_PRODUCT_API, GET_CATEGORIES_API } from "../ApiCalls/ApiCall/apiCalls";
+import {
+  CREATE_PRODUCT_API,
+  GET_CATEGORIES_API,
+} from "../ApiCalls/ApiCall/apiCalls";
 import { staticCategories } from "../../Common/CSS/Utils/constant";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const storeData = useSelector((state) => state.storeState.storeState) || {};  
-  const { productList = [], productListViewState = [], isUserAdmin = false } = storeData || {};
-  const { updateProduct = { index: '', value: {} } } = storeData || {};
-
-  const categoryFilterHandler = (val) => {
-    console.log(val);
-  };
-  
-  const [categorySelected, setCategorySelected] = useState('');
+  const storeData = useSelector((state) => state.storeState.storeState) || {};
+  const { productList = [], productListViewState = [] } = storeData || {};
+  const [categorySelected, setCategorySelected] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     price: 0,
     description: "",
     category: categorySelected,
-    manufacturer: '',
-    availableItems: '',
+    manufacturer: "",
+    availableItems: "",
     isNew: true,
     imageUrl: "",
-  })
+  });
 
   const handleCategoryChange = (val) => {
     setCategorySelected(val);
@@ -80,26 +79,29 @@ const AddProduct = () => {
     // disptach
     console.log(addProduct);
     CREATE_PRODUCT_API(addProduct)
-    .then((response) => {
-      addProduct.id = response.data;
-      customAlertModalFun(`Product ${addProduct.name} added successfully`, dispatch) // user has to add msg and dispatch function
-      dispatch(addProductsAction([...productListViewState, addProduct]))
-      dispatch(updateProductViewStateAction([...productList, addProduct])) 
-      if(addProduct.id){
-        GET_CATEGORIES_API({}).then((response) => {
-          let tempArray = [];
-          tempArray.push( {'id': 1, 'title': 'All'})
-          response.data?.forEach((element, index) => {
-            tempArray.push( {'id': index+2, 'title': element})
+      .then((response) => {
+        addProduct.id = response.data;
+        customAlertModalFun(
+          `Product ${addProduct.name} added successfully`,
+          dispatch
+        ); // user has to add msg and dispatch function
+        dispatch(addProductsAction([...productListViewState, addProduct]));
+        dispatch(updateProductViewStateAction([...productList, addProduct]));
+        if (addProduct.id) {
+          GET_CATEGORIES_API({}).then((response) => {
+            let tempArray = [];
+            tempArray.push({ id: 1, title: "All" });
+            response.data?.forEach((element, index) => {
+              tempArray.push({ id: index + 2, title: element });
+            });
+            dispatch(updateUpdateCategoryStateAction(tempArray));
           });
-          // setCategoriesArray(tempArray);
-          dispatch(updateUpdateCategoryStateAction(tempArray))
-        })
-      }
-      navigate("/");
-    }).catch((error) => {
-      console.error("Error:", error.message);
-    });
+        }
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
   };
   return (
     <>
@@ -142,7 +144,11 @@ const AddProduct = () => {
                 }
                 placeholder="Name"
                 error={formData.name.length > 0 && formData.name.length > 255}
-                helperText={formData.name.length > 0 && formData.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
+                helperText={
+                  formData.name.length > 0 && formData.name.length > 255
+                    ? "Name must not exceed 255 characters"
+                    : ""
+                }
               />
 
               <div style={{ width: "96%", marginLeft: "8px" }}>
@@ -170,10 +176,17 @@ const AddProduct = () => {
                   setFormData({ ...formData, manufacturer: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
-                // defaultValue="Hello World"
                 placeholder="Manufacturer"
-                error={formData.manufacturer.length > 0 && formData.manufacturer.length > 255}
-                helperText={formData.manufacturer.length > 0 && formData.manufacturer.length > 255 ? 'Manufacturer must not exceed 255 characters' : ''}
+                error={
+                  formData.manufacturer.length > 0 &&
+                  formData.manufacturer.length > 255
+                }
+                helperText={
+                  formData.manufacturer.length > 0 &&
+                  formData.manufacturer.length > 255
+                    ? "Manufacturer must not exceed 255 characters"
+                    : ""
+                }
               />
               <TextField
                 required
@@ -185,7 +198,6 @@ const AddProduct = () => {
                   setFormData({ ...formData, availableItems: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
-                // defaultValue="Hello World"
                 placeholder="Available Items"
               />
               <TextField
@@ -198,7 +210,6 @@ const AddProduct = () => {
                   setFormData({ ...formData, price: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
-                // defaultValue="Hello World"
                 placeholder="Price"
               />
               <TextField
@@ -209,10 +220,15 @@ const AddProduct = () => {
                   setFormData({ ...formData, imageUrl: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "6px" }}
-                // defaultValue="Hello World"
                 placeholder="Image URL"
-                error={formData.imageUrl.length > 0 && formData.imageUrl.length > 255}
-                helperText={formData.imageUrl.length > 0 && formData.imageUrl.length > 255 ? 'Image URL must not exceed 255 characters' : ''}
+                error={
+                  formData.imageUrl.length > 0 && formData.imageUrl.length > 255
+                }
+                helperText={
+                  formData.imageUrl.length > 0 && formData.imageUrl.length > 255
+                    ? "Image URL must not exceed 255 characters"
+                    : ""
+                }
               />
               <TextField
                 id="outlined-required"
@@ -222,7 +238,6 @@ const AddProduct = () => {
                   setFormData({ ...formData, description: e.target.value })
                 }
                 style={{ marginTop: "12px", marginBottom: "26px" }}
-                // defaultValue="Hello World"
                 placeholder="Product Description"
               />
             </div>

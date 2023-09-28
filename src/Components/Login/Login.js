@@ -1,8 +1,7 @@
 import React, {useState} from "react";
-import { Box, Button, createTheme, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
-import axios from 'axios';
 import { USER_LOGIN_API } from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { customAlertModalFun, setKeysAndValueToLocalStorage } from "../../Common/CSS/Utils/utils";
@@ -69,9 +68,7 @@ const Login = () => {
               required
               id="outlined-required"
               label="Username"
-              // defaultValue="Hello World"
               placeholder="Username"
-              // style={{width: '50%'}}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -81,7 +78,6 @@ const Login = () => {
               label="Password"
               type={"password"}
               style={{marginTop: '12px', marginBottom: '26px'}}
-              // defaultValue="Hello World"
               name="password"
               placeholder="Password"
               value={password}
@@ -103,15 +99,9 @@ const Login = () => {
             component="a"
             href="/"
             sx={{
-              // mr: 2,
-              // display: { xs: "none", md: "flex" },
-              // fontFamily: "monospace",
-              // fontWeight: 700,
-              // letterSpacing: ".3rem",
               color: "#7e51a7",
               fontSize: '12px',
               marginLeft: '6px',
-              // textDecoration: "none",
             }}
           >
             Don't have an account? Sign Up

@@ -10,26 +10,25 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const BuyProduct = () => {
-
-  const storeData = useSelector((state) => state.storeState.storeState) || {};  
+  const storeData = useSelector((state) => state.storeState.storeState) || {};
   const { placeOrderItemState = {} } = storeData || {};
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
 
   const {
-    name = '',
-    price = '',
+    name = "",
+    price = "",
     description = "",
     category = "",
-    availableItems = '',
-    imageUrl = ''
-  } = placeOrderItemState
+    availableItems = "",
+    imageUrl = "",
+  } = placeOrderItemState;
 
   const navigateToPlaceOrder = () => {
-    const productDetails = {...placeOrderItemState};
+    const productDetails = { ...placeOrderItemState };
     productDetails.quantity = quantity;
-    navigate('/placeOrder', {state: productDetails});
-  }
+    navigate("/placeOrder", { state: productDetails });
+  };
 
   return (
     <>
@@ -44,7 +43,10 @@ const BuyProduct = () => {
               <CardMedia
                 component="img"
                 height="345"
-                image={imageUrl || "https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"}
+                image={
+                  imageUrl ||
+                  "https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"
+                }
                 alt="Paella dish"
               />
             </Card>
@@ -97,11 +99,12 @@ const BuyProduct = () => {
             <Box style={{ marginTop: "20px" }}>
               <div>
                 <i style={{ fontSize: "12px", fontWeight: "500" }}>
-                 { description || " A14 Bionic, the fastest chip in a smartphone . An edge-to-edge OLED display."}
+                  {description ||
+                    " A14 Bionic, the fastest chip in a smartphone . An edge-to-edge OLED display."}
                 </i>
               </div>
               <div style={{ marginTop: "20px", color: "red" }}>
-                <span>₹ {price || '10000'}</span>
+                <span>₹ {price || "10000"}</span>
               </div>
             </Box>
 
@@ -123,7 +126,11 @@ const BuyProduct = () => {
                 size="small"
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "20px", width: "fit-content", background: '#3f51b5' }}
+                style={{
+                  marginTop: "20px",
+                  width: "fit-content",
+                  background: "#3f51b5",
+                }}
                 onClick={navigateToPlaceOrder}
               >
                 PLACE ORDER

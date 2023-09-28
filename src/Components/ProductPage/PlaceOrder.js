@@ -95,11 +95,11 @@ export default function PlaceOrder() {
   const createAddress = (e) => {
     // e.preventDefault();
 
-    if(validation()) {
-      e.preventDefault();      
+    if (validation()) {
+      e.preventDefault();
       return;
     }
-    
+
     const adminDetails = JSON.parse(localStorage.getItem("adminDetails"));
     let userId;
     if (adminDetails !== null && adminDetails !== undefined) {
@@ -126,17 +126,6 @@ export default function PlaceOrder() {
         console.log(error);
       });
   };
-  const totalSteps = () => {
-    return steps.length;
-  };
-
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
 
   const handleNext = () => {
     const step = activeStep + 1;
@@ -144,13 +133,13 @@ export default function PlaceOrder() {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
     } else {
-      navigate('/buyProduct')
+      navigate("/buyProduct");
     }
   };
 
   const handleBack = () => {
     if (activeStep === 1) {
-      navigate('/buyProduct')
+      navigate("/buyProduct");
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
@@ -174,7 +163,7 @@ export default function PlaceOrder() {
       setActiveStep(step);
       checkIfConfirmOrderIsValid(step);
     } else {
-      navigate('/buyProduct')
+      navigate("/buyProduct");
     }
   };
 
@@ -183,18 +172,20 @@ export default function PlaceOrder() {
       quantity: productDetails.quantity,
       user: selectedAddress.user,
       product: productDetails.id,
-      address: selectedAddress.id
-    }
+      address: selectedAddress.id,
+    };
 
-    PLACE_ORDER_API(payload).then(response => {
-      if (response.data) {
-        customAlertModalFun("Order placed successfully!", dispatch);
-        navigate("/");
-      }
-    }).catch(error => {
-      console.log(error);
-    })
-  }
+    PLACE_ORDER_API(payload)
+      .then((response) => {
+        if (response.data) {
+          customAlertModalFun("Order placed successfully!", dispatch);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="flex-row justify-content-center">
@@ -229,7 +220,7 @@ export default function PlaceOrder() {
                   <Button
                     variant="contained"
                     color="primary"
-                    style={{background: '#3f51b5'}}
+                    style={{ background: "#3f51b5" }}
                     sx={{ mr: 1 }}
                     onClick={placeOrder}
                   >
@@ -250,9 +241,7 @@ export default function PlaceOrder() {
                     width: "50%",
                   }}
                 >
-                  <Typography sx={{ mt: 2, py: 1 }}>
-                    Select Address
-                  </Typography>
+                  <Typography sx={{ mt: 2, py: 1 }}>Select Address</Typography>
                   <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
@@ -267,7 +256,11 @@ export default function PlaceOrder() {
                     ))}
                   </Select>
                   <Typography sx={{ mt: 2, mb: 1, py: 1 }}>-OR-</Typography>
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }} variant="h5" gutterBottom>
+                  <Typography
+                    sx={{ mt: 2, mb: 1, py: 1 }}
+                    variant="h5"
+                    gutterBottom
+                  >
                     Add Address
                   </Typography>
 
@@ -292,8 +285,16 @@ export default function PlaceOrder() {
                           })
                         }
                         placeholder="Name"
-                        error={addressForm.name.length > 0 && addressForm.name.length > 255}
-                        helperText={addressForm.name.length > 0 && addressForm.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.name.length > 0 &&
+                          addressForm.name.length > 255
+                        }
+                        helperText={
+                          addressForm.name.length > 0 &&
+                          addressForm.name.length > 255
+                            ? "Name must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -308,8 +309,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Contact Number"
-                        error={addressForm.contactNumber.length > 0 && addressForm.contactNumber.length > 255}
-                        helperText={addressForm.contactNumber.length > 0 && addressForm.contactNumber.length > 255 ? 'Contact Number must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.contactNumber.length > 0 &&
+                          addressForm.contactNumber.length > 255
+                        }
+                        helperText={
+                          addressForm.contactNumber.length > 0 &&
+                          addressForm.contactNumber.length > 255
+                            ? "Contact Number must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -324,8 +333,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Street"
-                        error={addressForm.street.length > 0 && addressForm.street.length > 255}
-                        helperText={addressForm.street.length > 0 && addressForm.street.length > 255 ? 'Street must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.street.length > 0 &&
+                          addressForm.street.length > 255
+                        }
+                        helperText={
+                          addressForm.street.length > 0 &&
+                          addressForm.street.length > 255
+                            ? "Street must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -340,8 +357,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="City"
-                        error={addressForm.city.length > 0 && addressForm.city.length > 255}
-                        helperText={addressForm.city.length > 0 && addressForm.city.length > 255 ? 'City must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.city.length > 0 &&
+                          addressForm.city.length > 255
+                        }
+                        helperText={
+                          addressForm.city.length > 0 &&
+                          addressForm.city.length > 255
+                            ? "City must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -356,8 +381,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="State"
-                        error={addressForm.state.length > 0 && addressForm.state.length > 255}
-                        helperText={addressForm.state.length > 0 && addressForm.state.length > 255 ? 'State must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.state.length > 0 &&
+                          addressForm.state.length > 255
+                        }
+                        helperText={
+                          addressForm.state.length > 0 &&
+                          addressForm.state.length > 255
+                            ? "State must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -372,8 +405,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Landmark"
-                        error={addressForm.landmark.length > 0 && addressForm.landmark.length > 255}
-                        helperText={addressForm.landmark.length > 0 && addressForm.landmark.length > 255 ? 'Landmark must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.landmark.length > 0 &&
+                          addressForm.landmark.length > 255
+                        }
+                        helperText={
+                          addressForm.landmark.length > 0 &&
+                          addressForm.landmark.length > 255
+                            ? "Landmark must not exceed 255 characters"
+                            : ""
+                        }
                       />
                       <TextField
                         required
@@ -388,8 +429,16 @@ export default function PlaceOrder() {
                         }
                         style={{ marginTop: "12px", marginBottom: "6px" }}
                         placeholder="Zip Code"
-                        error={addressForm.zipcode.length > 0 && addressForm.zipcode.length > 255}
-                        helperText={addressForm.zipcode.length > 0 && addressForm.zipcode.length > 255 ? 'Zip Code must not exceed 255 characters' : ''}
+                        error={
+                          addressForm.zipcode.length > 0 &&
+                          addressForm.zipcode.length > 255
+                        }
+                        helperText={
+                          addressForm.zipcode.length > 0 &&
+                          addressForm.zipcode.length > 255
+                            ? "Zip Code must not exceed 255 characters"
+                            : ""
+                        }
                       />
                     </div>
 
@@ -404,7 +453,11 @@ export default function PlaceOrder() {
                     >
                       <Button
                         sx={{ mt: 2, mb: 1, py: 1 }}
-                        style={{ width: "97%", background: '#3f51b5', color: 'white' }}
+                        style={{
+                          width: "97%",
+                          background: "#3f51b5",
+                          color: "white",
+                        }}
                         variant="contained"
                         color="primary"
                         type="submit" // Use 'type="submit"' to trigger the form submission
@@ -430,7 +483,7 @@ export default function PlaceOrder() {
                       onClick={handleNext}
                       sx={{ mr: 1 }}
                       variant="contained"
-                      style={{background: '#3f51b5'}}
+                      style={{ background: "#3f51b5" }}
                     >
                       Next
                     </Button>

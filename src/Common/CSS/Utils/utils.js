@@ -18,7 +18,6 @@ const setKeysAndValueToLocalStorage = (key, value) => {
 }
 
 const getKeysAndValueToLocalStorage = key => {
-  // debugger
   return localStorage.getItem(key)
 }
 

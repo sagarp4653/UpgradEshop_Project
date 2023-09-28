@@ -1,15 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
-import { GET_ALL_USER_DETAILS, USER_LOGIN_API, USER_SIGN_UP_API } from "../ApiCalls/ApiCall/apiCalls";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import CopyrightOutlinedIcon from "@mui/icons-material/CopyrightOutlined";
+import {
+  GET_ALL_USER_DETAILS,
+  USER_LOGIN_API,
+  USER_SIGN_UP_API,
+} from "../ApiCalls/ApiCall/apiCalls";
 import { useNavigate } from "react-router-dom";
-import { customAlertModalFun, setKeysAndValueToLocalStorage } from "../../Common/CSS/Utils/utils";
-import { useDispatch } from 'react-redux';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { updateAdminStatusAction } from "../Redux/Action/ProductStoreAction";
+import {
+  customAlertModalFun,
+  setKeysAndValueToLocalStorage,
+} from "../../Common/CSS/Utils/utils";
+import { useDispatch } from "react-redux";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -21,9 +27,10 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    contactNumber: ""
+    contactNumber: "",
   });
-  const [areAdminDetailsEmptyInLocalStorage, disableAdminCheckbox] = useState(true);
+  const [areAdminDetailsEmptyInLocalStorage, disableAdminCheckbox] =
+    useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +47,10 @@ const SignUp = () => {
           password: signUpDetails.password,
         })
           .then((response) => {
-            setKeysAndValueToLocalStorage("currentUserLoginEmail", signUpDetails.email)
+            setKeysAndValueToLocalStorage(
+              "currentUserLoginEmail",
+              signUpDetails.email
+            );
             localStorage.setItem("token", JSON.stringify(response.data.token));
             navigate("/");
           })
@@ -65,10 +75,6 @@ const SignUp = () => {
                 }
               });
               localStorage.setItem("adminDetails", JSON.stringify(tempArray));
-
-              // if(tempArray.length > 0){
-              //   dispatch(updateAdminStatusAction(true))
-              // }
             }
           });
         }
@@ -140,7 +146,7 @@ const SignUp = () => {
     <div style={{ width: "100%" }} className="flex-row justify-content-center">
       <div
         className="flex-column justify-content-center align-items-center"
-        style={{ width: "fit-content", height: "100vh", marginTop: '40px' }}
+        style={{ width: "fit-content", height: "100vh", marginTop: "40px" }}
       >
         <Box>
           <div
@@ -177,7 +183,6 @@ const SignUp = () => {
               id="outlined-required"
               label="First Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="firstName"
               placeholder="First Name"
               value={signUpDetails.firstName}
@@ -188,13 +193,20 @@ const SignUp = () => {
               id="outlined-required"
               label="Last Name"
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="lastName"
               placeholder="Last Name"
               value={signUpDetails.lastName}
               onChange={handleInputChange}
-              error={signUpDetails.lastName.length > 0 && signUpDetails.lastName.length > 255}
-              helperText={signUpDetails.lastName.length > 0 && signUpDetails.lastName.length > 255 ? 'Last Name length must not exceed 255 characters' : ''}
+              error={
+                signUpDetails.lastName.length > 0 &&
+                signUpDetails.lastName.length > 255
+              }
+              helperText={
+                signUpDetails.lastName.length > 0 &&
+                signUpDetails.lastName.length > 255
+                  ? "Last Name length must not exceed 255 characters"
+                  : ""
+              }
             />
             <TextField
               required
@@ -202,13 +214,20 @@ const SignUp = () => {
               label="Email Address"
               type={"email"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="email"
               placeholder="Email Address"
               value={signUpDetails.email}
               onChange={handleInputChange}
-              error={signUpDetails.email.length > 0 && signUpDetails.email.length > 50}
-              helperText={signUpDetails.email.length > 0 && signUpDetails.email.length > 50 ? 'Email length must not exceed 50 characters' : ''}
+              error={
+                signUpDetails.email.length > 0 &&
+                signUpDetails.email.length > 50
+              }
+              helperText={
+                signUpDetails.email.length > 0 &&
+                signUpDetails.email.length > 50
+                  ? "Email length must not exceed 50 characters"
+                  : ""
+              }
             />
             <TextField
               required
@@ -216,13 +235,22 @@ const SignUp = () => {
               label="Password"
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="password"
               placeholder="Password"
               value={signUpDetails.password}
               onChange={handleInputChange}
-              error={signUpDetails.password.length > 0 && (signUpDetails.password.length < 6 || signUpDetails.password.length > 40)}
-              helperText={signUpDetails.password.length > 0 && (signUpDetails.password.length < 6 || signUpDetails.password.length > 40) ? 'Password length must be between 6 and 40 characters' : ''}
+              error={
+                signUpDetails.password.length > 0 &&
+                (signUpDetails.password.length < 6 ||
+                  signUpDetails.password.length > 40)
+              }
+              helperText={
+                signUpDetails.password.length > 0 &&
+                (signUpDetails.password.length < 6 ||
+                  signUpDetails.password.length > 40)
+                  ? "Password length must be between 6 and 40 characters"
+                  : ""
+              }
             />
             <TextField
               required
@@ -230,29 +258,54 @@ const SignUp = () => {
               label="Confirm Password"
               type={"password"}
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="confirmPassword"
               placeholder="Confirm Password"
               value={signUpDetails.confirmPassword}
               onChange={handleInputChange}
               error={signUpDetails.confirmPassword !== signUpDetails.password}
-              helperText={signUpDetails.confirmPassword === signUpDetails.password ? '' : 'Password and Confirm Password should be the same'}
+              helperText={
+                signUpDetails.confirmPassword === signUpDetails.password
+                  ? ""
+                  : "Password and Confirm Password should be the same"
+              }
             />
             <TextField
               required
               id="outlined-required"
               label="Contact Number"
               style={{ marginTop: "12px", marginBottom: "6px" }}
-              // defaultValue="Hello World"
               name="contactNumber"
               placeholder="Contact Number"
               value={signUpDetails.contactNumber}
               onChange={handleInputChange}
-              error={signUpDetails.contactNumber.length > 0 && signUpDetails.contactNumber.length > 255}
-              helperText={signUpDetails.contactNumber.length > 0 && signUpDetails.contactNumber.length > 255 ? 'Contact Number must not exceed 255 characters' : ''}
+              error={
+                signUpDetails.contactNumber.length > 0 &&
+                signUpDetails.contactNumber.length > 255
+              }
+              helperText={
+                signUpDetails.contactNumber.length > 0 &&
+                signUpDetails.contactNumber.length > 255
+                  ? "Contact Number must not exceed 255 characters"
+                  : ""
+              }
             />
-            <span title={'Please Sign Up as an Admin first to Add/Modify/Delete products'}>
-              <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} disabled={areAdminDetailsEmptyInLocalStorage}/>} label="I am an Admin" style={{ marginLeft: "1px", marginBottom: "20px" }}/>
+            <span
+              title={
+                "Please Sign Up as an Admin first to Add/Modify/Delete products"
+              }
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ "aria-label": "controlled" }}
+                    disabled={areAdminDetailsEmptyInLocalStorage}
+                  />
+                }
+                label="I am an Admin"
+                style={{ marginLeft: "1px", marginBottom: "20px" }}
+              />
             </span>
           </div>
         </Box>
@@ -265,7 +318,11 @@ const SignUp = () => {
             },
           }}
         >
-          <Button style={{ width: "97%", background: '#3f51b5', color: 'white' }} variant="contained" onClick={handleSubmit}>
+          <Button
+            style={{ width: "97%", background: "#3f51b5", color: "white" }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             SIGN UP
           </Button>
         </Box>
@@ -280,15 +337,9 @@ const SignUp = () => {
             component="a"
             href="/"
             sx={{
-              // mr: 2,
-              // display: { xs: "none", md: "flex" },
-              // fontFamily: "monospace",
-              // fontWeight: 700,
-              // letterSpacing: ".3rem",
               color: "#7e51a7",
               fontSize: "12px",
               marginLeft: "6px",
-              // textDecoration: "none",
             }}
           >
             Don't have an account? Sign In

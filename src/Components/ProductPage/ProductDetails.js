@@ -1,7 +1,4 @@
-import React from 'react'
-import { updateAdminStatusAction } from '../Redux/Action/ProductStoreAction'
-import {useDispatch} from 'react-redux'
-
+import React from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,57 +11,47 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 const ProductDetails = () => {
-    const disptach = useDispatch()
+  const [sortByValue, setSortByValue] = React.useState("");
+  const handleSortByChange = (event) => {
+    setSortByValue(event.target.value);
+  };
 
-    const userAdminHandler = () => {
-        disptach(updateAdminStatusAction(false))
-        
-    }
-
-    const [sortByValue, setSortByValue] = React.useState("");
-    const handleSortByChange = (event) => {
-      setSortByValue(event.target.value);
-    };
-    
   return (
     <>
-
-    <div>
-
-      <div
-        className="flex-column justify-content-center align-items-center"
-        style={{ marginTop: "100px" }}
-      >
-        <ToggleButtonGroup color="primary" aria-label="Platform" exclusive>
-          <ToggleButton value="web">ALL</ToggleButton>
-          <ToggleButton value="android">APPAREL</ToggleButton>
-          <ToggleButton value="ios">ELECTRONICS</ToggleButton>
-          <ToggleButton value="ios">FOOTWEAR</ToggleButton>
-          <ToggleButton value="ios">PERSONAL CARE</ToggleButton>
-        </ToggleButtonGroup>
+      <div>
+        <div
+          className="flex-column justify-content-center align-items-center"
+          style={{ marginTop: "100px" }}
+        >
+          <ToggleButtonGroup color="primary" aria-label="Platform" exclusive>
+            <ToggleButton value="web">ALL</ToggleButton>
+            <ToggleButton value="android">APPAREL</ToggleButton>
+            <ToggleButton value="ios">ELECTRONICS</ToggleButton>
+            <ToggleButton value="ios">FOOTWEAR</ToggleButton>
+            <ToggleButton value="ios">PERSONAL CARE</ToggleButton>
+          </ToggleButtonGroup>
         </div>
 
-
-         <div
-        className="flex-column justify-content-start align-items-start"
-        style={{ marginTop: "50px", padding: "0 0 20px 70px", width: "20%" }}
-      >
-        <label>Sort By:</label>
-        <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={sortByValue}
-          onChange={handleSortByChange}
-          style={{ width: "100%" }}
+        <div
+          className="flex-column justify-content-start align-items-start"
+          style={{ marginTop: "50px", padding: "0 0 20px 70px", width: "20%" }}
         >
-          <MenuItem value="">
-            <em>Default</em>
-          </MenuItem>
-          <MenuItem value="0">Price high to low</MenuItem>
-          <MenuItem value="1">Price low to high</MenuItem>
-          <MenuItem value="2">Newest</MenuItem>
-        </Select>
-      </div>
+          <label>Sort By:</label>
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={sortByValue}
+            onChange={handleSortByChange}
+            style={{ width: "100%" }}
+          >
+            <MenuItem value="">
+              <em>Default</em>
+            </MenuItem>
+            <MenuItem value="0">Price high to low</MenuItem>
+            <MenuItem value="1">Price low to high</MenuItem>
+            <MenuItem value="2">Newest</MenuItem>
+          </Select>
+        </div>
 
         <div
           className="flex-column justify-content-center align-items-center"
@@ -74,7 +61,6 @@ const ProductDetails = () => {
             <CardMedia
               sx={{ height: 250 }}
               image="https://mtndeals.co.za/wp-content/uploads/2023/09/Apple-iPhone-12-64GB.jpg"
-              // title="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="span">
@@ -101,12 +87,9 @@ const ProductDetails = () => {
             </CardActions>
           </Card>
         </div>
-
-
       </div>
-
     </>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

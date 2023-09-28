@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CategoriesBar from "../ReuseComponents/CategoriesBar";
 
 import {
-  addProductsAction,
   updateProductInProductListAction,
-  updateProductViewStateAction,
   updateUpdateCategoryStateAction,
 } from "../Redux/Action/ProductStoreAction";
 import { staticCategories } from "../../Common/CSS/Utils/constant";
-import { GET_CATEGORIES_API, MODIFY_PRODUCT_API } from "../ApiCalls/ApiCall/apiCalls";
+import {
+  GET_CATEGORIES_API,
+  MODIFY_PRODUCT_API,
+} from "../ApiCalls/ApiCall/apiCalls";
 import { customAlertModalFun } from "../../Common/CSS/Utils/utils";
 
 const ModifyProduct = () => {
@@ -19,12 +19,7 @@ const ModifyProduct = () => {
   const navigate = useNavigate();
 
   const storeData = useSelector((state) => state.storeState.storeState) || {};
-  const {
-    updateProduct = { index: "", value: {} },
-    productList = [],
-    productListViewState = [],
-    categoryList = [],
-  } = storeData || {};
+  const { updateProduct = { index: "", value: {} } } = storeData || {};
 
   const [categorySelected, setCategorySelected] = useState(
     updateProduct?.value?.category
@@ -40,14 +35,6 @@ const ModifyProduct = () => {
     description: updateProduct?.value?.description || "",
     manufacturer: updateProduct?.value?.manufacturer || "",
   });
-
-  const formDataHandler = () => {
-    // Implement form submission logic here
-  };
-
-  const categoryFilterHandler = (val) => {
-    console.log(val);
-  };
 
   const validations = () => {
     let message;
@@ -78,7 +65,7 @@ const ModifyProduct = () => {
   const modifyProductHandler = (event) => {
     event.preventDefault();
 
-    if(validations()) {
+    if (validations()) {
       return;
     }
     MODIFY_PRODUCT_API(updateProduct.value.id, product)
@@ -89,7 +76,10 @@ const ModifyProduct = () => {
             product: product || {},
           })
         );
-        customAlertModalFun(`Product ${updateProduct?.value?.name} modified successfully`, dispatch)
+        customAlertModalFun(
+          `Product ${updateProduct?.value?.name} modified successfully`,
+          dispatch
+        );
 
         GET_CATEGORIES_API({}).then((response) => {
           let tempArray = [];
@@ -109,7 +99,7 @@ const ModifyProduct = () => {
 
   const handleCategoryChange = (val) => {
     setCategorySelected(val);
-    setProduct(prev => ({...prev, category: val}))
+    setProduct((prev) => ({ ...prev, category: val }));
   };
 
   return (
@@ -149,12 +139,14 @@ const ModifyProduct = () => {
               id="outlined-required"
               label="Name"
               value={product.name}
-              onChange={(e) =>
-                setProduct({ ...product, name: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, name: e.target.value })}
               placeholder="Name"
               error={product.name.length > 0 && product.name.length > 255}
-              helperText={product.name.length > 0 && product.name.length > 255 ? 'Name must not exceed 255 characters' : ''}
+              helperText={
+                product.name.length > 0 && product.name.length > 255
+                  ? "Name must not exceed 255 characters"
+                  : ""
+              }
             />
             <div style={{ width: "96%", marginLeft: "8px" }}>
               <Select
@@ -181,8 +173,16 @@ const ModifyProduct = () => {
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
               placeholder="Manufacturer"
-              error={product.manufacturer.length > 0 && product.manufacturer.length > 255}
-              helperText={product.manufacturer.length > 0 && product.manufacturer.length > 255 ? 'Manufacturer must not exceed 255 characters' : ''}
+              error={
+                product.manufacturer.length > 0 &&
+                product.manufacturer.length > 255
+              }
+              helperText={
+                product.manufacturer.length > 0 &&
+                product.manufacturer.length > 255
+                  ? "Manufacturer must not exceed 255 characters"
+                  : ""
+              }
             />
             <TextField
               required
@@ -223,8 +223,14 @@ const ModifyProduct = () => {
               }
               style={{ marginTop: "12px", marginBottom: "6px" }}
               placeholder="Image URL"
-              error={product.imageUrl.length > 0 && product.imageUrl.length > 255}
-              helperText={product.imageUrl.length > 0 && product.imageUrl.length > 255 ? 'Image URL must not exceed 255 characters' : ''}
+              error={
+                product.imageUrl.length > 0 && product.imageUrl.length > 255
+              }
+              helperText={
+                product.imageUrl.length > 0 && product.imageUrl.length > 255
+                  ? "Image URL must not exceed 255 characters"
+                  : ""
+              }
             />
             <TextField
               id="outlined-required"
